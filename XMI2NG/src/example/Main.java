@@ -9,7 +9,6 @@ public class Main {
 
 		if (args.length != 1) {
 
-			// Primer sa XML šemom
 			filePath = "shema-skracena.xml";
 
 			System.out.println("[INFO] No input file, using default \""

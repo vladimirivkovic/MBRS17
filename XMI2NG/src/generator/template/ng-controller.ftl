@@ -5,7 +5,7 @@
     var ${class.lowerName}sController = ['$scope', '${class.name}', '$uibModal', //, '$stateParams'  
     	function ($scope, ${class.name}, $uibModal) { //, $stateParams
     	
-    	$scope.${class.lowerName}s = {}
+    	$scope.${class.lowerName}s = [];
 
         $scope.selected = null;
         $scope.selectedIndex = null;
@@ -26,10 +26,10 @@
 
 		$scope.openModal = function (update) {
 	        var modalInstance = $uibModal.open({
-	            templateUrl: 'app/${class.lowerName}s/modal/${class.lowerName}Modal.html',
-	            controller: '${class.lowerName}ModalController',
+	            templateUrl: 'app/${class.lowerName}/${class.lowerName}ModalView.html',
+	            controller: '${class.name}sModalCtrl',
 	            resolve: {
-	                selected${class.name}: function() {
+	                _rec : function() {
 	                	return update ? $scope.selected : null;
 	                }
 	            }

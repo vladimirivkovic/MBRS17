@@ -10,19 +10,15 @@ import java.util.Stack;
 
 import org.xml.sax.Attributes;
 
-import example.Engine.STATE;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import generator.TestModel;
-import generator.model.FMAnnotation;
 import generator.model.FMAssociation;
 import generator.model.FMClass;
-import generator.model.FMMethod;
 import generator.model.FMNamedElement;
-import generator.model.FMParameter;
 import generator.model.FMProperty;
 import generator.model.FMType;
 
@@ -33,8 +29,8 @@ public class Engine {
 	private static Stack<FMNamedElement> elementStack = new Stack<FMNamedElement>();
 
 	private static String[] templates = { "ng-controller.ftl",
-			"ng-resource.ftl", "ng-view.ftl", "app.ftl" };
-	private static String[] tplnames = { "Ctrl.js", "Rsrc.js", "View.html", ".js" };
+			"ng-resource.ftl", "ng-view.ftl", "app.ftl", "ng-modalctrl.ftl", "ng-modalview.ftl" };
+	private static String[] tplnames = { "Ctrl.js", "Rsrc.js", "View.html", ".js", "ModalCtrl.js", "ModalView.html" };
 
 	public enum STATE {
 		IDLE, CLASS, ATTRIBUTE, LOWER, LOWERX, UPPER, UPPERX, TYPE, CLASSIFIER, DATATYPE, ASSOCIATION, AEND
@@ -250,17 +246,11 @@ public class Engine {
 		// Prvo je potrebno konfigurisati FM
 		Configuration cfg = new Configuration();
 
-		// Šablone ćemo učitavati sa classpath-a iz foldera templates
 		cfg.setTemplateLoader(new ClassTemplateLoader(TestModel.class,
 				"template"));
 
-		// Potrebno je postaviti tzv. ObjectWrapper. U većini slučajeva me
-		// dovoljno da
-		// to bude DefaultObjectWrapper
 		cfg.setObjectWrapper(new DefaultObjectWrapper());
 
-		// Sada je potrebno kreirati model podataka. To su podaci koji će biti
-		// renderovani na mestima u šablonu koji nisu statičke prirode.
 		Map<String, Object> model = new HashMap<String, Object>();
 		Map<String, Object> model2 = new HashMap<String, Object>();
 		model2.put("classes", new ArrayList<FMClass>());
@@ -314,7 +304,6 @@ public class Engine {
 				model.put("methods", cl.getMethods());
 
 				try {
-					// Uzimamo šablon
 					Template temp = cfg.getTemplate("model.ftl");
 
 					// Renderujemo ga
@@ -354,14 +343,8 @@ public class Engine {
 					}
 
 				} catch (IOException e) {
-					// TODO cfg.getTemplate može izazvati ovaj izuzetak ukoliko
-					// šablon
-					// nije pronađen.
 					e.printStackTrace();
 				} catch (TemplateException e) {
-					// TODO template.process može da izazove ovaj izuzetak. Npr.
-					// zbog
-					// sintaksne greške u šablonu.
 					e.printStackTrace();
 				}
 			}
@@ -380,14 +363,8 @@ public class Engine {
 			fw.flush();
 			fw.close();
 		} catch (IOException e) {
-			// TODO cfg.getTemplate može izazvati ovaj izuzetak ukoliko
-			// šablon
-			// nije pronađen.
 			e.printStackTrace();
 		} catch (TemplateException e) {
-			// TODO template.process može da izazove ovaj izuzetak. Npr.
-			// zbog
-			// sintaksne greške u šablonu.
 			e.printStackTrace();
 		}
 	}
