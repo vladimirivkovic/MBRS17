@@ -3,6 +3,8 @@ package generator.model;
 public class FMAssociation extends FMNamedElement {
 	private FMProperty firstEnd = null;
 	private FMProperty secondEnd = null;
+	private boolean firstNavigable;
+	private boolean secondNavigable;
 
 	public FMAssociation(String name) {
 		super(name);
@@ -24,7 +26,21 @@ public class FMAssociation extends FMNamedElement {
 	public void setSecondEnd(FMProperty secondEnd) {
 		this.secondEnd = secondEnd;
 	}
-	
-	
+
+	public boolean isFirstNavigable() {
+		return firstNavigable;
+	}
+
+	public void setFirstNavigable(boolean firstNavigable) {
+		this.firstNavigable = firstNavigable;
+	}
+
+	public boolean isSecondNavigable() {
+		return secondNavigable;
+	}
+
+	public void setSecondNavigable(boolean secondNavigable) {
+		this.secondNavigable = secondNavigable;
+	}
 
 }

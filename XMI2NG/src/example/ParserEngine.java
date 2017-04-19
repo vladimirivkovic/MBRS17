@@ -1,39 +1,25 @@
 package example;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Stack;
-
-import org.xml.sax.Attributes;
-
-import freemarker.cache.ClassTemplateLoader;
-import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapper;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import generator.TestModel;
 import generator.model.FMAssociation;
 import generator.model.FMClass;
 import generator.model.FMNamedElement;
 import generator.model.FMProperty;
 import generator.model.FMType;
 
-public class Engine {
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
+
+import org.xml.sax.Attributes;
+
+public class ParserEngine {
 
 	private static Map<String, FMType> types = new HashMap<String, FMType>();
 	private static Map<String, FMNamedElement> elementMap = new HashMap<>();
 	private static Stack<FMNamedElement> elementStack = new Stack<FMNamedElement>();
 
-	private static String[] templates = { "ng-controller.ftl",
-			"ng-resource.ftl", "ng-view.ftl", "app.ftl", "ng-modalctrl.ftl", "ng-modalview.ftl" };
-	private static String[] tplnames = { "Ctrl.js", "Rsrc.js", "View.html", ".js", "ModalCtrl.js", "ModalView.html" };
-
 	public enum STATE {
-		IDLE, CLASS, ATTRIBUTE, LOWER, LOWERX, UPPER, UPPERX, TYPE, CLASSIFIER, DATATYPE, ASSOCIATION, AEND
+		IDLE, CLASS, ATTRIBUTE, LOWER, LOWERX, UPPER, UPPERX, TYPE, CLASSIFIER, DATATYPE, ASSOCIATION, AEND, NAVIGABLE
 	}
 
 	private static STATE current = STATE.IDLE;
@@ -100,20 +86,21 @@ public class Engine {
 			break;
 
 		case LOWER:
-			//System.out.println("lower");
-			//System.out.println(current);
 			if (current == STATE.ATTRIBUTE || current == STATE.AEND) {
-				
+				// waiting for lower value element
 				current = STATE.LOWERX;
 			}
 			break;
 
 		case UPPER:
-			if (current == STATE.UPPER)
+			if (current == STATE.UPPER) {
+				// waiting for upper value element
 				current = STATE.UPPERX;
+			}
 			break;
 
 		case TYPE:
+			// waiting for classifier element
 			current = STATE.CLASSIFIER;
 			break;
 
@@ -132,8 +119,8 @@ public class Engine {
 					((FMProperty) e).setType(value);
 					current = STATE.ATTRIBUTE;
 				} else if (e instanceof FMAssociation) {
-					// System.out.println(value);
 					FMAssociation aso = (FMAssociation) e;
+					
 					if (aso.getSecondEnd() == null) {
 						aso.getFirstEnd().setType(value);
 					} else {
@@ -176,6 +163,7 @@ public class Engine {
 			}
 
 			FMAssociation as = (FMAssociation) elementStack.peek();
+			
 			if (as.getFirstEnd() == null) {
 				// System.out.println("first end");
 				as.setFirstEnd(new FMProperty(name, null, visibility, 0, 0));
@@ -185,6 +173,31 @@ public class Engine {
 			}
 
 			// current = STATE.TYPE;
+			break;
+		
+		case NAVIGABLE:
+			if (current == STATE.AEND) {
+				FMNamedElement e = elementStack.peek();
+				String value = "";
+
+				for (int i = 0; i < attributes.getLength(); i++) {
+					if (attributes.getQName(i).equals("xmi.value")) {
+						value = attributes.getValue(i);
+					}
+				}
+				
+				if (e instanceof FMAssociation) {
+					FMAssociation aso = (FMAssociation) e;
+					
+					if (aso.getSecondEnd() == null) {
+						aso.setFirstNavigable(value.equals("true"));
+						//System.out.println("first navigable " + value);
+					} else {
+						aso.setSecondNavigable(value.equals("true"));
+						//System.out.println("second navigable " + value);
+					}
+				}
+			}
 			break;
 		default:
 			break;
@@ -201,12 +214,13 @@ public class Engine {
 		case UPPERX:
 			el = elementStack.peek();
 			value = Integer.parseInt(characters);
+			
 			if (el instanceof FMProperty) {
 				((FMProperty) el).setUpper(value);
-				//System.out.println(value);
 				current = STATE.ATTRIBUTE;
 			} else if (el instanceof FMAssociation) {
 				asoc = (FMAssociation) el;
+				
 				if (asoc.getSecondEnd() == null) {
 					asoc.getFirstEnd().setUpper(value);
 				} else {
@@ -214,158 +228,31 @@ public class Engine {
 				}
 				current = STATE.AEND;
 			}
-			// System.out.println(value);
 
 			break;
 
 		case LOWERX:
 			el = elementStack.peek();
 			value = Integer.parseInt(characters);
+			
 			if (el instanceof FMProperty) {
 				((FMProperty) el).setLower(value);
-				//System.out.println(value);
 			} else if (el instanceof FMAssociation) {
 				asoc = (FMAssociation) el;
+				
 				if (asoc.getSecondEnd() == null) {
 					asoc.getFirstEnd().setLower(value);
 				} else {
 					asoc.getSecondEnd().setLower(value);
 				}
 			}
-			// System.out.println(value);
+			
 			current = STATE.UPPER;
 			break;
 
 		default:
 			// if (!"".equals(characters))System.out.println(characters);
 			break;
-		}
-	}
-
-	static void generate() {
-		// Prvo je potrebno konfigurisati FM
-		Configuration cfg = new Configuration();
-
-		cfg.setTemplateLoader(new ClassTemplateLoader(TestModel.class,
-				"template"));
-
-		cfg.setObjectWrapper(new DefaultObjectWrapper());
-
-		Map<String, Object> model = new HashMap<String, Object>();
-		Map<String, Object> model2 = new HashMap<String, Object>();
-		model2.put("classes", new ArrayList<FMClass>());
-
-		File f = new File("generated");
-
-		if (!f.exists()) {
-			System.out.println("creating directory: " + f.getName());
-			boolean result = false;
-
-			try {
-				f.mkdir();
-				result = true;
-			} catch (SecurityException se) {
-				// handle it
-			}
-			if (result) {
-				System.out.println("DIR created");
-			}
-		}
-
-		File fa = new File("generated/app");
-
-		if (!fa.exists()) {
-			System.out.println("creating directory: " + fa.getName());
-			boolean result = false;
-
-			try {
-				fa.mkdir();
-				result = true;
-			} catch (SecurityException se) {
-				// handle it
-			}
-			if (result) {
-				System.out.println("DIR created");
-			}
-		}
-
-		// name, package, visibility
-		FMClass cl = new FMClass("City", "ordering", "public");
-		for (FMNamedElement el : elementMap.values()) {
-			if (el instanceof FMClass) {
-				cl = (FMClass) el;
-				
-				((ArrayList<FMClass>) model2.get("classes")).add(cl);
-
-				model.clear();
-
-				model.put("class", cl);
-				model.put("properties", cl.getProperties());
-				model.put("methods", cl.getMethods());
-
-				try {
-					Template temp = cfg.getTemplate("model.ftl");
-
-					// Renderujemo ga
-					// Writer out = new OutputStreamWriter(System.out);
-					FileWriter fw = new FileWriter(new File("generated/"
-							+ cl.getName() + ".cs"));
-					temp.process(model, fw);
-					fw.flush();
-					fw.close();
-
-					File f1 = new File("generated/app/" + cl.getLowerName());
-
-					if (!f1.exists()) {
-						System.out.println("creating directory: "
-								+ f1.getName());
-						boolean result = false;
-
-						try {
-							f1.mkdir();
-							result = true;
-						} catch (SecurityException se) {
-							// handle it
-						}
-						if (result) {
-							System.out.println("DIR created");
-						}
-					}
-
-					for (int i = 0; i < templates.length; i++) {
-						Template tempx = cfg.getTemplate(templates[i]);
-						FileWriter fwx = new FileWriter(new File(
-										"generated/app/" + cl.getLowerName() + "/"
-										+ cl.getLowerName() + tplnames[i]));
-						tempx.process(model, fwx);
-						fwx.flush();
-						fwx.close();
-					}
-
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (TemplateException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		try {
-			Template temp = cfg.getTemplate("ng-app.ftl");
-			FileWriter fw = new FileWriter(new File("generated/app/app.js"));
-			temp.process(model2, fw);
-			fw.flush();
-			fw.close();
-			
-			temp = cfg.getTemplate("index.ftl");
-			fw = new FileWriter(new File("generated/app/index.html"));
-			temp.process(model2, fw);
-			fw.flush();
-			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (TemplateException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -384,9 +271,12 @@ public class Engine {
 			FMClass c1 = (FMClass) types.get(type1);
 			FMClass c2 = (FMClass) types.get(type2);
 
-			c2.addProperty(new FMProperty(a.getName(), end1.getTypeId(), end1
+			if (a.isSecondNavigable())
+				c2.addProperty(new FMProperty(a.getName(), end1.getTypeId(), end1
 					.getVisibility(), end1.getLower(), end1.getUpper()));
-			c1.addProperty(new FMProperty(a.getName(), end2.getTypeId(), end2
+		
+			if (a.isFirstNavigable())
+				c1.addProperty(new FMProperty(a.getName(), end2.getTypeId(), end2
 					.getVisibility(), end2.getLower(), end2.getUpper()));
 		}
 	}
@@ -397,5 +287,9 @@ public class Engine {
 	
 	public static boolean isPrimitive(String typeId) {
 		return !(types.get(typeId) instanceof FMClass);
+	}
+	
+	public static Map<String, FMNamedElement> getElementMap() {
+		return elementMap;
 	}
 }

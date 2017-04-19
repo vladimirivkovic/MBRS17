@@ -7,21 +7,21 @@ public class Main {
 
 		System.out.println("[INFO] SAX Parser");
 
-		if (args.length != 1) {
+		//if (args.length != 1) {
 
-			filePath = "shema-skracena.xml";
+		filePath = "shema-skracena.xml";
 
-			System.out.println("[INFO] No input file, using default \""
-					+ filePath + "\"");
-
-		} else {
-			filePath = args[0];
-		}
+		// System.out.println("[INFO] No input file, using default \""
+		// + filePath + "\"");
+		//
+		// } else {
+		// filePath = args[0];
+		// }
 
 		SAXDtdHandler handler = new SAXDtdHandler();
 		handler.parse(filePath);
 		
-		Engine.generate();
+		GeneratorEngine.generate();
 
 	}
 }

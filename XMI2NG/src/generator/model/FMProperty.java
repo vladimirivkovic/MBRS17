@@ -3,7 +3,7 @@ package generator.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import example.Engine;
+import example.ParserEngine;
 
 
 
@@ -50,7 +50,7 @@ public class FMProperty extends FMNamedElement  {
 	}
 	
 	public String getType() {
-		return Engine.getType(type);
+		return ParserEngine.getType(type);
 	}
 	public String getTypeId() {
 		return type;
@@ -95,6 +95,6 @@ public class FMProperty extends FMNamedElement  {
 	}
 	
 	public boolean getPrimitive() {
-		return Engine.isPrimitive(type);
+		return ParserEngine.isPrimitive(type);
 	}
 }

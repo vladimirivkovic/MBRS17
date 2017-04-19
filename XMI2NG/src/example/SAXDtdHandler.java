@@ -10,24 +10,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-/**
- * 
- * Primer demonstrira upotrebu SAX API-ja za potrebe parsiranje/čitanja XML
- * fajla.
- * 
- * Rukovanje greškama i upozorenjima prilikom parsiranja kroz implementaciju
- * odgovarajućih callback-a (testirati sa nevalidnim, loše formiranim XML-om,
- * npr <test> bez matching end-taga).
- * 
- * Parsiranje XML fajla sa DTD specifikacijom omogućuje handlovanje ignorable
- * whitespace-ova.
- * 
- * Validacija XML fajla u odnosu na njegovu DTD specifikaciju. Testirati
- * dodavanjem npr. test="abc" atributa u otvarajući tag korenskog elementa.
- * 
- * @author Igor Cverdelj-Fogaraši
- * 
- */
 public class SAXDtdHandler extends DefaultHandler {
 
 	private static SAXParserFactory factory;
@@ -67,6 +49,7 @@ public class SAXDtdHandler extends DefaultHandler {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private String getLocalName(String unqualifiedName, String qualifiedName) {
 		return "".equals(unqualifiedName) ? qualifiedName : unqualifiedName;
 	}
@@ -91,43 +74,46 @@ public class SAXDtdHandler extends DefaultHandler {
 		
 		switch (qName) {
 		case "UML:Class":
-			Engine.handleStart(Engine.STATE.CLASS, attributes);
+			ParserEngine.handleStart(ParserEngine.STATE.CLASS, attributes);
 			break;
 
 		case "UML:Attribute":
-			Engine.handleStart(Engine.STATE.ATTRIBUTE, attributes);
+			ParserEngine.handleStart(ParserEngine.STATE.ATTRIBUTE, attributes);
 			break;
 		
 		case "UML:MultiplicityRange.lower":
-			Engine.handleStart(Engine.STATE.LOWER, attributes);
+			ParserEngine.handleStart(ParserEngine.STATE.LOWER, attributes);
 			break;
 		
 		case "UML:MultiplicityRange.upper":
-			Engine.handleStart(Engine.STATE.UPPER, attributes);
+			ParserEngine.handleStart(ParserEngine.STATE.UPPER, attributes);
 			break;
 			
 		case "UML:StructuralFeature.type":
-			Engine.handleStart(Engine.STATE.TYPE, attributes);
+			ParserEngine.handleStart(ParserEngine.STATE.TYPE, attributes);
 			break;
 			
 		case "UML:Classifier":
-			Engine.handleStart(Engine.STATE.CLASSIFIER, attributes);
+			ParserEngine.handleStart(ParserEngine.STATE.CLASSIFIER, attributes);
 			break;
 		
 		case "UML:DataType":
-			Engine.handleStart(Engine.STATE.DATATYPE, attributes);
+			ParserEngine.handleStart(ParserEngine.STATE.DATATYPE, attributes);
 			break;
 		
 		case "UML:Association":
-			Engine.handleStart(Engine.STATE.ASSOCIATION, attributes);
+			ParserEngine.handleStart(ParserEngine.STATE.ASSOCIATION, attributes);
 			break;
 		
 		case "UML:AssociationEnd":
-			Engine.handleStart(Engine.STATE.AEND, attributes);
+			ParserEngine.handleStart(ParserEngine.STATE.AEND, attributes);
 			break;
 		
 		case "UML:AssociationEnd.type":
-			Engine.handleStart(Engine.STATE.TYPE, attributes);
+			ParserEngine.handleStart(ParserEngine.STATE.TYPE, attributes);
+			break;
+		case "UML:AssociationEnd.isNavigable":
+			ParserEngine.handleStart(ParserEngine.STATE.NAVIGABLE, attributes);
 			break;
 		default:
 			break;
@@ -141,15 +127,15 @@ public class SAXDtdHandler extends DefaultHandler {
 
 		switch (qName) {
 		case "UML:Class":
-			Engine.handleEnd(Engine.STATE.ATTRIBUTE);
+			ParserEngine.handleEnd(ParserEngine.STATE.ATTRIBUTE);
 			break;
 
 		case "UML:Attribute":
-			Engine.handleEnd(Engine.STATE.LOWER);
+			ParserEngine.handleEnd(ParserEngine.STATE.LOWER);
 			break;
 		
 		case "UML:Association":
-			Engine.handleEnd(Engine.STATE.ASSOCIATION);
+			ParserEngine.handleEnd(ParserEngine.STATE.ASSOCIATION);
 			break;
 		
 		default:
@@ -163,7 +149,7 @@ public class SAXDtdHandler extends DefaultHandler {
 
 		String characters = new String(ch, start, length).trim();
 
-		Engine.handleCharacters(characters);
+		ParserEngine.handleCharacters(characters);
 	}
 
 	@Override
