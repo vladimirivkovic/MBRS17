@@ -16,7 +16,7 @@
             <tr>
             <#list properties as property>
 			<#if property.upper == 1> 
-            	<th>${property.capName}</th>
+            	<th>${property.originName}</th>
             </#if>
             </#list>
             </tr>

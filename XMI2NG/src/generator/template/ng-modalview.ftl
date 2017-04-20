@@ -10,7 +10,7 @@
 			<#list properties as property>
 			<#if (property.upper == 1) && property.primitive> 
 			<tr>
-				<td>${property.capName}</td>
+				<td>${property.originName}</td>
 				<td><input type="text" class="form-control"
 					ng-model="${property.name}"></td>
 			</tr>

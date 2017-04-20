@@ -8,19 +8,12 @@ import example.ParserEngine;
 
 
 public class FMProperty extends FMNamedElement  {
-	//Tip obelezja
-	//TODO Razmislisti da li je bolje da type bude string ili referenca na FMType
 	private String type;
 	
-	//kadrinalitet (kompletan string)
-	//TODO Razmisliti o enum
 	private String visibility; 
 	
-	//donja granica
 	private Integer lower;
 	
-	//gornja granica 
-	//konvencija: -1 znači *
 	private Integer upper;
 	
 	//anotacije
@@ -29,15 +22,6 @@ public class FMProperty extends FMNamedElement  {
 	
 	//TODO Dodati duzinu, preciznost, indikator da li se radi o kljucu itd...
 
-	
-	/**
-	 * 
-	 * @param name 
-	 * @param type
-	 * @param visibility private, protected, public, ?
-	 * @param lower Donja granica kardinaliteta
-	 * @param upper Gornja granica kardinaliteta. -1 znači *
-	 */
 	public FMProperty(String name, String type, 
 			String visibility, int lower, int upper) {
 		super(name);
@@ -51,6 +35,7 @@ public class FMProperty extends FMNamedElement  {
 	
 	public String getType() {
 		return ParserEngine.getType(type);
+		//return type;
 	}
 	public String getTypeId() {
 		return type;

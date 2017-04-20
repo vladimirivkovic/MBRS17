@@ -3,9 +3,11 @@ package generator.model;
 public abstract class FMNamedElement {
 	
 	private String name;
+	private String originName;
 	
 	public FMNamedElement(String name) {
 		this.name = name;
+		this.originName = name;
 		clearName();
 	}
 
@@ -15,6 +17,7 @@ public abstract class FMNamedElement {
 
 	public void setName(String name) {
 		this.name = name;
+		this.originName = name;
 		clearName();
 	}
 	
@@ -32,6 +35,10 @@ public abstract class FMNamedElement {
 				i++;
 			}
 		}
+	}
+	
+	public String getOriginName() {
+		return originName;
 	}
 	
 }
