@@ -21,7 +21,7 @@ public class Main2 {
 		SAXDtdHandler2 handler = new SAXDtdHandler2();
 		handler.parse(filePath);
 		
-		//GeneratorEngine.generate();
+		GeneratorEngine.generate(ParserEngine2.getElementMap());
 
 	}
 }

@@ -26,7 +26,7 @@ public class GeneratorEngine {
 	 */
 	
 	@SuppressWarnings("unchecked")
-	static void generate() {
+	static void generate(Map<String, FMNamedElement> elementMap) {
 		Configuration cfg = new Configuration();
 
 		cfg.setTemplateLoader(new ClassTemplateLoader(TestModel.class,
@@ -72,7 +72,8 @@ public class GeneratorEngine {
 
 		// name, package, visibility - dummy values
 		FMClass cl = new FMClass("City", "ordering", "public");
-		for (FMNamedElement el : ParserEngine.getElementMap().values()) {
+		for (FMNamedElement el : elementMap.values()) {
+			System.out.println(el.getClass());
 			if (el instanceof FMClass) {
 				cl = (FMClass) el;
 				

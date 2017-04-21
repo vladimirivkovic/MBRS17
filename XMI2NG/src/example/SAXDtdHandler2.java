@@ -112,16 +112,16 @@ public class SAXDtdHandler2 extends DefaultHandler {
 			throws SAXException {
 
 		switch (qName) {
-		case "UML:Class":
-			ParserEngine.handleEnd(ParserEngine.STATE.ATTRIBUTE);
+		case "packagedElement":
+			ParserEngine2.handleEnd(ParserEngine2.STATE.PACKED_ELEMENT);
 			break;
 
-		case "UML:Attribute":
-			ParserEngine.handleEnd(ParserEngine.STATE.LOWER);
+		case "ownedAttribute":
+			ParserEngine2.handleEnd(ParserEngine2.STATE.OWNED_ATTRIBUTE);
 			break;
 		
 		case "UML:Association":
-			ParserEngine.handleEnd(ParserEngine.STATE.ASSOCIATION);
+			ParserEngine2.handleEnd(ParserEngine2.STATE.ASSOCIATION);
 			break;
 		
 		default:
@@ -135,7 +135,7 @@ public class SAXDtdHandler2 extends DefaultHandler {
 
 		String characters = new String(ch, start, length).trim();
 
-		ParserEngine.handleCharacters(characters);
+		ParserEngine2.handleCharacters(characters);
 	}
 
 	@Override

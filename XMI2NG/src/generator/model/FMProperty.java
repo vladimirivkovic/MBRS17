@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import example.ParserEngine;
+import example.ParserEngine2;
 
 
 
@@ -12,9 +13,9 @@ public class FMProperty extends FMNamedElement  {
 	
 	private String visibility; 
 	
-	private Integer lower;
+	private Integer lower = 0;
 	
-	private Integer upper;
+	private Integer upper = 1;
 	
 	//anotacije
 	private List<FMAnnotation> annotations = new ArrayList<FMAnnotation>();
@@ -34,7 +35,7 @@ public class FMProperty extends FMNamedElement  {
 	}
 	
 	public String getType() {
-		return ParserEngine.getType(type);
+		return ParserEngine2.getType(type);
 		//return type;
 	}
 	public String getTypeId() {
