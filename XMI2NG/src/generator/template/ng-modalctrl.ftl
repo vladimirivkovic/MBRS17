@@ -2,8 +2,8 @@
 	var ${class.lowerName}sModalControllerModule = angular.module('app.${class.name}.modalController', 
     	['app.${class.name}.resource']);
     	
-    var ${class.lowerName}sModalController = ['$scope', '$uibModalInstance', '_rec', //, '$stateParams'  
-    	function ($scope, $uibModalInstance, _rec) { //, $stateParams
+    var ${class.lowerName}sModalController = ['$scope', '$uibModalInstance', '_rec', '$uibModal',//, '$stateParams'  
+    	function ($scope, $uibModalInstance, _rec, $uibModal) { //, $stateParams
         	
         		$scope.init = function(rec) {
         			<#list properties as property>
@@ -37,6 +37,25 @@
         			
         			return _x;
         		}
+        		
+        		<#list properties as property>
+    			<#if property.upper == 1 && !property.primitive> 
+				$scope.${property.name}Choose = function () {
+		            var modal${property.capName}Instance = $uibModal.open({
+		                templateUrl: 'app/${class.lowerName}/modal/${property.name}ModalView.html',
+		                //controller: '${class.lowerName}__${property.name}ModalController',
+		                resolve: {
+		                }
+		            });
+		            
+		            modal${property.capName}Instance.result.then(function (result) {
+			            if (result !== 'No' && result !== 'Error') {
+							// TODO : implement
+			            }
+		        	});
+		        }
+    			</#if>
+    			</#list>
         		
         		if (_rec) $scope.init(_rec);
         }];

@@ -8,6 +8,7 @@ import freemarker.template.TemplateException;
 import generator.TestModel;
 import generator.model.FMClass;
 import generator.model.FMNamedElement;
+import generator.model.FMProperty;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -73,7 +74,6 @@ public class GeneratorEngine {
 		// name, package, visibility - dummy values
 		FMClass cl = new FMClass("City", "ordering", "public");
 		for (FMNamedElement el : elementMap.values()) {
-			System.out.println(el.getClass());
 			if (el instanceof FMClass) {
 				cl = (FMClass) el;
 				
@@ -102,12 +102,15 @@ public class GeneratorEngine {
 
 					if (!f1.exists()) {
 						System.out.println("creating directory: "
-								+ f1.getName());
+								+ f1.getName() + "/modal");
 						boolean result = false;
 
 						try {
 							f1.mkdir();
 							result = true;
+							
+							File fm = new File("generated/app/" + cl.getLowerName() + "/modal");
+							fm.mkdir();
 						} catch (SecurityException se) {
 							// handle it
 						}
@@ -124,6 +127,22 @@ public class GeneratorEngine {
 						tempx.process(model, fwx);
 						fwx.flush();
 						fwx.close();
+					}
+					
+					for (FMProperty p : cl.getProperties()) {
+						if (!p.getPrimitive()) {
+							model.clear();
+							model.put("prop", p);
+							model.put("class", (FMClass) elementMap.get(p.getTypeId()));
+							
+							Template tempx = cfg.getTemplate("chooseModalView.ftl");
+							FileWriter fwx = new FileWriter(new File(
+									"generated/app/" + cl.getLowerName() + "/modal/"
+									+ p.getName() + "ModalView.html"));
+							tempx.process(model, fwx);
+							fwx.flush();
+							fwx.close();
+						}
 					}
 
 				} catch (IOException e) {

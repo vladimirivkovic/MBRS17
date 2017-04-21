@@ -20,8 +20,6 @@ public class ParserEngine2 {
 
 	public enum STATE {
 		IDLE, MODEL, PACKED_ELEMENT, CLASS, ASSOCIATION, OWNED_ATTRIBUTE, TYPE, MEMBER_END, LOWER, UPPER
-		// CLASS, ATTRIBUTE, LOWER, LOWERX, UPPER, UPPERX, TYPE, CLASSIFIER,
-		// DATATYPE, ASSOCIATION, AEND, NAVIGABLE
 	}
 
 	private static STATE current = STATE.IDLE;
@@ -53,7 +51,7 @@ public class ParserEngine2 {
 				}
 			}
 
-			if (xmiType == null) {
+			if (xmiType == null || name == null) {
 				break;
 			}
 			// System.out.println("X : " + name);

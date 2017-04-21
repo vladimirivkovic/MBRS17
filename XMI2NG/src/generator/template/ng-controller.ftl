@@ -44,25 +44,6 @@
 	            }
 	        }); 
         }
-	<#list properties as property>
-	<#if (property.upper == -1 || property.upper < 1) && !property.primitive> 
-		$scope.open${property.capName}sModal = function (${class.lowerName}) {
-            var modal${property.capName}Instance = $uibModal.open({
-                templateUrl: 'app/${class.lowerName}/modal/${property.name}Modal.html',
-                controller: '${property.name}ModalController',
-                resolve: {
-                    ${class.lowerName} : ${class.lowerName}
-                }
-            });
-            
-            modal${property.capName}Instance.result.then(function (result) {
-	            if (result !== 'No' && result !== 'Error') {
-					// TODO : implement
-	            }
-        	});
-        }
-	</#if>
-	</#list>
         
         $scope.init = function () {
             var ${class.lowerName}s = ${class.name}.query(function () {

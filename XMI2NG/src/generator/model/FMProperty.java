@@ -3,7 +3,6 @@ package generator.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import example.ParserEngine;
 import example.ParserEngine2;
 
 
@@ -81,6 +80,6 @@ public class FMProperty extends FMNamedElement  {
 	}
 	
 	public boolean getPrimitive() {
-		return ParserEngine.isPrimitive(type);
+		return ParserEngine2.isPrimitive(type);
 	}
 }

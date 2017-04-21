@@ -15,6 +15,12 @@
 					ng-model="${property.name}"></td>
 			</tr>
 			</#if>
+			<#if (property.upper == 1) && !property.primitive> 
+			<tr>
+				<td>${property.originName}</td>
+				<td><button class="btn btn-default" type="button" ng-click="${property.name}Choose()">Choose...</button></td>
+			</tr>
+			</#if>
 			</#list>
 		</table>
 
