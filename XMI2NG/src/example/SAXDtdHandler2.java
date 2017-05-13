@@ -85,11 +85,12 @@ public class SAXDtdHandler2 extends DefaultHandler {
 			ParserEngine2.handleStart(ParserEngine2.STATE.OWNED_ATTRIBUTE, attributes);
 			break;
 		
-		case "memberEnd":
-			ParserEngine2.handleStart(ParserEngine2.STATE.MEMBER_END, attributes);
+		case "ownedEnd":
+			ParserEngine2.handleStart(ParserEngine2.STATE.OWNED_END, attributes);
 			break;
 		
-		case "type":
+		// case "type":
+		case "referenceExtension":
 			ParserEngine2.handleStart(ParserEngine2.STATE.TYPE, attributes);
 			break;
 			
@@ -118,10 +119,6 @@ public class SAXDtdHandler2 extends DefaultHandler {
 
 		case "ownedAttribute":
 			ParserEngine2.handleEnd(ParserEngine2.STATE.OWNED_ATTRIBUTE);
-			break;
-		
-		case "UML:Association":
-			ParserEngine2.handleEnd(ParserEngine2.STATE.ASSOCIATION);
 			break;
 		
 		default:

@@ -142,7 +142,7 @@ public class ParserEngine {
 				}
 			}
 
-			FMAssociation a = new FMAssociation(name);
+			FMAssociation a = new FMAssociation(name, null);
 			elementMap.put(id, a);
 			elementStack.push(a);
 			System.out.println("Association " + name);

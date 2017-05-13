@@ -19,7 +19,7 @@ public class ParserEngine2 {
 	private static Stack<FMNamedElement> elementStack = new Stack<FMNamedElement>();
 
 	public enum STATE {
-		IDLE, MODEL, PACKED_ELEMENT, CLASS, ASSOCIATION, OWNED_ATTRIBUTE, TYPE, MEMBER_END, LOWER, UPPER
+		IDLE, MODEL, PACKED_ELEMENT, CLASS, ASSOCIATION, OWNED_ATTRIBUTE, TYPE, OWNED_END, LOWER, UPPER
 	}
 
 	private static STATE current = STATE.IDLE;
@@ -29,6 +29,7 @@ public class ParserEngine2 {
 	public static void handleStart(STATE state, Attributes attributes) {
 		String name = null, visibility = "public", type = null;
 		String xmiId = null, xmiType = null, href = null;
+		String associationId = null;
 		FMNamedElement el;
 		FMAssociation asoc = null;
 		int value = 0;
@@ -51,25 +52,36 @@ public class ParserEngine2 {
 				}
 			}
 
-			if (xmiType == null || name == null) {
+			if (xmiType == null) {
+				current = STATE.IDLE;
 				break;
 			}
 			// System.out.println("X : " + name);
 			if (xmiType.equals("uml:Class")) {
+				if (name == null) {
+					current = STATE.IDLE;
+					break;
+				}
+
 				FMClass c = new FMClass(name, "default", visibility);
 				elementMap.put(xmiId, c);
 				elementStack.push(c);
 
 				current = STATE.OWNED_ATTRIBUTE;
-				System.out.println("Class : " + name);
+				System.out.println("########Class : " + name);
 				types.put(xmiId, c);
 
 			} else if (xmiType.equals("uml:Association")) {
-				FMAssociation a = new FMAssociation(name);
+				FMAssociation a = new FMAssociation(name, xmiId);
 				elementMap.put(xmiId, a);
 				elementStack.push(a);
-				System.out.println("Association " + name);
-				current = STATE.MEMBER_END;
+				System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Association "
+						+ name);
+				current = STATE.OWNED_END;
+			} else if (xmiType.equals("uml:Enumeration")) {
+				// TODO : handle enumeration
+			} else {
+				current = STATE.IDLE;
 			}
 
 			break;
@@ -88,17 +100,20 @@ public class ParserEngine2 {
 					visibility = attributes.getValue(i);
 				} else if (attributes.getQName(i).equals("type")) {
 					type = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("association")) {
+					associationId = attributes.getValue(i);
 				}
 
 			}
-			
+
 			if (type != null && name == null) {
 				name = "attr" + xmiId.substring(30);
 			}
 
 			if (name != null) {
 				System.out.println("Attribute " + name);
-				FMProperty p = new FMProperty(name, type, visibility, 0, 1);
+				FMProperty p = new FMProperty(name, type, visibility, 0, 1,
+						associationId);
 				((FMClass) elementStack.peek()).addProperty(p);
 				elementMap.put(xmiId, p);
 				elementStack.push(p);
@@ -135,7 +150,7 @@ public class ParserEngine2 {
 			break;
 
 		case UPPER:
-			if (current != STATE.OWNED_ATTRIBUTE && current != STATE.MEMBER_END)
+			if (current != STATE.OWNED_ATTRIBUTE && current != STATE.OWNED_END)
 				break;
 
 			el = elementStack.peek();
@@ -155,14 +170,14 @@ public class ParserEngine2 {
 				((FMProperty) el).setUpper(value);
 				// current = STATE.OWNED_ATTRIBUTE;
 			} else if (el instanceof FMAssociation) {
-				// asoc = (FMAssociation) el;
-				//
-				// if (asoc.getSecondEnd() == null) {
-				// asoc.getFirstEnd().setUpper(value);
-				// } else {
-				// asoc.getSecondEnd().setUpper(value);
-				// }
-				// current = STATE.MEMBER_END;
+				asoc = (FMAssociation) el;
+
+				if (asoc.getSecondEnd() == null) {
+					asoc.getFirstEnd().setUpper(value);
+				} else {
+					asoc.getSecondEnd().setUpper(value);
+				}
+				current = STATE.OWNED_END;
 			}
 			System.out.println("upper : " + value);
 			break;
@@ -172,36 +187,44 @@ public class ParserEngine2 {
 				break;
 
 			for (int i = 0; i < attributes.getLength(); i++) {
-				if (attributes.getQName(i).equals("href")) {
+				if (attributes.getQName(i).equals("referentPath")) {
 					href = attributes.getValue(i);
 				}
 			}
-			type = href.split("#")[1];
-			((FMProperty) elementStack.peek()).setType(type);
+			String[] words = href.split("::");
+			// System.out.println("Type: " + type);
+			((FMProperty) elementStack.peek()).setType(words[words.length - 1]);
 
 			break;
 
-		case MEMBER_END:
+		case OWNED_END:
 
-			// for (int i = 0; i < attributes.getLength(); i++) {
-			// if (attributes.getQName(i).equals("name")) {
-			// name = attributes.getValue(i);
-			// } else if (attributes.getQName(i).equals("xmi.id")) {
-			// id = attributes.getValue(i);
-			// } else if (attributes.getQName(i).equals("visibility")) {
-			// visibility = attributes.getValue(i);
-			// }
-			// }
-			//
-			// FMAssociation as = (FMAssociation) elementStack.peek();
-			//
-			// if (as.getFirstEnd() == null) {
-			// // System.out.println("first end");
-			// as.setFirstEnd(new FMProperty(name, null, visibility, 0, 0));
-			// } else {
-			// // System.out.println("second end");
-			// as.setSecondEnd(new FMProperty(name, null, visibility, 0, 0));
-			// }
+			if (current != STATE.OWNED_END)
+				break;
+
+			for (int i = 0; i < attributes.getLength(); i++) {
+				if (attributes.getQName(i).equals("name")) {
+					name = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("xmi:id")) {
+					xmiId = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("type")) {
+					type = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("visibility")) {
+					visibility = attributes.getValue(i);
+				}
+			}
+
+			FMAssociation as = (FMAssociation) elementStack.peek();
+
+			if (as.getFirstEnd() == null) {
+				// System.out.println("first end");
+				as.setFirstEnd(new FMProperty(name, type, visibility, 0, 1,
+						associationId));
+			} else {
+				// System.out.println("second end");
+				as.setSecondEnd(new FMProperty(name, type, visibility, 0, 1,
+						associationId));
+			}
 
 			// current = STATE.TYPE;
 			break;
@@ -214,7 +237,42 @@ public class ParserEngine2 {
 	public static void handleEnd(STATE state) {
 		switch (state) {
 		case PACKED_ELEMENT:
-			current = STATE.PACKED_ELEMENT;
+			if (current == STATE.IDLE) {
+				break;
+			}
+
+			FMNamedElement e = elementStack.pop();
+
+			if (e instanceof FMAssociation) {
+				FMAssociation a = (FMAssociation) e;
+
+				// connect second end
+				if (a.getFirstEnd() != null && a.getSecondEnd() == null) {
+					FMClass firstEndClass = (FMClass) elementMap.get(a
+							.getFirstEnd().getTypeId());
+
+					for (FMProperty prop : firstEndClass.getProperties()) {
+						if (a.getId().equals(prop.getAssociationId())) {
+							FMClass secondEndClass = (FMClass) elementMap
+									.get(prop.getTypeId());
+
+							secondEndClass.addProperty(new FMProperty(a
+									.getName() == null ? firstEndClass.getName(): a.getName(), a
+									.getFirstEnd().getTypeId(), "private", 0,
+									prop.getUpper() == -1 ? 1 : -1));
+
+							System.out.println(firstEndClass.getName()
+									+ " added in " + secondEndClass.getName());
+							current = STATE.IDLE;
+							break;
+						}
+					}
+
+				}
+			}
+
+			current = STATE.IDLE;
+
 			break;
 
 		case OWNED_ATTRIBUTE:
@@ -226,29 +284,6 @@ public class ParserEngine2 {
 		default:
 			break;
 		}
-
-		// FMNamedElement e = elementStack.pop();
-		// //current = STATE.CLASS;
-		//
-		// if (e instanceof FMAssociation) {
-		// FMAssociation a = (FMAssociation) e;
-		// FMProperty end1 = a.getFirstEnd();
-		// FMProperty end2 = a.getSecondEnd();
-		//
-		// String type1 = end1.getTypeId();
-		// String type2 = end2.getTypeId();
-		//
-		// FMClass c1 = (FMClass) types.get(type1);
-		// FMClass c2 = (FMClass) types.get(type2);
-		//
-		// if (a.isSecondNavigable())
-		// c2.addProperty(new FMProperty(a.getName(), end1.getTypeId(), end1
-		// .getVisibility(), end1.getLower(), end1.getUpper()));
-		//
-		// if (a.isFirstNavigable())
-		// c1.addProperty(new FMProperty(a.getName(), end2.getTypeId(), end2
-		// .getVisibility(), end2.getLower(), end2.getUpper()));
-		// }
 	}
 
 	public static String getType(String typeId) {

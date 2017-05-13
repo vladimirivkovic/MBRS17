@@ -5,10 +5,11 @@ public class FMAssociation extends FMNamedElement {
 	private FMProperty secondEnd = null;
 	private boolean firstNavigable;
 	private boolean secondNavigable;
+	private String id;
 
-	public FMAssociation(String name) {
+	public FMAssociation(String name, String id) {
 		super(name);
-		// TODO Auto-generated constructor stub
+		this.id = id;
 	}
 
 	public FMProperty getFirstEnd() {
@@ -41,6 +42,10 @@ public class FMAssociation extends FMNamedElement {
 
 	public void setSecondNavigable(boolean secondNavigable) {
 		this.secondNavigable = secondNavigable;
+	}
+	
+	public String getId() {
+		return id;
 	}
 
 }

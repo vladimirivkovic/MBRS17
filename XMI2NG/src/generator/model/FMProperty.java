@@ -18,10 +18,12 @@ public class FMProperty extends FMNamedElement  {
 	
 	//anotacije
 	private List<FMAnnotation> annotations = new ArrayList<FMAnnotation>();
+	
+	private String associationId = null;
 
 	
 	//TODO Dodati duzinu, preciznost, indikator da li se radi o kljucu itd...
-
+	
 	public FMProperty(String name, String type, 
 			String visibility, int lower, int upper) {
 		super(name);
@@ -31,6 +33,18 @@ public class FMProperty extends FMNamedElement  {
 
 		this.lower = lower;
 		this.upper = upper;	
+	}
+
+	public FMProperty(String name, String type, 
+			String visibility, int lower, int upper, String associationId) {
+		super(name);
+
+		this.type = type;
+		this.visibility = visibility;
+
+		this.lower = lower;
+		this.upper = upper;	
+		this.associationId = associationId;
 	}
 	
 	public String getType() {
@@ -81,5 +95,13 @@ public class FMProperty extends FMNamedElement  {
 	
 	public boolean getPrimitive() {
 		return ParserEngine2.isPrimitive(type);
+	}
+	
+	public String getAssociationId() {
+		return associationId;
+	}
+	
+	public void setAssociationId(String associationId) {
+		this.associationId = associationId;
 	}
 }

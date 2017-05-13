@@ -4,6 +4,12 @@
     	
     var ${class.lowerName}sModalController = ['$scope', '$uibModalInstance', '_rec', '$uibModal',//, '$stateParams'  
     	function ($scope, $uibModalInstance, _rec, $uibModal) { //, $stateParams
+        		<#list properties as property>
+    			<#if (property.type == "date")> 
+    				$scope.${property.name}Popup = { opened : false };
+    			</#if>
+    			</#list>
+        	
         	
         		$scope.init = function(rec) {
         			<#list properties as property>
@@ -56,6 +62,10 @@
 		        }
     			</#if>
     			</#list>
+    			
+    			$scope.open = function(p) {
+				    $scope[p].opened = true;
+				  };
         		
         		if (_rec) $scope.init(_rec);
         }];

@@ -78,6 +78,8 @@ public class GeneratorEngine {
 				cl = (FMClass) el;
 				
 				((ArrayList<FMClass>) model2.get("classes")).add(cl);
+				
+				System.out.println("********GENERATING for " + cl.getName());
 
 				model.clear();
 
