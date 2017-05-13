@@ -1,4 +1,4 @@
-package example;
+package generator;
 
 public class Main2 {
 

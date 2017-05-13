@@ -1,11 +1,10 @@
-package example;
+package generator;
 
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import generator.TestModel;
 import generator.model.FMClass;
 import generator.model.FMNamedElement;
 import generator.model.FMProperty;
@@ -30,7 +29,7 @@ public class GeneratorEngine {
 	static void generate(Map<String, FMNamedElement> elementMap) {
 		Configuration cfg = new Configuration();
 
-		cfg.setTemplateLoader(new ClassTemplateLoader(TestModel.class,
+		cfg.setTemplateLoader(new ClassTemplateLoader(GeneratorEngine.class,
 				"template"));
 
 		cfg.setObjectWrapper(new DefaultObjectWrapper());

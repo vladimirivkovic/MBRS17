@@ -1,4 +1,4 @@
-package generator;
+package test;
 
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
@@ -18,7 +18,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestAngController {
+public class TestAngResource {
+
 public static void main(String[] args){
 		
 		// Prvo je potrebno konfigurisati FM
@@ -49,7 +50,7 @@ public static void main(String[] args){
 		p1.addAnnotation(a2);
 		cl.addProperty(p1); // multiplicity 1
 		cl.addProperty(new FMProperty("zipCode", "String", "private", 0, 1)); // multiplicity 0..1
-		cl.addProperty(new FMProperty("state", "State", "private", 1, 1)); // multiplicity 1
+		cl.addProperty(new FMProperty("state", "state", "private", 1, 1)); // multiplicity 1
 		cl.addProperty(new FMProperty("enterprise", "Enterprise", "private", 0, -1));  // multiplicity *
 		cl.addProperty(new FMProperty("department", "Department", "private", 1, 3));  // multiplicity 1..3
 		
@@ -67,11 +68,11 @@ public static void main(String[] args){
 	
 		try {
 			// Uzimamo šablon
-			Template temp = cfg.getTemplate("ng-view.ftl");
+			Template temp = cfg.getTemplate("ng-resource.ftl");
 			
 			// Renderujemo ga
 			//Writer out = new OutputStreamWriter(System.out);
-			FileWriter fw = new FileWriter(new File("testNgView.html"));
+			FileWriter fw = new FileWriter(new File("testResource.js"));
 			temp.process(model, fw);
 			fw.flush();  			
 			
@@ -83,4 +84,5 @@ public static void main(String[] args){
 			e.printStackTrace();
 		}  		
 	}
+	
 }

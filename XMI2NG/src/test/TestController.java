@@ -1,4 +1,4 @@
-package generator;
+package test;
 
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
@@ -18,8 +18,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TestAngResource {
-
+public class TestController {
+	
 public static void main(String[] args){
 		
 		// Prvo je potrebno konfigurisati FM
@@ -68,11 +68,11 @@ public static void main(String[] args){
 	
 		try {
 			// Uzimamo šablon
-			Template temp = cfg.getTemplate("ng-resource.ftl");
+			Template temp = cfg.getTemplate("controller.ftl");
 			
 			// Renderujemo ga
 			//Writer out = new OutputStreamWriter(System.out);
-			FileWriter fw = new FileWriter(new File("testResource.js"));
+			FileWriter fw = new FileWriter(new File("testController.cs"));
 			temp.process(model, fw);
 			fw.flush();  			
 			
@@ -84,5 +84,5 @@ public static void main(String[] args){
 			e.printStackTrace();
 		}  		
 	}
-	
+
 }

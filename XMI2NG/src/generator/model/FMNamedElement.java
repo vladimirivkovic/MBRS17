@@ -1,9 +1,16 @@
 package generator.model;
 
+import generator.model.profile.Stereotype;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class FMNamedElement {
 	
 	private String name;
 	private String originName;
+	
+	protected List<Stereotype> stereotypes = new ArrayList<Stereotype>();
 	
 	public FMNamedElement(String name) {
 		this.name = name;
@@ -39,6 +46,14 @@ public abstract class FMNamedElement {
 	
 	public String getOriginName() {
 		return originName;
+	}
+	
+	public List<Stereotype> getStereotypes() {
+		return stereotypes;
+	}
+	
+	public void addStereotype(Stereotype st) {
+		stereotypes.add(st);
 	}
 	
 }

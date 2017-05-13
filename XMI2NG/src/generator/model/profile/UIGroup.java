@@ -2,7 +2,7 @@ package generator.model.profile;
 
 import java.util.List;
 
-public class UIGroup {
+public class UIGroup implements Stereotype {
 
 	private List<UIElement> elements;
 	

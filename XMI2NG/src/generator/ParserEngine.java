@@ -1,4 +1,4 @@
-package example;
+package generator;
 
 import generator.model.FMAssociation;
 import generator.model.FMClass;

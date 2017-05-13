@@ -3,7 +3,7 @@ package generator.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import example.ParserEngine2;
+import generator.ParserEngine2;
 
 
 

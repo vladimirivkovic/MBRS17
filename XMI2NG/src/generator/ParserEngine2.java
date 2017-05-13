@@ -1,10 +1,24 @@
-package example;
+package generator;
 
 import generator.model.FMAssociation;
 import generator.model.FMClass;
 import generator.model.FMNamedElement;
 import generator.model.FMProperty;
 import generator.model.FMType;
+import generator.model.profile.BusinessOperation;
+import generator.model.profile.Calculated;
+import generator.model.profile.Id;
+import generator.model.profile.Lookup;
+import generator.model.profile.Next;
+import generator.model.profile.NoInsert;
+import generator.model.profile.ReadOnly;
+import generator.model.profile.Tab;
+import generator.model.profile.UIAssociationEnd;
+import generator.model.profile.UIClass;
+import generator.model.profile.UIElement;
+import generator.model.profile.UIGroup;
+import generator.model.profile.UIProperty;
+import generator.model.profile.Zoom;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +33,7 @@ public class ParserEngine2 {
 	private static Stack<FMNamedElement> elementStack = new Stack<FMNamedElement>();
 
 	public enum STATE {
-		IDLE, MODEL, PACKED_ELEMENT, CLASS, ASSOCIATION, OWNED_ATTRIBUTE, TYPE, OWNED_END, LOWER, UPPER
+		IDLE, MODEL, PACKED_ELEMENT, CLASS, ASSOCIATION, OWNED_ATTRIBUTE, TYPE, OWNED_END, LOWER, UPPER, STEREOTYPE
 	}
 
 	private static STATE current = STATE.IDLE;
@@ -228,6 +242,11 @@ public class ParserEngine2 {
 
 			// current = STATE.TYPE;
 			break;
+
+		case STEREOTYPE:
+
+			break;
+
 		default:
 			break;
 		}
@@ -257,8 +276,9 @@ public class ParserEngine2 {
 									.get(prop.getTypeId());
 
 							secondEndClass.addProperty(new FMProperty(a
-									.getName() == null ? firstEndClass.getName(): a.getName(), a
-									.getFirstEnd().getTypeId(), "private", 0,
+									.getName() == null ? firstEndClass
+									.getName() : a.getName(), a.getFirstEnd()
+									.getTypeId(), "private", 0,
 									prop.getUpper() == -1 ? 1 : -1));
 
 							System.out.println(firstEndClass.getName()
@@ -303,6 +323,83 @@ public class ParserEngine2 {
 
 	public static void handleCharacters(String characters) {
 		// TODO Auto-generated method stub
+
+	}
+
+	public static void handleStereotype(String qName, Attributes attributes) {
+		String baseClass = null, baseProperty = null,
+				baseElement = null, baseOperation = null;
+		
+		for (int i = 0; i < attributes.getLength(); i++) {
+			if (attributes.getQName(i).equals("base_Class")) {
+				baseClass = attributes.getValue(i);
+			} else if (attributes.getQName(i).equals("base_Property")) {
+				baseProperty = attributes.getValue(i);
+			} else if (attributes.getQName(i).equals("base_Element")) {
+				baseElement = attributes.getValue(i);
+			} else if (attributes.getQName(i).equals("base_Operation")) {
+				baseOperation = attributes.getValue(i);
+			}
+		}
+		
+		//System.out.println(qName);
+		
+		// TODO : extract attributes for stereotypes
+		
+		switch (qName) {
+		case ":UIElement":
+			elementMap.get(baseElement).addStereotype(new UIElement());
+			break;
+		case ":UIClass":
+			elementMap.get(baseClass).addStereotype(new UIClass());
+			break;
+		case ":UIProperty":
+			elementMap.get(baseProperty).addStereotype(new UIProperty());
+			break;
+		case ":UIAssociationEnd":
+			elementMap.get(baseProperty).addStereotype(new UIAssociationEnd());
+			break;
+		case ":Lookup":
+			elementMap.get(baseProperty).addStereotype(new Lookup());
+			break;
+		case ":ReadOnly":
+			elementMap.get(baseProperty).addStereotype(new ReadOnly());
+			break;
+		case ":NoInsert":
+			elementMap.get(baseProperty).addStereotype(new NoInsert());
+			break;
+		case ":Calculated":
+			elementMap.get(baseProperty).addStereotype(new Calculated());
+			break;
+		case ":Id":
+			elementMap.get(baseProperty).addStereotype(new Id());
+			break;
+		case ":Zoom":
+			elementMap.get(baseProperty).addStereotype(new Zoom());
+			break;
+		case ":Next":
+			elementMap.get(baseProperty).addStereotype(new Next());
+			break;
+		case ":Tab":
+			elementMap.get(baseProperty).addStereotype(new Tab());
+			break;
+		case ":UIGroup":
+			elementMap.get(baseProperty).addStereotype(new UIGroup());
+			break;
+			
+		case ":BusinessOperation":
+			elementMap.get(baseOperation).addStereotype(new BusinessOperation());
+			break;
+		case ":Report":
+			elementMap.get(baseOperation).addStereotype(new BusinessOperation());
+			break;
+		case ":Transaction":
+			elementMap.get(baseOperation).addStereotype(new BusinessOperation());
+			break;
+
+		default:
+			break;
+		}
 
 	}
 }

@@ -1,4 +1,4 @@
-package example;
+package generator;
 
 import java.io.File;
 

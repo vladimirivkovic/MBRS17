@@ -1,4 +1,4 @@
-package example;
+package generator;
 
 import java.io.File;
 
@@ -100,6 +100,25 @@ public class SAXDtdHandler2 extends DefaultHandler {
 		
 		case "upperValue":
 			ParserEngine2.handleStart(ParserEngine2.STATE.UPPER, attributes);
+			break;
+		
+		case "_:UIElement":
+		case "_:UIClass":
+		case "_:UIProperty":
+		case "_:UIAssociationEnd":
+		case "_:Lookup":
+		case "_:ReadOnly":
+		case "_:NoInsert":
+		case "_:Calculated":
+		case "_:Id":
+		case "_:Zoom":
+		case "_:Next":
+		case "_:Tab":
+		case "_:UIGroup":
+		case "_:BusinessOperation":
+		case "_:Report":
+		case "_:Transaction":
+			ParserEngine2.handleStereotype(qName, attributes);
 			break;
 
 		default:

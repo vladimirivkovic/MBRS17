@@ -1,4 +1,10 @@
-package generator;
+package test;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
@@ -12,21 +18,15 @@ import generator.model.FMParameter;
 import generator.model.FMProperty;
 import generator.model.FMType;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+public class TestModel {
 
-public class TestController {
-	
-public static void main(String[] args){
+	public static void main(String[] args){
 		
 		// Prvo je potrebno konfigurisati FM
 		Configuration cfg = new Configuration();
 		
 		// Šablone ćemo učitavati sa classpath-a iz foldera templates
-		cfg.setTemplateLoader(new ClassTemplateLoader(TestController.class, "template"));
+		cfg.setTemplateLoader(new ClassTemplateLoader(TestModel.class, "template"));
 		
 		// Potrebno je postaviti tzv. ObjectWrapper. U većini slučajeva me dovoljno da 
 		// to bude DefaultObjectWrapper
@@ -68,11 +68,11 @@ public static void main(String[] args){
 	
 		try {
 			// Uzimamo šablon
-			Template temp = cfg.getTemplate("controller.ftl");
+			Template temp = cfg.getTemplate("model.ftl");
 			
 			// Renderujemo ga
 			//Writer out = new OutputStreamWriter(System.out);
-			FileWriter fw = new FileWriter(new File("testController.cs"));
+			FileWriter fw = new FileWriter(new File("test.cs"));
 			temp.process(model, fw);
 			fw.flush();  			
 			
@@ -84,5 +84,5 @@ public static void main(String[] args){
 			e.printStackTrace();
 		}  		
 	}
-
+	
 }
