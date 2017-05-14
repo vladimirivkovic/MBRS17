@@ -24,7 +24,7 @@
             }
         }
 
-		$scope.openModal = function (update) {
+		$scope.openModal = function (update, copy) {
 	        var modalInstance = $uibModal.open({
 	            templateUrl: 'app/${class.lowerName}/${class.lowerName}ModalView.html',
 	            controller: '${class.name}sModalCtrl',
@@ -38,11 +38,20 @@
 	            if (result !== 'No' && result !== 'Error') {
 	                if (!update) {
 	                    $scope.${class.lowerName}s.push(result);
+	                } else if (copy) {
+	                    $scope.${class.lowerName}s.push(result);
 	                } else {
-	                    $scope.${class.lowerName}s[$scope.selectedIndex] = result;
+	                	$scope.${class.lowerName}s[$scope.selectedIndex] = result;
 	                }
 	            }
 	        }); 
+        }
+        
+        $scope.remove = function() {
+        	//console.log($scope.selectedIndex);
+        	$scope.${class.lowerName}s.splice($scope.selectedIndex,1);
+        	$scope.selected = null;
+        	$scope.selectedIndex = null;
         }
         
         $scope.init = function () {

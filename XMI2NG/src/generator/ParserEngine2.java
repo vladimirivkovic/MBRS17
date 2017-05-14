@@ -366,19 +366,37 @@ public class ParserEngine2 {
 		
 		//System.out.println(qName);
 		
-		// TODO : extract attributes for stereotypes
-		
 		switch (qName) {
-//		case "_:UIElement":
-//			elementMap.get(baseElement).addStereotype(new UIElement());
-//			break;
-		case "_:UIClass":
-			elementMap.get(baseClass).addStereotype(new UIClass());
+		case "_:UIElement":
+			// TODO : extract attributes of stereotype
+			if (elementMap.containsKey(baseElement)) {
+				elementMap.get(baseElement).addStereotype(new UIElement());
+			}
 			break;
-//		case "_:UIProperty":
-//			System.out.println(baseProperty);
-//			elementMap.get(baseProperty).addStereotype(new UIProperty());
-//			break;
+		case "_:UIClass":
+			UIClass c = new UIClass();
+			for (int i = 0; i < attributes.getLength(); i++) {
+				if (attributes.getQName(i).equals("create")) {
+					c.setCreate("true".equals(attributes.getValue(i)));
+				} else if (attributes.getQName(i).equals("update")) {
+					c.setUpdate("true".equals(attributes.getValue(i)));
+				} else if (attributes.getQName(i).equals("delete")) {
+					c.setDelete("true".equals(attributes.getValue(i)));
+				} else if (attributes.getQName(i).equals("copy")) {
+					c.setCopy("true".equals(attributes.getValue(i)));
+				} else if (attributes.getQName(i).equals("rowsPerPage")) {
+					c.setRowsPerPage(Integer.parseInt(attributes.getValue(i)));
+				}
+			}
+			//System.out.println("UICLASS na " + elementMap.get(baseClass).getName());
+			elementMap.get(baseClass).addStereotype(c);
+			break;
+		case "_:UIProperty":
+			// TODO : extract attributes of stereotype
+			if (elementMap.containsKey(baseProperty)) {
+				elementMap.get(baseProperty).addStereotype(new UIProperty());
+			}
+			break;
 		case "_:UIAssociationEnd":
 			elementMap.get(baseProperty).addStereotype(new UIAssociationEnd());
 			break;
@@ -392,6 +410,7 @@ public class ParserEngine2 {
 			elementMap.get(baseProperty).addStereotype(new NoInsert());
 			break;
 		case "_:Calculated":
+			// TODO : extract attributes of stereotype
 			elementMap.get(baseProperty).addStereotype(new Calculated());
 			break;
 		case "_:Id":
@@ -410,7 +429,7 @@ public class ParserEngine2 {
 					t.setDependant("true".equals(attributes.getValue(i)));
 				}
 			}
-			System.out.println("tab na " + elementMap.get(baseProperty).getName());
+			//System.out.println("tab na " + elementMap.get(baseProperty).getName());
 			elementMap.get(baseProperty).addStereotype(t);
 			break;
 		case "_:UIGroup":

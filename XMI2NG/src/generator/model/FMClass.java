@@ -1,5 +1,8 @@
 package generator.model;
 
+import generator.model.profile.Stereotype;
+import generator.model.profile.UIClass;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -87,6 +90,16 @@ public class FMClass extends FMType {
 	public String getLowerName() {
 		String s = this.getName();
 		return s.substring(0, 1).toLowerCase() + s.substring(1);
+	}
+	
+	public UIClass getUIClass() {
+		for(Stereotype st : stereotypes) {
+			if (st instanceof UIClass) {
+				return (UIClass) st;
+			}
+		}
+		
+		return null;
 	}
 	
 }

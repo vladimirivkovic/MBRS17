@@ -2,11 +2,11 @@ package generator.model.profile;
 
 public class UIClass extends UIElement {
 	
-	private Boolean create;
-	private Boolean update;
-	private Boolean copy;
-	private Boolean delete;
-	private int displayNumber;
+	private Boolean create = true;
+	private Boolean update = true;
+	private Boolean copy = true;
+	private Boolean delete = true;
+	private int rowsPerPage;
 	
 	public UIClass() {
 		// TODO Auto-generated constructor stub
@@ -18,7 +18,7 @@ public class UIClass extends UIElement {
 		this.update = update;
 		this.copy = copy;
 		this.delete = delete;
-		this.displayNumber = displayNumber;
+		this.rowsPerPage = displayNumber;
 	}
 
 	public Boolean getCreate() {
@@ -53,12 +53,12 @@ public class UIClass extends UIElement {
 		this.delete = delete;
 	}
 
-	public int getDisplayNumber() {
-		return displayNumber;
+	public int getRowsPerPage() {
+		return rowsPerPage;
 	}
-
-	public void setDisplayNumber(int displayNumber) {
-		this.displayNumber = displayNumber;
+	
+	public void setRowsPerPage(int rowsPerPage) {
+		this.rowsPerPage = rowsPerPage;
 	}
 	
 	
