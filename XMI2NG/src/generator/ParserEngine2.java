@@ -33,7 +33,8 @@ public class ParserEngine2 {
 	private static Stack<FMNamedElement> elementStack = new Stack<FMNamedElement>();
 
 	public enum STATE {
-		IDLE, MODEL, PACKED_ELEMENT, CLASS, ASSOCIATION, OWNED_ATTRIBUTE, TYPE, OWNED_END, LOWER, UPPER, STEREOTYPE
+		IDLE, MODEL, PACKED_ELEMENT, CLASS, ASSOCIATION, 
+		OWNED_ATTRIBUTE, TYPE, OWNED_END, MEMBER_END, LOWER, UPPER, STEREOTYPE
 	}
 
 	private static STATE current = STATE.IDLE;
@@ -82,14 +83,14 @@ public class ParserEngine2 {
 				elementStack.push(c);
 
 				current = STATE.OWNED_ATTRIBUTE;
-				System.out.println("########Class : " + name);
+				System.out.println("###################Class : " + name);
 				types.put(xmiId, c);
 
 			} else if (xmiType.equals("uml:Association")) {
 				FMAssociation a = new FMAssociation(name, xmiId);
 				elementMap.put(xmiId, a);
 				elementStack.push(a);
-				System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Association "
+				System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@Association "
 						+ name);
 				current = STATE.OWNED_END;
 			} else if (xmiType.equals("uml:Enumeration")) {
@@ -120,18 +121,12 @@ public class ParserEngine2 {
 
 			}
 
-			if (type != null && name == null) {
-				name = "attr" + xmiId.substring(30);
-			}
-
-			if (name != null) {
-				System.out.println("Attribute " + name);
-				FMProperty p = new FMProperty(name, type, visibility, 0, 1,
-						associationId);
-				((FMClass) elementStack.peek()).addProperty(p);
-				elementMap.put(xmiId, p);
-				elementStack.push(p);
-			}
+			System.out.println("Attribute " + name);
+			FMProperty p = new FMProperty(name, type, visibility, 0, 1,
+					associationId);
+			((FMClass) elementStack.peek()).addProperty(p);
+			elementMap.put(xmiId, p);
+			elementStack.push(p);
 
 			// current = STATE.LOWER;
 			break;
@@ -210,6 +205,19 @@ public class ParserEngine2 {
 			((FMProperty) elementStack.peek()).setType(words[words.length - 1]);
 
 			break;
+		
+//		case MEMBER_END:
+//
+//			if (current != STATE.OWNED_END)
+//				break;
+//			
+//			for (int i = 0; i < attributes.getLength(); i++) {
+//				if (attributes.getQName(i).equals("xmi:idref")) {
+//					name = attributes.getValue(i);
+//				}
+//			}
+//			
+//			FMAssociation as = (FMAssociation) elementStack.peek();
 
 		case OWNED_END:
 
@@ -229,15 +237,18 @@ public class ParserEngine2 {
 			}
 
 			FMAssociation as = (FMAssociation) elementStack.peek();
+			
+			FMProperty endProperty = new FMProperty(name == null ?
+					elementMap.get(type).getName() : name, type, visibility, 0, 1,
+					associationId);
+			elementMap.put(xmiId, endProperty);
 
 			if (as.getFirstEnd() == null) {
 				// System.out.println("first end");
-				as.setFirstEnd(new FMProperty(name, type, visibility, 0, 1,
-						associationId));
+				as.setFirstEnd(endProperty);
 			} else {
 				// System.out.println("second end");
-				as.setSecondEnd(new FMProperty(name, type, visibility, 0, 1,
-						associationId));
+				as.setSecondEnd(endProperty);
 			}
 
 			// current = STATE.TYPE;
@@ -255,6 +266,19 @@ public class ParserEngine2 {
 
 	public static void handleEnd(STATE state) {
 		switch (state) {
+		case MODEL:
+			// add names for noname attributes
+			for (FMNamedElement el : elementMap.values()) {
+				if (el instanceof FMProperty) {
+					FMProperty p = (FMProperty) el;
+					
+					if (p.getName() == null) {
+						p.setName(p.getType());
+					}
+				}
+			}
+			
+			break;
 		case PACKED_ELEMENT:
 			if (current == STATE.IDLE) {
 				break;
@@ -274,12 +298,10 @@ public class ParserEngine2 {
 						if (a.getId().equals(prop.getAssociationId())) {
 							FMClass secondEndClass = (FMClass) elementMap
 									.get(prop.getTypeId());
+							
+							a.getFirstEnd().setUpper(prop.getUpper() == -1 ? 1 : -1);
 
-							secondEndClass.addProperty(new FMProperty(a
-									.getName() == null ? firstEndClass
-									.getName() : a.getName(), a.getFirstEnd()
-									.getTypeId(), "private", 0,
-									prop.getUpper() == -1 ? 1 : -1));
+							secondEndClass.addProperty(a.getFirstEnd());
 
 							System.out.println(firstEndClass.getName()
 									+ " added in " + secondEndClass.getName());
@@ -347,53 +369,61 @@ public class ParserEngine2 {
 		// TODO : extract attributes for stereotypes
 		
 		switch (qName) {
-		case ":UIElement":
-			elementMap.get(baseElement).addStereotype(new UIElement());
-			break;
-		case ":UIClass":
+//		case "_:UIElement":
+//			elementMap.get(baseElement).addStereotype(new UIElement());
+//			break;
+		case "_:UIClass":
 			elementMap.get(baseClass).addStereotype(new UIClass());
 			break;
-		case ":UIProperty":
-			elementMap.get(baseProperty).addStereotype(new UIProperty());
-			break;
-		case ":UIAssociationEnd":
+//		case "_:UIProperty":
+//			System.out.println(baseProperty);
+//			elementMap.get(baseProperty).addStereotype(new UIProperty());
+//			break;
+		case "_:UIAssociationEnd":
 			elementMap.get(baseProperty).addStereotype(new UIAssociationEnd());
 			break;
-		case ":Lookup":
+		case "_:Lookup":
 			elementMap.get(baseProperty).addStereotype(new Lookup());
 			break;
-		case ":ReadOnly":
+		case "_:ReadOnly":
 			elementMap.get(baseProperty).addStereotype(new ReadOnly());
 			break;
-		case ":NoInsert":
+		case "_:NoInsert":
 			elementMap.get(baseProperty).addStereotype(new NoInsert());
 			break;
-		case ":Calculated":
+		case "_:Calculated":
 			elementMap.get(baseProperty).addStereotype(new Calculated());
 			break;
-		case ":Id":
+		case "_:Id":
 			elementMap.get(baseProperty).addStereotype(new Id());
 			break;
-		case ":Zoom":
+		case "_:Zoom":
 			elementMap.get(baseProperty).addStereotype(new Zoom());
 			break;
-		case ":Next":
+		case "_:Next":
 			elementMap.get(baseProperty).addStereotype(new Next());
 			break;
-		case ":Tab":
-			elementMap.get(baseProperty).addStereotype(new Tab());
+		case "_:Tab":
+			Tab t = new Tab();
+			for (int i = 0; i < attributes.getLength(); i++) {
+				if (attributes.getQName(i).equals("dependant")) {
+					t.setDependant("true".equals(attributes.getValue(i)));
+				}
+			}
+			System.out.println("tab na " + elementMap.get(baseProperty).getName());
+			elementMap.get(baseProperty).addStereotype(t);
 			break;
-		case ":UIGroup":
+		case "_:UIGroup":
 			elementMap.get(baseProperty).addStereotype(new UIGroup());
 			break;
 			
-		case ":BusinessOperation":
+		case "_:BusinessOperation":
 			elementMap.get(baseOperation).addStereotype(new BusinessOperation());
 			break;
-		case ":Report":
+		case "_:Report":
 			elementMap.get(baseOperation).addStereotype(new BusinessOperation());
 			break;
-		case ":Transaction":
+		case "_:Transaction":
 			elementMap.get(baseOperation).addStereotype(new BusinessOperation());
 			break;
 

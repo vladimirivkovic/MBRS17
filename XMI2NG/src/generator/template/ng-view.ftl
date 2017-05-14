@@ -31,4 +31,14 @@
             </tr>
         </table>
 	</div>
+	
+	<p> A sada tabovi </p>
+	
+	<uib-tabset>
+		<#list properties as property>
+		<#if property.tab> 
+    	<uib-tab index="0" heading="${property.name}">Table content</uib-tab>
+    	</#if>
+	    </#list>
+  	</uib-tabset>
 </div>

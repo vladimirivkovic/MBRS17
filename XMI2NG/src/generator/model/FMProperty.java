@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import generator.ParserEngine2;
+import generator.model.profile.Stereotype;
+import generator.model.profile.Tab;
 
 
 
@@ -103,5 +105,15 @@ public class FMProperty extends FMNamedElement  {
 	
 	public void setAssociationId(String associationId) {
 		this.associationId = associationId;
+	}
+	
+	public Boolean getTab() {
+		for(Stereotype st : stereotypes) {
+			if (st instanceof Tab) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }
