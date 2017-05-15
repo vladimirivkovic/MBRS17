@@ -12,6 +12,7 @@ import generator.model.profile.NoInsert;
 import generator.model.profile.ReadOnly;
 import generator.model.profile.Stereotype;
 import generator.model.profile.Tab;
+import generator.model.profile.UIProperty;
 import generator.model.profile.Zoom;
 
 
@@ -37,7 +38,7 @@ public class FMProperty extends FMNamedElement  {
 	
 	private String associationId = null;
 
-	
+	private UIProperty uIProperty;
 	
 	public FMProperty(String name, String type, 
 			String visibility, int lower, int upper) {
@@ -153,6 +154,10 @@ public class FMProperty extends FMNamedElement  {
 		return tab;
 	}
 
+	public UIProperty getuIProperty() {
+		return uIProperty;
+	}
+
 	@Override
 	public void addStereotype(Stereotype st) {
 		super.addStereotype(st);
@@ -181,6 +186,9 @@ public class FMProperty extends FMNamedElement  {
 		} else if(st instanceof Tab) {
 			tab = (Tab) st;
 			
+		} else if(st instanceof UIProperty) {
+			uIProperty = (UIProperty) st;
+						
 		}
 		
 	}

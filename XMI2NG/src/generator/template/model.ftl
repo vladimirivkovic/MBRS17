@@ -6,8 +6,23 @@ namespace ${class.namespace} {
 			<#list property.annotations as annotation>
 			[${annotation.name}<#if (annotation.size > 0)>(<#list annotation.parameters as parameter>${parameter.type} = ${parameter.name}</#list>)</#if>]
 			</#list>
-			<#if property.upper == 1 >   
-		    public ${property.type} ${property.name} { get; set; };
+			<#if property.upper == 1 >
+			<#if property.id?? >
+			[Key]
+			<#elseif property.uIProperty?? >
+				<#if property.uIProperty.required??>
+			[Required]
+				</#if>
+				<#if property.uIProperty.searchable??  >
+					<#if property.uIProperty.unique??>
+			[Index(IsUnique=true)]
+					<#else> 
+			[Index]
+					</#if>
+				</#if>
+			</#if>
+	    	public ${property.type} ${property.name} { get; set; };
+			    
 		    <#elseif property.upper == -1 > 
 		    public ICollection<${property.type}> ${property.name} { get; set; };
 		    <#else>   
