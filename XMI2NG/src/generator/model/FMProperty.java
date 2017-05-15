@@ -3,20 +3,34 @@ package generator.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import generator.ParserEngine2;
+import generator.ParserEngine;
+import generator.model.profile.Calculated;
+import generator.model.profile.Id;
+import generator.model.profile.Lookup;
+import generator.model.profile.Next;
+import generator.model.profile.NoInsert;
+import generator.model.profile.ReadOnly;
 import generator.model.profile.Stereotype;
 import generator.model.profile.Tab;
+import generator.model.profile.Zoom;
 
 
 
 public class FMProperty extends FMNamedElement  {
 	private String type;
-	
 	private String visibility; 
-	
 	private Integer lower = 0;
-	
 	private Integer upper = 1;
+	
+	//Stereotypes
+	private Id id;
+	private Lookup lookup;
+	private ReadOnly readOnly;
+	private NoInsert noInsert;
+	private Next next;
+	private Zoom zoom;
+	private Calculated calculated;
+	private Tab tab;
 	
 	//anotacije
 	private List<FMAnnotation> annotations = new ArrayList<FMAnnotation>();
@@ -24,7 +38,6 @@ public class FMProperty extends FMNamedElement  {
 	private String associationId = null;
 
 	
-	//TODO Dodati duzinu, preciznost, indikator da li se radi o kljucu itd...
 	
 	public FMProperty(String name, String type, 
 			String visibility, int lower, int upper) {
@@ -50,7 +63,7 @@ public class FMProperty extends FMNamedElement  {
 	}
 	
 	public String getType() {
-		return ParserEngine2.getType(type);
+		return ParserEngine.getType(type);
 		//return type;
 	}
 	public String getTypeId() {
@@ -96,7 +109,7 @@ public class FMProperty extends FMNamedElement  {
 	}
 	
 	public boolean getPrimitive() {
-		return ParserEngine2.isPrimitive(type);
+		return ParserEngine.isPrimitive(type);
 	}
 	
 	public String getAssociationId() {
@@ -107,13 +120,68 @@ public class FMProperty extends FMNamedElement  {
 		this.associationId = associationId;
 	}
 	
-	public Boolean getTab() {
-		for(Stereotype st : stereotypes) {
-			if (st instanceof Tab) {
-				return true;
-			}
+	
+	public Id getId() {
+		return id;
+	}
+
+	public Lookup getLookup() {
+		return lookup;
+	}
+
+	public ReadOnly getReadOnly() {
+		return readOnly;
+	}
+
+	public NoInsert getNoInsert() {
+		return noInsert;
+	}
+
+	public Next getNext() {
+		return next;
+	}
+
+	public Zoom getZoom() {
+		return zoom;
+	}
+
+	public Calculated getCalculated() {
+		return calculated;
+	}
+
+	public Tab getTab() {
+		return tab;
+	}
+
+	@Override
+	public void addStereotype(Stereotype st) {
+		super.addStereotype(st);
+		
+		if (st instanceof Id) {
+			id = (Id) st;
+			
+		} else if(st instanceof Lookup) {
+			lookup = (Lookup) st;
+			
+		} else if(st instanceof ReadOnly) {
+			readOnly = (ReadOnly) st;
+			
+		} else if(st instanceof NoInsert) {
+			noInsert = (NoInsert) st;
+			
+		} else if(st instanceof Next) {
+			next = (Next) st;
+			
+		} else if(st instanceof Zoom) {
+			zoom = (Zoom) st;
+			
+		} else if(st instanceof Calculated) {
+			calculated = (Calculated) st;
+			
+		} else if(st instanceof Tab) {
+			tab = (Tab) st;
+			
 		}
 		
-		return false;
 	}
 }

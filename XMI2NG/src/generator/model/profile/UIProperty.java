@@ -23,6 +23,11 @@ public class UIProperty extends UIElement {
 		this.unique = unique;
 	}
 
+	public UIProperty(String label, Boolean visible, UIElementType uIType) {
+		super(label, visible, uIType);
+		
+	}
+
 	public Boolean getShowColumn() {
 		return showColumn;
 	}

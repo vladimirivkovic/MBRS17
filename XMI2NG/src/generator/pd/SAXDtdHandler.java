@@ -1,4 +1,4 @@
-package generator;
+package generator.pd;
 
 import java.io.File;
 
@@ -10,7 +10,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class SAXDtdHandler2 extends DefaultHandler {
+public class SAXDtdHandler extends DefaultHandler {
 
 	private static SAXParserFactory factory;
 
@@ -73,58 +73,48 @@ public class SAXDtdHandler2 extends DefaultHandler {
 			Attributes attributes) throws SAXException {
 		
 		switch (qName) {
-		case "uml:Model":
-			ParserEngine2.handleStart(ParserEngine2.STATE.MODEL, attributes);
-			break;
-		
-		case "packagedElement":
-			ParserEngine2.handleStart(ParserEngine2.STATE.PACKED_ELEMENT, attributes);
+		case "UML:Class":
+			ParserEngine.handleStart(ParserEngine.STATE.CLASS, attributes);
 			break;
 
-		case "ownedAttribute":
-			ParserEngine2.handleStart(ParserEngine2.STATE.OWNED_ATTRIBUTE, attributes);
+		case "UML:Attribute":
+			ParserEngine.handleStart(ParserEngine.STATE.ATTRIBUTE, attributes);
 			break;
 		
-//		case "memberEnd":
-//			ParserEngine2.handleStart(ParserEngine2.STATE.MEMBER_END, attributes);
-//			break;
-			
-		case "ownedEnd":
-			ParserEngine2.handleStart(ParserEngine2.STATE.OWNED_END, attributes);
+		case "UML:MultiplicityRange.lower":
+			ParserEngine.handleStart(ParserEngine.STATE.LOWER, attributes);
 			break;
 		
-		// case "type":
-		case "referenceExtension":
-			ParserEngine2.handleStart(ParserEngine2.STATE.TYPE, attributes);
+		case "UML:MultiplicityRange.upper":
+			ParserEngine.handleStart(ParserEngine.STATE.UPPER, attributes);
 			break;
 			
-		case "lowerValue":
-			ParserEngine2.handleStart(ParserEngine2.STATE.LOWER, attributes);
+		case "UML:StructuralFeature.type":
+			ParserEngine.handleStart(ParserEngine.STATE.TYPE, attributes);
+			break;
+			
+		case "UML:Classifier":
+			ParserEngine.handleStart(ParserEngine.STATE.CLASSIFIER, attributes);
 			break;
 		
-		case "upperValue":
-			ParserEngine2.handleStart(ParserEngine2.STATE.UPPER, attributes);
+		case "UML:DataType":
+			ParserEngine.handleStart(ParserEngine.STATE.DATATYPE, attributes);
 			break;
 		
-		case "_:UIElement":
-		case "_:UIClass":
-		case "_:UIProperty":
-		case "_:UIAssociationEnd":
-		case "_:Lookup":
-		case "_:ReadOnly":
-		case "_:NoInsert":
-		case "_:Calculated":
-		case "_:Id":
-		case "_:Zoom":
-		case "_:Next":
-		case "_:Tab":
-		case "_:UIGroup":
-		case "_:BusinessOperation":
-		case "_:Report":
-		case "_:Transaction":
-			ParserEngine2.handleStereotype(qName, attributes);
+		case "UML:Association":
+			ParserEngine.handleStart(ParserEngine.STATE.ASSOCIATION, attributes);
 			break;
-
+		
+		case "UML:AssociationEnd":
+			ParserEngine.handleStart(ParserEngine.STATE.AEND, attributes);
+			break;
+		
+		case "UML:AssociationEnd.type":
+			ParserEngine.handleStart(ParserEngine.STATE.TYPE, attributes);
+			break;
+		case "UML:AssociationEnd.isNavigable":
+			ParserEngine.handleStart(ParserEngine.STATE.NAVIGABLE, attributes);
+			break;
 		default:
 			break;
 		}
@@ -136,16 +126,16 @@ public class SAXDtdHandler2 extends DefaultHandler {
 			throws SAXException {
 
 		switch (qName) {
-		case "packagedElement":
-			ParserEngine2.handleEnd(ParserEngine2.STATE.PACKED_ELEMENT);
+		case "UML:Class":
+			ParserEngine.handleEnd(ParserEngine.STATE.ATTRIBUTE);
 			break;
 
-		case "ownedAttribute":
-			ParserEngine2.handleEnd(ParserEngine2.STATE.OWNED_ATTRIBUTE);
+		case "UML:Attribute":
+			ParserEngine.handleEnd(ParserEngine.STATE.LOWER);
 			break;
 		
-		case "uml:Model":
-			ParserEngine2.handleEnd(ParserEngine2.STATE.MODEL);
+		case "UML:Association":
+			ParserEngine.handleEnd(ParserEngine.STATE.ASSOCIATION);
 			break;
 		
 		default:
@@ -159,7 +149,7 @@ public class SAXDtdHandler2 extends DefaultHandler {
 
 		String characters = new String(ch, start, length).trim();
 
-		ParserEngine2.handleCharacters(characters);
+		ParserEngine.handleCharacters(characters);
 	}
 
 	@Override

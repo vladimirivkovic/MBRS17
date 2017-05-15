@@ -26,6 +26,8 @@ public class FMClass extends FMType {
 	private FMClass parent;
 	//TODO Interfejsi
 	
+	private UIClass uIClass;
+	
 	public FMClass(String name, String classPackage, String visibility) {
 		super(name, classPackage);		
 		this.visibility = visibility;
@@ -93,13 +95,17 @@ public class FMClass extends FMType {
 	}
 	
 	public UIClass getUIClass() {
-		for(Stereotype st : stereotypes) {
-			if (st instanceof UIClass) {
-				return (UIClass) st;
-			}
+		return uIClass;
+		
+	}
+	
+	@Override
+	public void addStereotype(Stereotype st) {
+		super.addStereotype(st);
+		if (st instanceof UIClass) {
+			uIClass = (UIClass) st;
 		}
 		
-		return null;
 	}
 	
 }

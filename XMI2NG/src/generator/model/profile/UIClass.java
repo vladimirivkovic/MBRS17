@@ -21,6 +21,10 @@ public class UIClass extends UIElement {
 		this.rowsPerPage = displayNumber;
 	}
 
+	public UIClass(String label, Boolean visible, UIElementType uIType) {
+		super(label, visible, uIType);
+	}
+
 	public Boolean getCreate() {
 		return create;
 	}

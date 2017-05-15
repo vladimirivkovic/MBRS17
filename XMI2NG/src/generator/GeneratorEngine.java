@@ -1,20 +1,20 @@
 package generator;
 
-import freemarker.cache.ClassTemplateLoader;
-import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapper;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import generator.model.FMClass;
-import generator.model.FMNamedElement;
-import generator.model.FMProperty;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import freemarker.cache.ClassTemplateLoader;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import generator.model.FMClass;
+import generator.model.FMEnumeration;
+import generator.model.FMNamedElement;
+import generator.model.FMProperty;
 
 public class GeneratorEngine {
 	private static String[] templates = { "ng-controller.ftl",
@@ -27,12 +27,12 @@ public class GeneratorEngine {
 	
 	@SuppressWarnings("unchecked")
 	static void generate(Map<String, FMNamedElement> elementMap) {
-		Configuration cfg = new Configuration();
+		Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
 
 		cfg.setTemplateLoader(new ClassTemplateLoader(GeneratorEngine.class,
 				"template"));
 
-		cfg.setObjectWrapper(new DefaultObjectWrapper());
+		//cfg.setObjectWrapper(new DefaultObjectWrapper());
 
 		Map<String, Object> model = new HashMap<String, Object>();
 		Map<String, Object> model2 = new HashMap<String, Object>();
@@ -72,6 +72,8 @@ public class GeneratorEngine {
 
 		// name, package, visibility - dummy values
 		FMClass cl = new FMClass("City", "ordering", "public");
+		FMEnumeration en = new FMEnumeration("dummyName", "dummyNamespace");
+		
 		for (FMNamedElement el : elementMap.values()) {
 			if (el instanceof FMClass) {
 				cl = (FMClass) el;
@@ -151,6 +153,33 @@ public class GeneratorEngine {
 				} catch (TemplateException e) {
 					e.printStackTrace();
 				}
+			}
+			else if(el instanceof FMEnumeration){
+				en = (FMEnumeration) el;
+				
+				System.out.println("********GENERATING for " + en.getName());
+
+				model.clear();
+				model.put("enumeration", en);
+				
+				try {
+					Template temp = cfg.getTemplate("enumeration.ftl");
+
+					// Rendering
+					FileWriter fw = new FileWriter(new File("generated/"
+							+ en.getName() + ".cs"));
+					temp.process(model, fw);
+					fw.flush();
+					fw.close();
+				
+				
+				
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (TemplateException e) {
+					e.printStackTrace();
+				}
+				
 			}
 		}
 		

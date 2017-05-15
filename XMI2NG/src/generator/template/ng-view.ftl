@@ -56,7 +56,7 @@
 	
 	<uib-tabset>
 		<#list properties as property>
-		<#if property.tab> 
+		<#if property.tab??> 
     	<uib-tab index="0" heading="${property.name}">Table content</uib-tab>
     	</#if>
 	    </#list>

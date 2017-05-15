@@ -9,7 +9,7 @@ public class Main {
 
 		//if (args.length != 1) {
 
-		filePath = "shema-skracena.xml";
+		filePath = "MBRS_MetaModel.xml";
 
 		// System.out.println("[INFO] No input file, using default \""
 		// + filePath + "\"");

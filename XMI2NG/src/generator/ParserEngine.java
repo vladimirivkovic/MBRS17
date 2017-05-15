@@ -2,9 +2,25 @@ package generator;
 
 import generator.model.FMAssociation;
 import generator.model.FMClass;
+import generator.model.FMEnumeration;
 import generator.model.FMNamedElement;
 import generator.model.FMProperty;
 import generator.model.FMType;
+import generator.model.profile.BusinessOperation;
+import generator.model.profile.Calculated;
+import generator.model.profile.Id;
+import generator.model.profile.Lookup;
+import generator.model.profile.Next;
+import generator.model.profile.NoInsert;
+import generator.model.profile.ReadOnly;
+import generator.model.profile.Tab;
+import generator.model.profile.UIAssociationEnd;
+import generator.model.profile.UIClass;
+import generator.model.profile.UIElement;
+import generator.model.profile.UIElement.UIElementType;
+import generator.model.profile.UIGroup;
+import generator.model.profile.UIProperty;
+import generator.model.profile.Zoom;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +35,8 @@ public class ParserEngine {
 	private static Stack<FMNamedElement> elementStack = new Stack<FMNamedElement>();
 
 	public enum STATE {
-		IDLE, CLASS, ATTRIBUTE, LOWER, LOWERX, UPPER, UPPERX, TYPE, CLASSIFIER, DATATYPE, ASSOCIATION, AEND, NAVIGABLE
+		IDLE, MODEL, PACKED_ELEMENT, CLASS, ASSOCIATION, 
+		OWNED_ATTRIBUTE, TYPE, OWNED_END, MEMBER_END, LOWER, UPPER, STEREOTYPE, OWNED_LITERAL
 	}
 
 	private static STATE current = STATE.IDLE;
@@ -27,136 +44,229 @@ public class ParserEngine {
 	public static Stack<String> keys = new Stack<>();
 
 	public static void handleStart(STATE state, Attributes attributes) {
-		String name = null, id = null, visibility = null;
+		String name = null, visibility = "public", type = null;
+		String xmiId = null, xmiType = null, href = null;
+		String associationId = null;
+		FMNamedElement el;
+		FMAssociation asoc = null;
+		int value = 0;
 
 		switch (state) {
-		case CLASS:
+		case MODEL:
+			current = STATE.PACKED_ELEMENT;
+			break;
+
+		case PACKED_ELEMENT:
 			for (int i = 0; i < attributes.getLength(); i++) {
 				if (attributes.getQName(i).equals("name")) {
 					name = attributes.getValue(i);
-				} else if (attributes.getQName(i).equals("xmi.id")) {
-					id = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("xmi:id")) {
+					xmiId = attributes.getValue(i);
 				} else if (attributes.getQName(i).equals("visibility")) {
 					visibility = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("xmi:type")) {
+					xmiType = attributes.getValue(i);
 				}
 			}
 
-			FMClass c = new FMClass(name, "default", visibility);
-			elementMap.put(id, c);
-			elementStack.push(c);
-			System.out.println("Class " + name);
-			current = STATE.ATTRIBUTE;
+			if (xmiType == null) {
+				current = STATE.IDLE;
+				break;
+			}
+			// System.out.println("X : " + name);
+			if (xmiType.equals("uml:Class")) {
+				if (name == null) {
+					current = STATE.IDLE;
+					break;
+				}
 
-			types.put(id, c);
+				FMClass c = new FMClass(name, "default", visibility);
+				elementMap.put(xmiId, c);
+				elementStack.push(c);
+
+				current = STATE.OWNED_ATTRIBUTE;
+				System.out.println("###################Class : " + name);
+				types.put(xmiId, c);
+
+			} else if (xmiType.equals("uml:Association")) {
+				FMAssociation a = new FMAssociation(name, xmiId);
+				elementMap.put(xmiId, a);
+				elementStack.push(a);
+				System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@Association "
+						+ name);
+				current = STATE.OWNED_END;
+			} else if (xmiType.equals("uml:Enumeration")) {
+				if (name == null) {
+					current = STATE.IDLE;
+					break;
+				}
+
+				FMEnumeration e = new FMEnumeration(name, "default");
+				elementMap.put(xmiId, e);
+				elementStack.push(e);
+
+				current = STATE.OWNED_LITERAL;
+				System.out.println("###################Enumeration : " + name);
+				types.put(xmiId, e);
+			} else {
+				current = STATE.IDLE;
+			}
 
 			break;
 
-		case DATATYPE:
+		case OWNED_ATTRIBUTE:
+			// System.out.println(current);
+			if (current != STATE.OWNED_ATTRIBUTE)
+				break;
 
 			for (int i = 0; i < attributes.getLength(); i++) {
 				if (attributes.getQName(i).equals("name")) {
 					name = attributes.getValue(i);
-				} else if (attributes.getQName(i).equals("xmi.id")) {
-					id = attributes.getValue(i);
-				}
-			}
-
-			types.put(id, new FMType(name, ""));
-
-			break;
-
-		case ATTRIBUTE:
-
-			for (int i = 0; i < attributes.getLength(); i++) {
-				if (attributes.getQName(i).equals("name")) {
-					name = attributes.getValue(i);
-				} else if (attributes.getQName(i).equals("xmi.id")) {
-					id = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("xmi:id")) {
+					xmiId = attributes.getValue(i);
 				} else if (attributes.getQName(i).equals("visibility")) {
 					visibility = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("type")) {
+					type = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("association")) {
+					associationId = attributes.getValue(i);
 				}
+
 			}
-			//System.out.println("Attribute " + name);
-			FMProperty p = new FMProperty(name, null, visibility, 0, 1);
+
+			System.out.println("Attribute " + name);
+			FMProperty p = new FMProperty(name, type, visibility, 0, 1,
+					associationId);
 			((FMClass) elementStack.peek()).addProperty(p);
-			elementMap.put(id, p);
+			elementMap.put(xmiId, p);
 			elementStack.push(p);
 
 			// current = STATE.LOWER;
 			break;
 
-		case LOWER:
-			if (current == STATE.ATTRIBUTE || current == STATE.AEND) {
-				// waiting for lower value element
-				current = STATE.LOWERX;
+		case OWNED_LITERAL:
+			// System.out.println(current);
+			if (current != STATE.OWNED_LITERAL)
+				break;
+
+			for (int i = 0; i < attributes.getLength(); i++) {
+				if (attributes.getQName(i).equals("name")) {
+					name = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("xmi:id")) {
+					xmiId = attributes.getValue(i);
+				}  else if (attributes.getQName(i).equals("type")) {
+					type = attributes.getValue(i);
+				} 
+
 			}
+
+			System.out.println("Literal " + name);
+			
+			((FMEnumeration) elementStack.peek()).addLiteral(name);
+
+			break;
+
+			
+		case LOWER:
+			if (current != STATE.OWNED_ATTRIBUTE)
+				break;
+
+			el = elementStack.peek();
+
+			for (int i = 0; i < attributes.getLength(); i++) {
+				if (attributes.getQName(i).equals("value")) {
+					value = Integer.parseInt(attributes.getValue(i));
+				}
+			}
+
+			if (el instanceof FMProperty) {
+				((FMProperty) el).setLower(value);
+			} else if (el instanceof FMAssociation) {
+				asoc = (FMAssociation) el;
+
+				if (asoc.getSecondEnd() == null) {
+					asoc.getFirstEnd().setLower(value);
+				} else {
+					asoc.getSecondEnd().setLower(value);
+				}
+			}
+			System.out.println("lower : " + value);
+			// current = STATE.UPPER;
 			break;
 
 		case UPPER:
-			if (current == STATE.UPPER) {
-				// waiting for upper value element
-				current = STATE.UPPERX;
+			if (current != STATE.OWNED_ATTRIBUTE && current != STATE.OWNED_END)
+				break;
+
+			el = elementStack.peek();
+			for (int i = 0; i < attributes.getLength(); i++) {
+				if (attributes.getQName(i).equals("value")) {
+					try {
+						value = Integer.parseInt(attributes.getValue(i));
+					} catch (NumberFormatException nfe) {
+						if ("*".equals(attributes.getValue(i))) {
+							value = -1;
+						}
+					}
+				}
 			}
+
+			if (el instanceof FMProperty) {
+				((FMProperty) el).setUpper(value);
+				// current = STATE.OWNED_ATTRIBUTE;
+			} else if (el instanceof FMAssociation) {
+				asoc = (FMAssociation) el;
+
+				if (asoc.getSecondEnd() == null) {
+					asoc.getFirstEnd().setUpper(value);
+				} else {
+					asoc.getSecondEnd().setUpper(value);
+				}
+				current = STATE.OWNED_END;
+			}
+			System.out.println("upper : " + value);
 			break;
 
 		case TYPE:
-			// waiting for classifier element
-			current = STATE.CLASSIFIER;
-			break;
+			if (current != STATE.OWNED_ATTRIBUTE)
+				break;
 
-		case CLASSIFIER:
-			if (current == STATE.CLASSIFIER) {
-				FMNamedElement e = elementStack.peek();
-				String value = "";
-
-				for (int i = 0; i < attributes.getLength(); i++) {
-					if (attributes.getQName(i).equals("xmi.idref")) {
-						value = attributes.getValue(i);
-					}
-				}
-				
-				if (e instanceof FMProperty) {
-					((FMProperty) e).setType(value);
-					current = STATE.ATTRIBUTE;
-				} else if (e instanceof FMAssociation) {
-					FMAssociation aso = (FMAssociation) e;
-					
-					if (aso.getSecondEnd() == null) {
-						aso.getFirstEnd().setType(value);
-					} else {
-						aso.getSecondEnd().setType(value);
-					}
-					current = STATE.AEND;
-				}
-			}
-			break;
-
-		case ASSOCIATION:
 			for (int i = 0; i < attributes.getLength(); i++) {
-				if (attributes.getQName(i).equals("name")) {
-					name = attributes.getValue(i);
-				} else if (attributes.getQName(i).equals("xmi.id")) {
-					id = attributes.getValue(i);
-				} else if (attributes.getQName(i).equals("visibility")) {
-					visibility = attributes.getValue(i);
+				if (attributes.getQName(i).equals("referentPath")) {
+					href = attributes.getValue(i);
 				}
 			}
-
-			FMAssociation a = new FMAssociation(name, null);
-			elementMap.put(id, a);
-			elementStack.push(a);
-			System.out.println("Association " + name);
-			current = STATE.AEND;
+			String[] words = href.split("::");
+			// System.out.println("Type: " + type);
+			((FMProperty) elementStack.peek()).setType(words[words.length - 1]);
 
 			break;
+		
+//		case MEMBER_END:
+//
+//			if (current != STATE.OWNED_END)
+//				break;
+//			
+//			for (int i = 0; i < attributes.getLength(); i++) {
+//				if (attributes.getQName(i).equals("xmi:idref")) {
+//					name = attributes.getValue(i);
+//				}
+//			}
+//			
+//			FMAssociation as = (FMAssociation) elementStack.peek();
 
-		case AEND:
+		case OWNED_END:
+
+			if (current != STATE.OWNED_END)
+				break;
 
 			for (int i = 0; i < attributes.getLength(); i++) {
 				if (attributes.getQName(i).equals("name")) {
 					name = attributes.getValue(i);
-				} else if (attributes.getQName(i).equals("xmi.id")) {
-					id = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("xmi:id")) {
+					xmiId = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("type")) {
+					type = attributes.getValue(i);
 				} else if (attributes.getQName(i).equals("visibility")) {
 					visibility = attributes.getValue(i);
 				}
@@ -164,132 +274,276 @@ public class ParserEngine {
 
 			FMAssociation as = (FMAssociation) elementStack.peek();
 			
+			FMProperty endProperty = new FMProperty(name == null ?
+					elementMap.get(type).getName() : name, type, visibility, 0, 1,
+					associationId);
+			elementMap.put(xmiId, endProperty);
+
 			if (as.getFirstEnd() == null) {
 				// System.out.println("first end");
-				as.setFirstEnd(new FMProperty(name, null, visibility, 0, 0));
+				as.setFirstEnd(endProperty);
 			} else {
 				// System.out.println("second end");
-				as.setSecondEnd(new FMProperty(name, null, visibility, 0, 0));
+				as.setSecondEnd(endProperty);
 			}
 
 			// current = STATE.TYPE;
 			break;
-		
-		case NAVIGABLE:
-			if (current == STATE.AEND) {
-				FMNamedElement e = elementStack.peek();
-				String value = "";
 
-				for (int i = 0; i < attributes.getLength(); i++) {
-					if (attributes.getQName(i).equals("xmi.value")) {
-						value = attributes.getValue(i);
-					}
-				}
-				
-				if (e instanceof FMAssociation) {
-					FMAssociation aso = (FMAssociation) e;
-					
-					if (aso.getSecondEnd() == null) {
-						aso.setFirstNavigable(value.equals("true"));
-						//System.out.println("first navigable " + value);
-					} else {
-						aso.setSecondNavigable(value.equals("true"));
-						//System.out.println("second navigable " + value);
-					}
-				}
-			}
+		case STEREOTYPE:
+
 			break;
+
 		default:
 			break;
 		}
 
-	}
-
-	public static void handleCharacters(String characters) {
-		FMNamedElement el;
-		FMAssociation asoc = null;
-		int value;
-
-		switch (current) {
-		case UPPERX:
-			el = elementStack.peek();
-			value = Integer.parseInt(characters);
-			
-			if (el instanceof FMProperty) {
-				((FMProperty) el).setUpper(value);
-				current = STATE.ATTRIBUTE;
-			} else if (el instanceof FMAssociation) {
-				asoc = (FMAssociation) el;
-				
-				if (asoc.getSecondEnd() == null) {
-					asoc.getFirstEnd().setUpper(value);
-				} else {
-					asoc.getSecondEnd().setUpper(value);
-				}
-				current = STATE.AEND;
-			}
-
-			break;
-
-		case LOWERX:
-			el = elementStack.peek();
-			value = Integer.parseInt(characters);
-			
-			if (el instanceof FMProperty) {
-				((FMProperty) el).setLower(value);
-			} else if (el instanceof FMAssociation) {
-				asoc = (FMAssociation) el;
-				
-				if (asoc.getSecondEnd() == null) {
-					asoc.getFirstEnd().setLower(value);
-				} else {
-					asoc.getSecondEnd().setLower(value);
-				}
-			}
-			
-			current = STATE.UPPER;
-			break;
-
-		default:
-			// if (!"".equals(characters))System.out.println(characters);
-			break;
-		}
 	}
 
 	public static void handleEnd(STATE state) {
-		FMNamedElement e = elementStack.pop();
-		//current = STATE.CLASS;
+		switch (state) {
+		case MODEL:
+			// add names for noname attributes
+			for (FMNamedElement el : elementMap.values()) {
+				if (el instanceof FMProperty) {
+					FMProperty p = (FMProperty) el;
+					
+					if (p.getName() == null) {
+						p.setName(p.getType());
+					}
+				}
+			}
+			
+			break;
+		case PACKED_ELEMENT:
+			if (current == STATE.IDLE) {
+				break;
+			}
 
-		if (e instanceof FMAssociation) {
-			FMAssociation a = (FMAssociation) e;
-			FMProperty end1 = a.getFirstEnd();
-			FMProperty end2 = a.getSecondEnd();
+			FMNamedElement e = elementStack.pop();
 
-			String type1 = end1.getTypeId();
-			String type2 = end2.getTypeId();
+			if (e instanceof FMAssociation) {
+				FMAssociation a = (FMAssociation) e;
 
-			FMClass c1 = (FMClass) types.get(type1);
-			FMClass c2 = (FMClass) types.get(type2);
+				// connect second end
+				if (a.getFirstEnd() != null && a.getSecondEnd() == null) {
+					FMClass firstEndClass = (FMClass) elementMap.get(a
+							.getFirstEnd().getTypeId());
 
-			if (a.isSecondNavigable())
-				c2.addProperty(new FMProperty(a.getName(), end1.getTypeId(), end1
-					.getVisibility(), end1.getLower(), end1.getUpper()));
-		
-			if (a.isFirstNavigable())
-				c1.addProperty(new FMProperty(a.getName(), end2.getTypeId(), end2
-					.getVisibility(), end2.getLower(), end2.getUpper()));
+					for (FMProperty prop : firstEndClass.getProperties()) {
+						if (a.getId().equals(prop.getAssociationId())) {
+							FMClass secondEndClass = (FMClass) elementMap
+									.get(prop.getTypeId());
+							
+							a.getFirstEnd().setUpper(prop.getUpper() == -1 ? 1 : -1);
+
+							secondEndClass.addProperty(a.getFirstEnd());
+
+							System.out.println(firstEndClass.getName()
+									+ " added in " + secondEndClass.getName());
+							current = STATE.IDLE;
+							break;
+						}
+					}
+
+				}
+			}
+
+			current = STATE.IDLE;
+
+			break;
+
+		case OWNED_ATTRIBUTE:
+			if (current == STATE.OWNED_ATTRIBUTE) {
+				elementStack.pop();
+			}
+			break;
+
+		default:
+			break;
 		}
 	}
 
 	public static String getType(String typeId) {
-		return types.get(typeId).getName();
+		if (types.containsKey(typeId))
+			return types.get(typeId).getName();
+		else
+			return typeId;
 	}
-	
+
 	public static boolean isPrimitive(String typeId) {
 		return !(types.get(typeId) instanceof FMClass);
 	}
-	
+
 	public static Map<String, FMNamedElement> getElementMap() {
 		return elementMap;
+	}
+
+	public static void handleCharacters(String characters) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public static void handleStereotype(String qName, Attributes attributes) {
+		String baseClass = null, baseProperty = null,
+				baseElement = null, baseOperation = null;
+		
+		for (int i = 0; i < attributes.getLength(); i++) {
+			if (attributes.getQName(i).equals("base_Class")) {
+				baseClass = attributes.getValue(i);
+			} else if (attributes.getQName(i).equals("base_Property")) {
+				baseProperty = attributes.getValue(i);
+			} else if (attributes.getQName(i).equals("base_Element")) {
+				baseElement = attributes.getValue(i);
+			} else if (attributes.getQName(i).equals("base_Operation")) {
+				baseOperation = attributes.getValue(i);
+			}
+		}
+		
+		String label = null;
+		Boolean visible = null;
+		UIElementType uIElementType = null;
+		
+		for (int i = 0; i < attributes.getLength(); i++) {
+			if (attributes.getQName(i).equals("label")) {
+				label = attributes.getValue(i);
+				
+			} else if(attributes.getQName(i).equals("visible")) {
+				visible = "true".equals(attributes.getValue(i));
+				
+			} else if(attributes.getQName(i).equals("component")) {
+				uIElementType = UIElementType.valueOf(attributes.getValue(i));
+				
+			}
+			
+		}		
+		
+		//System.out.println(qName);
+		
+		switch (qName) {
+		case "_:UIElement":
+			if (elementMap.containsKey(baseElement)) {
+				UIElement e = new UIElement(label, visible, uIElementType);
+				
+						
+				elementMap.get(baseElement).addStereotype(e);
+				
+			}
+			break;
+		case "_:UIClass":
+			UIClass c = new UIClass(label, visible, uIElementType);
+			for (int i = 0; i < attributes.getLength(); i++) {
+				if (attributes.getQName(i).equals("create")) {
+					c.setCreate("true".equals(attributes.getValue(i)));
+					
+				} else if (attributes.getQName(i).equals("update")) {
+					c.setUpdate("true".equals(attributes.getValue(i)));
+					
+				} else if (attributes.getQName(i).equals("delete")) {
+					c.setDelete("true".equals(attributes.getValue(i)));
+					
+				} else if (attributes.getQName(i).equals("copy")) {
+					c.setCopy("true".equals(attributes.getValue(i)));
+					
+				} else if (attributes.getQName(i).equals("rowsPerPage")) {
+					c.setRowsPerPage(Integer.parseInt(attributes.getValue(i)));
+					
+				}
+			}
+			//System.out.println("UICLASS na " + elementMap.get(baseClass).getName());
+			elementMap.get(baseClass).addStereotype(c);
+			break;
+		case "_:UIProperty":
+			if (elementMap.containsKey(baseProperty)) {
+				UIProperty p = new UIProperty(label, visible, uIElementType);
+				
+				for (int i = 0; i < attributes.getLength(); i++) {
+					if (attributes.getQName(i).equals("showColumn")) {
+						p.setShowColumn("true".equals(attributes.getValue(i)));
+						
+					} else if(attributes.getQName(i).equals("toolTip")) {
+						p.setToolTip(attributes.getValue(i));
+						
+					} else if(attributes.getQName(i).equals("copyable")) {
+						p.setCopyable("true".equals(attributes.getValue(i)));
+						
+					} else if(attributes.getQName(i).equals("searchable")) {
+						p.setSearchable("true".equals(attributes.getValue(i)));
+						
+					} else if(attributes.getQName(i).equals("required")) {
+						p.setRequired("true".equals(attributes.getValue(i)));
+						
+					} else if(attributes.getQName(i).equals("unique")) {
+						p.setUnique("true".equals(attributes.getValue(i)));
+						
+					}
+							
+				}
+				elementMap.get(baseProperty).addStereotype(p);
+			}
+			break;
+		case "_:UIAssociationEnd":
+			elementMap.get(baseProperty).addStereotype(new UIAssociationEnd(label, visible, uIElementType));
+			break;
+		case "_:Lookup":
+			elementMap.get(baseProperty).addStereotype(new Lookup(label, visible, uIElementType));
+			break;
+		case "_:ReadOnly":
+			elementMap.get(baseProperty).addStereotype(new ReadOnly(label, visible, uIElementType));
+			break;
+		case "_:NoInsert":
+			elementMap.get(baseProperty).addStereotype(new NoInsert(label, visible, uIElementType));
+			break;
+		case "_:Calculated":
+			if (elementMap.containsKey(baseProperty)) {
+				Calculated cal = new Calculated(label, visible, uIElementType);
+				
+				for (int i = 0; i < attributes.getLength(); i++) {
+					if (attributes.getQName(i).equals("showColumn")) {
+						cal.setFormula(attributes.getValue(i));
+						
+					}
+							
+				}
+				elementMap.get(baseProperty).addStereotype(cal); //TODO: sta sa nasledjenim attr?
+			}
+			break;
+		case "_:Id":
+			elementMap.get(baseProperty).addStereotype(new Id(label, visible, uIElementType));
+			break;
+		case "_:Zoom":
+			elementMap.get(baseProperty).addStereotype(new Zoom(label, visible, uIElementType));
+			break;
+		case "_:Next":
+			elementMap.get(baseProperty).addStereotype(new Next(label, visible, uIElementType));
+			break;
+		case "_:Tab":
+			Tab t = new Tab(label, visible, uIElementType);
+			for (int i = 0; i < attributes.getLength(); i++) {
+				if (attributes.getQName(i).equals("dependant")) {
+					t.setDependant("true".equals(attributes.getValue(i)));
+				}
+			}
+			//System.out.println("tab na " + elementMap.get(baseProperty).getName());
+			elementMap.get(baseProperty).addStereotype(t);
+			break;
+		case "_:UIGroup":
+			elementMap.get(baseProperty).addStereotype(new UIGroup());
+			break;
+			
+		case "_:BusinessOperation":
+			elementMap.get(baseOperation).addStereotype(new BusinessOperation());
+			break;
+		case "_:Report":
+			elementMap.get(baseOperation).addStereotype(new BusinessOperation());
+			break;
+		case "_:Transaction":
+			elementMap.get(baseOperation).addStereotype(new BusinessOperation());
+			break;
+
+		default:
+			break;
+		}
+
 	}
 }
