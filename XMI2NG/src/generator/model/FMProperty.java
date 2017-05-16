@@ -12,6 +12,7 @@ import generator.model.profile.NoInsert;
 import generator.model.profile.ReadOnly;
 import generator.model.profile.Stereotype;
 import generator.model.profile.Tab;
+import generator.model.profile.UIElement;
 import generator.model.profile.UIProperty;
 import generator.model.profile.Zoom;
 
@@ -33,12 +34,14 @@ public class FMProperty extends FMNamedElement  {
 	private Calculated calculated;
 	private Tab tab;
 	
+	private UIProperty uIProperty = new UIProperty();
+	
 	//anotacije
 	private List<FMAnnotation> annotations = new ArrayList<FMAnnotation>();
 	
 	private String associationId = null;
 
-	private UIProperty uIProperty;
+
 	
 	public FMProperty(String name, String type, 
 			String visibility, int lower, int upper) {
@@ -162,34 +165,98 @@ public class FMProperty extends FMNamedElement  {
 	public void addStereotype(Stereotype st) {
 		super.addStereotype(st);
 		
+		
 		if (st instanceof Id) {
 			id = (Id) st;
+			setUIElementAttributes((UIElement) id);
+			setUIPropertyAttributes((UIProperty) id);
+
 			
 		} else if(st instanceof Lookup) {
 			lookup = (Lookup) st;
+			setUIElementAttributes((UIElement) lookup);
+			setUIPropertyAttributes((UIProperty) lookup);
+
 			
 		} else if(st instanceof ReadOnly) {
 			readOnly = (ReadOnly) st;
+			setUIElementAttributes((UIElement) readOnly);
+			setUIPropertyAttributes((UIProperty) readOnly);
 			
 		} else if(st instanceof NoInsert) {
 			noInsert = (NoInsert) st;
+			setUIElementAttributes((UIElement) noInsert);
+			setUIPropertyAttributes((UIProperty) noInsert);
 			
 		} else if(st instanceof Next) {
 			next = (Next) st;
+			setUIElementAttributes((UIElement) next);
 			
 		} else if(st instanceof Zoom) {
 			zoom = (Zoom) st;
+			setUIElementAttributes((UIElement) zoom);
 			
 		} else if(st instanceof Calculated) {
 			calculated = (Calculated) st;
+			setUIElementAttributes((UIElement) calculated);
+			setUIPropertyAttributes((UIProperty) calculated);
 			
 		} else if(st instanceof Tab) {
 			tab = (Tab) st;
+			setUIElementAttributes((UIElement) tab);
 			
 		} else if(st instanceof UIProperty) {
-			uIProperty = (UIProperty) st;
-						
+			UIProperty uip = (UIProperty) st;
+			setUIElementAttributes((UIElement) uip);
+			setUIPropertyAttributes(uip);
+			
 		}
 		
+	}
+	
+	private void setUIElementAttributes(UIElement uie){
+		if(this.uIProperty.getVisible() && !uie.getVisible()){	//menja u slucaju da ga niko nije postavio na false...
+			this.uIProperty.setRequired(false);
+		}
+		
+		if(this.uIProperty.getLabel().equals("") && !uie.getLabel().equals("")){ //menja label u slucaju da ga niko nije postavio na razlicito od ""
+			this.uIProperty.setLabel(uie.getLabel());
+			
+		}
+		
+		//TODO: implementirati za component!
+		
+	}
+	
+	private void setUIPropertyAttributes(UIProperty uip){
+		if(!this.uIProperty.getShowColumn() && uip.getShowColumn()){ //menja showColumn ako ga niko nije postavio na true
+			this.uIProperty.setShowColumn(true);
+			
+		}
+		
+		if(!this.uIProperty.getToolTip().equals("") && !uip.getToolTip().equals("")){
+			this.uIProperty.setToolTip(uip.getToolTip());
+			
+		}
+		
+		if(!this.uIProperty.getCopyable() && uip.getCopyable()){  //menja u slucaju da ga niko nije postavio na true...
+			this.uIProperty.setCopyable(true);
+			
+		}
+		
+		if(!this.uIProperty.getSearchable() && uip.getSearchable()){ //menja u slucaju da ga niko nije postavio na true...
+			this.uIProperty.setSearchable(true);
+			
+		}
+		
+		if(!this.uIProperty.getRequired() && uip.getRequired()){ //menja u slucaju da ga niko nije postavio na true...
+			this.uIProperty.setRequired(true);
+			
+		}
+		
+		if(!this.uIProperty.getUnique() && uip.getUnique()){ //menja u slucaju da ga niko nije postavio na true...
+			this.uIProperty.setUnique(true);
+			
+		}
 	}
 }

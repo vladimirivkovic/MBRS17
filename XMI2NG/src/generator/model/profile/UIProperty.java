@@ -1,12 +1,12 @@
 package generator.model.profile;
 
 public class UIProperty extends UIElement {
-	protected Boolean showColumn;
-	protected String toolTip;
-	protected Boolean copyable;
-	protected Boolean searchable;
-	protected Boolean required;
-	protected Boolean unique;
+	protected Boolean showColumn = false;
+	protected String toolTip = "";
+	protected Boolean copyable = false;
+	protected Boolean searchable = false;
+	protected Boolean required = false;
+	protected Boolean unique = false;
 	
 	public UIProperty() {
 		// TODO Auto-generated constructor stub
@@ -33,7 +33,8 @@ public class UIProperty extends UIElement {
 	}
 
 	public void setShowColumn(Boolean showColumn) {
-		this.showColumn = showColumn;
+		if(!this.showColumn)
+			this.showColumn = showColumn;
 	}
 
 	public String getToolTip() {
@@ -41,7 +42,8 @@ public class UIProperty extends UIElement {
 	}
 
 	public void setToolTip(String toolTip) {
-		this.toolTip = toolTip;
+		if(!this.toolTip.equals(""))
+			this.toolTip = toolTip;
 	}
 
 	public Boolean getCopyable() {
