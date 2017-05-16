@@ -86,6 +86,22 @@ public class GeneratorEngine {
 			}
 		}
 
+		File fcontroller = new File("generated/controller");
+
+		if (!fcontroller.exists()) {
+			System.out.println("creating directory: " + fcontroller.getName());
+			boolean result = false;
+
+			try {
+				fcontroller.mkdir();
+				result = true;
+			} catch (SecurityException se) {
+			}
+			if (result) {
+				System.out.println("DIR created");
+			}
+		}
+		
 		// name, package, visibility - dummy values
 		FMClass cl = new FMClass("City", "ordering", "public");
 		FMEnumeration en = new FMEnumeration("dummyName", "dummyNamespace");
@@ -113,6 +129,18 @@ public class GeneratorEngine {
 					temp.process(model, fw);
 					fw.flush();
 					fw.close();
+					
+					
+					
+					temp = cfg.getTemplate("controller.ftl");
+
+					// Rendering
+					fw = new FileWriter(new File("generated/controller/"
+							+ cl.getName() + "Controller.cs"));
+					temp.process(model, fw);
+					fw.flush();
+					fw.close();
+					
 
 					/**
 					 * New folder for each class in AngularJS app structure

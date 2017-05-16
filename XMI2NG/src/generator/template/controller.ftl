@@ -1,42 +1,59 @@
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Description;
+using WebApplication1.Models;
 
-namespace ${class.namespace} {
-	${class.visibility} class ${class.name}Controller : ApiController {  
-		private ApplicationDBContext db = new ApplicationDBContext();
-		
-		// GET: api/${class.name}s
-        public async Task<IHttpActionResult> Get${class.name}s()
+namespace WebApplication1.Controllers
+{
+    public class ${class.name}Controller : ApiController
+    {
+        private AppDBContext db = new AppDBContext();
+
+        // GET: api/${class.name}
+        public IQueryable<${class.name}> Get${class.name}()
         {
-        	return Ok(db.${class.name}s);
-		}
-		
-		// GET: api/${class.name}/5
+            return db.${class.name};
+        }
+
+        // GET: api/${class.name}/5
         [ResponseType(typeof(${class.name}))]
-        public async Task<IHttpActionResult> Get${class.name}(int id)
+        public IHttpActionResult Get${class.name}(int id)
         {
-            ${class.name} e = await db.${class.name}.SingleOrDefaultAsync(t => t.${class.name}ID == id);
-            if (e == null)
+            ${class.name} ${class.name?lower_case} = db. ${class.name}.Find(id);
+            if (${class.name?lower_case} == null)
             {
                 return NotFound();
             }
 
-            return Ok(e);
-		}
-		
-		// PUT: api/${class.name}s/5
-		[ResponseType(typeof(void))]
-		public async Task<IHttpActionResult> Put${class.name}(int id, ${class.name} e)
-		{
-			if (!ModelState.IsValid)
+            return Ok(${class.name?lower_case});
+        }
+
+        // PUT: api/${class.name}/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult Put${class.name}(int id,  ${class.name} ${class.name?lower_case})
+        {
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-			}
-			
-			db.Entry(e).State = EntityState.Modified;
+            }
+
+            if (id != ${class.name?lower_case}.Id)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(${class.name?lower_case}).State = EntityState.Modified;
 
             try
             {
-                await db.SaveChangesAsync();
+                db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -50,41 +67,41 @@ namespace ${class.namespace} {
                 }
             }
 
-			return Ok(e);
-		}
-		
-		// POST: api/${class.name}s
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        // POST: api/${class.name}
         [ResponseType(typeof(${class.name}))]
-        public async Task<IHttpActionResult> Post${class.name}(${class.name} e)
+        public IHttpActionResult Post${class.name}(${class.name} ${class.name?lower_case})
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.${class.name}s.Add(e);
-            await db.SaveChangesAsync();
+            db.${class.name}.Add(${class.name?lower_case});
+            db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = e.${class.name}ID }, e);
-		}
-		
-		// DELETE: api/${class.name}s/5
+            return CreatedAtRoute("DefaultApi", new { id = ${class.name?lower_case}.Id }, ${class.name?lower_case});
+        }
+
+        // DELETE: api/${class.name}/5
         [ResponseType(typeof(${class.name}))]
-        public async Task<IHttpActionResult> Delete${class.name}(int id)
+        public IHttpActionResult Delete${class.name}(int id)
         {
-            ${class.name} e = await db.${class.name}s.FindAsync(id);
-            if (e == null)
+            ${class.name} ${class.name?lower_case} = db.${class.name}.Find(id);
+            if (${class.name?lower_case} == null)
             {
                 return NotFound();
             }
 
-            db.Projects.Remove(e);
-            await db.SaveChangesAsync();
+            db.${class.name}.Remove(${class.name?lower_case});
+            db.SaveChanges();
 
-            return Ok(e);
-		}
-		
-		protected override void Dispose(bool disposing)
+            return Ok(${class.name?lower_case});
+        }
+
+        protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
@@ -92,12 +109,10 @@ namespace ${class.namespace} {
             }
             base.Dispose(disposing);
         }
-		
-		
-		private bool ${class.name}Exists(int id)
-        {
-            return db.${class.name}s.Count(e => e.${class.name}ID == id) > 0;
-		}
 
-	}
+        private bool ${class.name}Exists(int id)
+        {
+            return db.${class.name}.Count(e => e.Id == id) > 0;
+        }
+    }
 }
