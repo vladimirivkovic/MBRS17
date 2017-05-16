@@ -168,7 +168,7 @@ public class ParserEngine {
 
 			
 		case LOWER:
-			if (current != STATE.OWNED_ATTRIBUTE)
+			if (current != STATE.OWNED_ATTRIBUTE && current != STATE.OWNED_END)
 				break;
 
 			el = elementStack.peek();
