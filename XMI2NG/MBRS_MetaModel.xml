@@ -1291,7 +1291,7 @@
 				</type>
 			</ownedAttribute>
 			<ownedAttribute xmi:type='uml:Property' xmi:id='_18_5_125803ba_1493371056600_680859_5945' name='Vrsta prometa' visibility='private' type='_18_5_125803ba_1493371163378_100657_5948'/>
-			<ownedAttribute xmi:type='uml:Property' xmi:id='_18_5_125803ba_1493371705773_431945_6061' name='Smer' visibility='private' type='_18_5_125803ba_1493371761151_207614_6067'/>
+			<ownedAttribute xmi:type='uml:Property' xmi:id='_18_5_125803ba_1493371705773_431945_6061' name='Smer prometa' visibility='private' type='_18_5_125803ba_1493371761151_207614_6067'/>
 			<ownedAttribute xmi:type='uml:Property' xmi:id='_18_5_125803ba_1493371855987_588199_6106' name='Kolicina' visibility='private'>
 				<type href='UML_Standard_Profile.mdzip#eee_1045467100323_848034_66'>
 					<xmi:Extension extender='MagicDraw UML 18.5'>
@@ -1360,9 +1360,9 @@
 			<ownedLiteral xmi:type='uml:EnumerationLiteral' xmi:id='_18_5_125803ba_1493371405405_500934_6024' name='S'/>
 		</packagedElement>
 		<packagedElement xmi:type='uml:Enumeration' xmi:id='_18_5_125803ba_1493371469843_803388_6027' name='TipPoslovnogPartnera'>
-			<ownedLiteral xmi:type='uml:EnumerationLiteral' xmi:id='_18_5_125803ba_1493371484105_270006_6050' name='Kupac'/>
-			<ownedLiteral xmi:type='uml:EnumerationLiteral' xmi:id='_18_5_125803ba_1493371492050_951660_6052' name='Dobavljac'/>
-			<ownedLiteral xmi:type='uml:EnumerationLiteral' xmi:id='_18_5_125803ba_1493371500887_448454_6054' name='Kupac i dobavljac'/>
+			<ownedLiteral xmi:type='uml:EnumerationLiteral' xmi:id='_18_5_125803ba_1493371484105_270006_6050' name='KUPAC'/>
+			<ownedLiteral xmi:type='uml:EnumerationLiteral' xmi:id='_18_5_125803ba_1493371492050_951660_6052' name='DOBAVLJAC'/>
+			<ownedLiteral xmi:type='uml:EnumerationLiteral' xmi:id='_18_5_125803ba_1493371500887_448454_6054' name='KUPAC_I_DOBAVLJAC'/>
 		</packagedElement>
 		<packagedElement xmi:type='uml:Enumeration' xmi:id='_18_5_125803ba_1493371761151_207614_6067' name='Smer'>
 			<ownedLiteral xmi:type='uml:EnumerationLiteral' xmi:id='_18_5_125803ba_1493371783154_354339_6090' name='U'/>

@@ -69,6 +69,22 @@ public class GeneratorEngine {
 				System.out.println("DIR created");
 			}
 		}
+		
+		File fmodel = new File("generated/model");
+
+		if (!fmodel.exists()) {
+			System.out.println("creating directory: " + fmodel.getName());
+			boolean result = false;
+
+			try {
+				fmodel.mkdir();
+				result = true;
+			} catch (SecurityException se) {
+			}
+			if (result) {
+				System.out.println("DIR created");
+			}
+		}
 
 		// name, package, visibility - dummy values
 		FMClass cl = new FMClass("City", "ordering", "public");
@@ -92,7 +108,7 @@ public class GeneratorEngine {
 					Template temp = cfg.getTemplate("model.ftl");
 
 					// Rendering
-					FileWriter fw = new FileWriter(new File("generated/"
+					FileWriter fw = new FileWriter(new File("generated/model/"
 							+ cl.getName() + ".cs"));
 					temp.process(model, fw);
 					fw.flush();
@@ -166,7 +182,7 @@ public class GeneratorEngine {
 					Template temp = cfg.getTemplate("enumeration.ftl");
 
 					// Rendering
-					FileWriter fw = new FileWriter(new File("generated/"
+					FileWriter fw = new FileWriter(new File("generated/model/"
 							+ en.getName() + ".cs"));
 					temp.process(model, fw);
 					fw.flush();
@@ -189,6 +205,12 @@ public class GeneratorEngine {
 		try {
 			Template temp = cfg.getTemplate("ng-app.ftl");
 			FileWriter fw = new FileWriter(new File("generated/app/app.js"));
+			temp.process(model2, fw);
+			fw.flush();
+			fw.close();
+			
+			temp = cfg.getTemplate("appDBContext.ftl");
+			fw = new FileWriter(new File("generated/model/AppDBContext.cs"));
 			temp.process(model2, fw);
 			fw.flush();
 			fw.close();

@@ -1,11 +1,12 @@
 using System;
 
-package ${enumeration.namespace};
-
-enum ${enumeration.name}
+namespace WebApplication1.Models
 {
-	<#list enumeration.literals as literal>
-		${literal}<#sep>,
-	</#list>
+	public enum ${enumeration.name}
+	{
+		<#list enumeration.literals as literal>
+			${literal}<#sep>,
+		</#list>
 	
-};
+	};
+}
