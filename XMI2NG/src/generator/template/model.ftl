@@ -15,6 +15,10 @@ namespace WebApplication1.Models
 		[${annotation.name}<#if (annotation.size > 0)>(<#list annotation.parameters as parameter>${parameter.type} = ${parameter.name}</#list>)</#if>]
 		</#list>
 		<#if property.upper == 1 >
+			<#if property.type == "String">
+		[Column(TypeName = "VARCHAR")]
+		[StringLength(128)]
+			</#if>	
 			<#if property.id?? >
 		[Key]
 			</#if>
@@ -42,10 +46,10 @@ namespace WebApplication1.Models
 	    public int ${property.type}_ID { get; set; }
 	    
 	    [ForeignKey("${property.type}_ID")]
-	    public virtual ${property.type} ${property.name} { get; set; }
+	    public ${property.type} ${property.name} { get; set; }
 			</#if>
 	    <#elseif property.upper == -1 > 
-	    public ICollection<${property.type}> ${property.name} { get; set; }
+	    public ICollection<${property.type}> Kolekcija_${property.name} { get; set; }
 	    <#else>   
 	    	<#list 1..property.upper as i>
 	    public ${property.type} ${property.name}${i} { get; set; }
