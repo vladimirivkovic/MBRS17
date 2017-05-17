@@ -19,6 +19,8 @@
             if (index != $scope.selectedIndex) {
                 $scope.selected = $scope.${class.lowerName}s[index];
                 $scope.selectedIndex = index;
+                
+                // retrieve data for tabs
             } else {
                 $scope.unselect();
             }

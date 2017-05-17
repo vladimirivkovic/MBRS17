@@ -660,4 +660,11 @@ public class ParserEngine {
 		}
 
 	}
+
+	public static FMClass getClass(String typeId) {
+		if (types.containsKey(typeId))
+			if (types.get(typeId) instanceof FMClass)
+				return (FMClass) types.get(typeId);
+		return null;
+	}
 }

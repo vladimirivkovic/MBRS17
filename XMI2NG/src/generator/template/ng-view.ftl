@@ -1,5 +1,5 @@
 <div class="users">
-    <h1>${class.name}s</h1>
+    <h1>${class.name}</h1>
     <#if class.UIClass??>
     <#if class.UIClass.create>
     <div class="btn-group clearfix">
@@ -57,7 +57,26 @@
 	<uib-tabset>
 		<#list properties as property>
 		<#if property.tab??> 
-    	<uib-tab index="0" heading="${property.name}">Table content</uib-tab>
+    	<uib-tab index="0" heading="${property.name}">
+    		<table class="table table-hover">
+	            <tr>
+	            <#list property.FMClass.properties as property>
+				<#if property.upper == 1> 
+	            	<th>${property.originName}</th>
+	            </#if>
+	            </#list>
+	            </tr>
+	            <tr ng-click="select${property.name}($index)" 
+	            	ng-class="{active: $index === ${property.name}selectedIndex}"
+	            	ng-repeat="i in ${property.name}.elements">
+	                <#list property.FMClass.properties as property>
+					<#if property.upper == 1> 
+		            <td>{{i.${property.name}}}</td>
+		            </#if>
+		            </#list>
+	            </tr>
+	        </table> 
+    	</uib-tab>
     	</#if>
 	    </#list>
   	</uib-tabset>

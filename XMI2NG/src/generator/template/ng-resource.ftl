@@ -1,14 +1,14 @@
 (function (angular) {
     angular.module('app.${class.name}.resource', ['ngResource'])
-	.factory('${class.name}', function ($resource) {
-	    var ${class.lowerName} = $resource('api/${class.lowerName}s/:${class.lowerName}ID',
+	.factory('${class.name}', function ($resource, $rootScope) {
+	    var ${class.name} = $resource($rootScope.host + 'api/${class.name}/:Id',
 			{
-			    ${class.lowerName}ID: '@${class.lowerName}ID'
+			    Id : '@Id'
 			},
 			{
 			    update: { method: 'PUT' }
 			}
         );
-	    return ${class.lowerName};
+	    return ${class.name};
 	})
 }(angular));

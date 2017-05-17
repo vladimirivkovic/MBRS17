@@ -28,6 +28,8 @@
     .run(run);
 
     function run($rootScope, $http, $location) { //, $state) {
+    	$rootScope.host = 'http://mbrs17app.azurewebsites.net/';
+    
         //postavljanje tokena nakon refresh
         /*if ($localStorage.currentUser) {
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;

@@ -2,8 +2,8 @@
 	var ${class.lowerName}sModalControllerModule = angular.module('app.${class.name}.modalController', 
     	['app.${class.name}.resource']);
     	
-    var ${class.lowerName}sModalController = ['$scope', '$uibModalInstance', '_rec', '$uibModal',//, '$stateParams'  
-    	function ($scope, $uibModalInstance, _rec, $uibModal) { //, $stateParams
+    var ${class.lowerName}sModalController = ['$scope', '$uibModalInstance', '_rec', '$uibModal', '${class.name}', //,'$stateParams'  
+    	function ($scope, $uibModalInstance, _rec, $uibModal, ${class.name}) { //, $stateParams
         		<#list properties as property>
     			<#if (property.type == "date")> 
     				$scope.${property.name}Popup = { opened : false };
@@ -23,7 +23,25 @@
         			var ret = $scope.validate();
         			console.log('saving...');
         			console.log(ret);
-        			$uibModalInstance.close(ret);
+        			
+        			var newRecord = new ${class.name}();
+        			
+        			<#list properties as property>
+        			<#if property.upper == 1> 
+        				newRecord.${property.name} = $scope.${property.name};
+        			</#if>
+        			</#list>
+
+	                newRecord.$save(
+	                    function () {
+	                        $uibModalInstance.close(ret);
+	                    },
+	                    function (response) {
+	                        $scope.message = response.data.message;
+	                    }
+	                );
+        			
+        			
         		}
         		
         		$scope.cancel = function() {

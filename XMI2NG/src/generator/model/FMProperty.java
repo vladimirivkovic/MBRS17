@@ -66,6 +66,11 @@ public class FMProperty extends FMNamedElement  {
 		this.associationId = associationId;
 	}
 	
+	public FMClass getFMClass() {
+		System.out.println(ParserEngine.getClass(type).getName());
+		return ParserEngine.getClass(type);
+	}
+	
 	public String getType() {
 		return ParserEngine.getType(type);
 		//return type;
