@@ -30,7 +30,7 @@ namespace WebApplication1.Models
 			<#elseif property.uIProperty.searchable >
 		[Index]	 	
 			</#if>
-			<#if property.type != property.name >
+			<#if !property.isClass >
 				<#if property.type == "date" >
 		public DateTime ${property.name} { get; set; }
 				<#elseif property.type == "boolean">
@@ -43,13 +43,19 @@ namespace WebApplication1.Models
 				<#if property.lower == 1>
 		[Required]
 				</#if>
-	    public int ${property.type}_ID { get; set; }
+	    public int ${property.name}_ID { get; set; }
 	    
-	    [ForeignKey("${property.type}_ID")]
+	    [ForeignKey("${property.name}_ID")]
+	    		<#if property.inverseProperty??>
+	    [InverseProperty("${property.inverseProperty.name}")]
+	    		</#if>
 	    public ${property.type} ${property.name} { get; set; }
 			</#if>
-	    <#elseif property.upper == -1 > 
-	    public ICollection<${property.type}> Kolekcija_${property.name} { get; set; }
+	    <#elseif property.upper == -1 >
+	    		<#if property.inverseProperty??>
+	    [InverseProperty("${property.inverseProperty.name}")]
+	    		</#if> 
+	    public ICollection<${property.type}> ${property.name} { get; set; }
 	    <#else>   
 	    	<#list 1..property.upper as i>
 	    public ${property.type} ${property.name}${i} { get; set; }

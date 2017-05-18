@@ -41,7 +41,7 @@ public class FMProperty extends FMNamedElement  {
 	
 	private String associationId = null;
 
-
+	private FMProperty inverseProperty = null;
 	
 	public FMProperty(String name, String type, 
 			String visibility, int lower, int upper) {
@@ -165,6 +165,11 @@ public class FMProperty extends FMNamedElement  {
 	public UIProperty getuIProperty() {
 		return uIProperty;
 	}
+	
+	public Boolean getIsClass(){
+		return ParserEngine.getElementMap().get(type) instanceof FMClass;
+		
+	}
 
 	@Override
 	public void addStereotype(Stereotype st) {
@@ -264,4 +269,13 @@ public class FMProperty extends FMNamedElement  {
 			
 		}
 	}
+	
+	public FMProperty getInverseProperty() {
+		return inverseProperty;
+	}
+	
+	public void setInverseProperty(FMProperty inverseProperty) {
+		this.inverseProperty = inverseProperty;
+	}
+	
 }

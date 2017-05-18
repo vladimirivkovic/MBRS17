@@ -239,8 +239,8 @@ public class ParserEngine {
 			((FMProperty) elementStack.peek()).setType(words[words.length - 1]);
 
 			break;
-
-		// case MEMBER_END:
+		//TODO: VLADIMIREEEE BOTH_END_NAVIGABLE
+		// case MEMBER_END: 
 		//
 		// if (current != STATE.OWNED_END)
 		// break;
@@ -338,6 +338,10 @@ public class ParserEngine {
 									prop.getUpper() == -1 ? 1 : -1);
 
 							secondEndClass.addProperty(a.getFirstEnd());
+							
+							a.setSecondEnd(prop);
+							a.getFirstEnd().setInverseProperty(a.getSecondEnd());
+							a.getSecondEnd().setInverseProperty(a.getFirstEnd());
 
 							System.out.println(firstEndClass.getName()
 									+ " added in " + secondEndClass.getName());
