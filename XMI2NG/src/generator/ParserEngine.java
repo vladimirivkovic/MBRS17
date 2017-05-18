@@ -35,8 +35,7 @@ public class ParserEngine {
 	private static Stack<FMNamedElement> elementStack = new Stack<FMNamedElement>();
 
 	public enum STATE {
-		IDLE, MODEL, PACKED_ELEMENT, CLASS, ASSOCIATION, 
-		OWNED_ATTRIBUTE, TYPE, OWNED_END, MEMBER_END, LOWER, UPPER, STEREOTYPE, OWNED_LITERAL
+		IDLE, MODEL, PACKED_ELEMENT, CLASS, ASSOCIATION, OWNED_ATTRIBUTE, TYPE, OWNED_END, MEMBER_END, LOWER, UPPER, STEREOTYPE, OWNED_LITERAL
 	}
 
 	private static STATE current = STATE.IDLE;
@@ -154,19 +153,18 @@ public class ParserEngine {
 					name = attributes.getValue(i);
 				} else if (attributes.getQName(i).equals("xmi:id")) {
 					xmiId = attributes.getValue(i);
-				}  else if (attributes.getQName(i).equals("type")) {
+				} else if (attributes.getQName(i).equals("type")) {
 					type = attributes.getValue(i);
-				} 
+				}
 
 			}
 
 			System.out.println("Literal " + name);
-			
+
 			((FMEnumeration) elementStack.peek()).addLiteral(name);
 
 			break;
 
-			
 		case LOWER:
 			if (current != STATE.OWNED_ATTRIBUTE && current != STATE.OWNED_END)
 				break;
@@ -241,19 +239,19 @@ public class ParserEngine {
 			((FMProperty) elementStack.peek()).setType(words[words.length - 1]);
 
 			break;
-		
-//		case MEMBER_END:
-//
-//			if (current != STATE.OWNED_END)
-//				break;
-//			
-//			for (int i = 0; i < attributes.getLength(); i++) {
-//				if (attributes.getQName(i).equals("xmi:idref")) {
-//					name = attributes.getValue(i);
-//				}
-//			}
-//			
-//			FMAssociation as = (FMAssociation) elementStack.peek();
+
+		// case MEMBER_END:
+		//
+		// if (current != STATE.OWNED_END)
+		// break;
+		//
+		// for (int i = 0; i < attributes.getLength(); i++) {
+		// if (attributes.getQName(i).equals("xmi:idref")) {
+		// name = attributes.getValue(i);
+		// }
+		// }
+		//
+		// FMAssociation as = (FMAssociation) elementStack.peek();
 
 		case OWNED_END:
 
@@ -273,10 +271,11 @@ public class ParserEngine {
 			}
 
 			FMAssociation as = (FMAssociation) elementStack.peek();
-			
-			FMProperty endProperty = new FMProperty(name == null ?
-					elementMap.get(type).getName() : name, type, visibility, 0, 1,
-					associationId);
+
+			FMProperty endProperty = new FMProperty(
+					name == null ? as.getName() == null ? elementMap.get(type)
+							.getName() : as.getName() : name, type, visibility,
+					0, 1, associationId);
 			elementMap.put(xmiId, endProperty);
 
 			if (as.getFirstEnd() == null) {
@@ -307,13 +306,13 @@ public class ParserEngine {
 			for (FMNamedElement el : elementMap.values()) {
 				if (el instanceof FMProperty) {
 					FMProperty p = (FMProperty) el;
-					
+
 					if (p.getName() == null) {
 						p.setName(p.getType());
 					}
 				}
 			}
-			
+
 			break;
 		case PACKED_ELEMENT:
 			if (current == STATE.IDLE) {
@@ -334,8 +333,9 @@ public class ParserEngine {
 						if (a.getId().equals(prop.getAssociationId())) {
 							FMClass secondEndClass = (FMClass) elementMap
 									.get(prop.getTypeId());
-							
-							a.getFirstEnd().setUpper(prop.getUpper() == -1 ? 1 : -1);
+
+							a.getFirstEnd().setUpper(
+									prop.getUpper() == -1 ? 1 : -1);
 
 							secondEndClass.addProperty(a.getFirstEnd());
 
@@ -380,14 +380,12 @@ public class ParserEngine {
 	}
 
 	public static void handleCharacters(String characters) {
-	
 
 	}
 
 	public static void handleStereotype(String qName, Attributes attributes) {
-		String baseClass = null, baseProperty = null,
-				baseElement = null, baseOperation = null;
-		
+		String baseClass = null, baseProperty = null, baseElement = null, baseOperation = null;
+
 		for (int i = 0; i < attributes.getLength(); i++) {
 			if (attributes.getQName(i).equals("base_Class")) {
 				baseClass = attributes.getValue(i);
@@ -399,35 +397,34 @@ public class ParserEngine {
 				baseOperation = attributes.getValue(i);
 			}
 		}
-		
+
 		String label = "";
 		Boolean visible = true;
 		UIElementType uIElementType = null;
-		
+
 		for (int i = 0; i < attributes.getLength(); i++) {
 			if (attributes.getQName(i).equals("label")) {
 				label = attributes.getValue(i);
-				
-			} else if(attributes.getQName(i).equals("visible")) {
+
+			} else if (attributes.getQName(i).equals("visible")) {
 				visible = "true".equals(attributes.getValue(i));
-				
-			} else if(attributes.getQName(i).equals("component")) {
+
+			} else if (attributes.getQName(i).equals("component")) {
 				uIElementType = UIElementType.valueOf(attributes.getValue(i));
-				
+
 			}
-			
-		}		
-		
-		//System.out.println(qName);
-		
+
+		}
+
+		// System.out.println(qName);
+
 		switch (qName) {
 		case "_:UIElement":
 			if (elementMap.containsKey(baseElement)) {
 				UIElement e = new UIElement(label, visible, uIElementType);
-				
-						
+
 				elementMap.get(baseElement).addStereotype(e);
-				
+
 			}
 			break;
 		case "_:UIClass":
@@ -435,228 +432,237 @@ public class ParserEngine {
 			for (int i = 0; i < attributes.getLength(); i++) {
 				if (attributes.getQName(i).equals("create")) {
 					c.setCreate("true".equals(attributes.getValue(i)));
-					
+
 				} else if (attributes.getQName(i).equals("update")) {
 					c.setUpdate("true".equals(attributes.getValue(i)));
-					
+
 				} else if (attributes.getQName(i).equals("delete")) {
 					c.setDelete("true".equals(attributes.getValue(i)));
-					
+
 				} else if (attributes.getQName(i).equals("copy")) {
 					c.setCopy("true".equals(attributes.getValue(i)));
-					
+
 				} else if (attributes.getQName(i).equals("rowsPerPage")) {
 					c.setRowsPerPage(Integer.parseInt(attributes.getValue(i)));
-					
+
 				}
 			}
-			//System.out.println("UICLASS na " + elementMap.get(baseClass).getName());
+			// System.out.println("UICLASS na " +
+			// elementMap.get(baseClass).getName());
 			elementMap.get(baseClass).addStereotype(c);
-			
+
 			break;
-			
+
 		case "_:UIProperty":
 			if (elementMap.containsKey(baseProperty)) {
 				UIProperty p = new UIProperty(label, visible, uIElementType);
-				
+
 				for (int i = 0; i < attributes.getLength(); i++) {
 					if (attributes.getQName(i).equals("showColumn")) {
 						p.setShowColumn("true".equals(attributes.getValue(i)));
-						
-					} else if(attributes.getQName(i).equals("toolTip")) {
+
+					} else if (attributes.getQName(i).equals("toolTip")) {
 						p.setToolTip(attributes.getValue(i));
-						
-					} else if(attributes.getQName(i).equals("copyable")) {
+
+					} else if (attributes.getQName(i).equals("copyable")) {
 						p.setCopyable("true".equals(attributes.getValue(i)));
-						
-					} else if(attributes.getQName(i).equals("searchable")) {
+
+					} else if (attributes.getQName(i).equals("searchable")) {
 						p.setSearchable("true".equals(attributes.getValue(i)));
-						
-					} else if(attributes.getQName(i).equals("required")) {
+
+					} else if (attributes.getQName(i).equals("required")) {
 						p.setRequired("true".equals(attributes.getValue(i)));
-						
-					} else if(attributes.getQName(i).equals("unique")) {
+
+					} else if (attributes.getQName(i).equals("unique")) {
 						p.setUnique("true".equals(attributes.getValue(i)));
-						
+
 					}
-							
+
 				}
 				elementMap.get(baseProperty).addStereotype(p);
-				
+
 			}
-			
+
 			break;
-			
+
 		case "_:UIAssociationEnd":
-			elementMap.get(baseProperty).addStereotype(new UIAssociationEnd(label, visible, uIElementType));
-			
+			elementMap.get(baseProperty).addStereotype(
+					new UIAssociationEnd(label, visible, uIElementType));
+
 			break;
-			
+
 		case "_:Lookup":
-			elementMap.get(baseProperty).addStereotype(new Lookup(label, visible, uIElementType));
-			
+			elementMap.get(baseProperty).addStereotype(
+					new Lookup(label, visible, uIElementType));
+
 			break;
-			
+
 		case "_:ReadOnly":
 			ReadOnly r = new ReadOnly(label, visible, uIElementType);
-			
+
 			for (int i = 0; i < attributes.getLength(); i++) {
 				if (attributes.getQName(i).equals("showColumn")) {
 					r.setShowColumn("true".equals(attributes.getValue(i)));
-					
-				} else if(attributes.getQName(i).equals("toolTip")) {
+
+				} else if (attributes.getQName(i).equals("toolTip")) {
 					r.setToolTip(attributes.getValue(i));
-					
-				} else if(attributes.getQName(i).equals("copyable")) {
+
+				} else if (attributes.getQName(i).equals("copyable")) {
 					r.setCopyable("true".equals(attributes.getValue(i)));
-					
-				} else if(attributes.getQName(i).equals("searchable")) {
+
+				} else if (attributes.getQName(i).equals("searchable")) {
 					r.setSearchable("true".equals(attributes.getValue(i)));
-					
-				} else if(attributes.getQName(i).equals("required")) {
+
+				} else if (attributes.getQName(i).equals("required")) {
 
 					r.setRequired("true".equals(attributes.getValue(i)));
-					
-				} else if(attributes.getQName(i).equals("unique")) {
+
+				} else if (attributes.getQName(i).equals("unique")) {
 					r.setUnique("true".equals(attributes.getValue(i)));
-					
+
 				}
 			}
 			elementMap.get(baseProperty).addStereotype(r);
-			
+
 			break;
 		case "_:NoInsert":
 			NoInsert n = new NoInsert(label, visible, uIElementType);
-			
+
 			for (int i = 0; i < attributes.getLength(); i++) {
 				if (attributes.getQName(i).equals("showColumn")) {
 					n.setShowColumn("true".equals(attributes.getValue(i)));
-					
-				} else if(attributes.getQName(i).equals("toolTip")) {
+
+				} else if (attributes.getQName(i).equals("toolTip")) {
 					n.setToolTip(attributes.getValue(i));
-					
-				} else if(attributes.getQName(i).equals("copyable")) {
+
+				} else if (attributes.getQName(i).equals("copyable")) {
 					n.setCopyable("true".equals(attributes.getValue(i)));
-					
-				} else if(attributes.getQName(i).equals("searchable")) {
+
+				} else if (attributes.getQName(i).equals("searchable")) {
 					n.setSearchable("true".equals(attributes.getValue(i)));
-					
-				} else if(attributes.getQName(i).equals("required")) {
+
+				} else if (attributes.getQName(i).equals("required")) {
 					n.setRequired("true".equals(attributes.getValue(i)));
-					
-				} else if(attributes.getQName(i).equals("unique")) {
+
+				} else if (attributes.getQName(i).equals("unique")) {
 					n.setUnique("true".equals(attributes.getValue(i)));
-					
+
 				}
 			}
 			elementMap.get(baseProperty).addStereotype(n);
-			
+
 			break;
-			
+
 		case "_:Calculated":
 			if (elementMap.containsKey(baseProperty)) {
 				Calculated cal = new Calculated(label, visible, uIElementType);
-				
+
 				for (int i = 0; i < attributes.getLength(); i++) {
 					if (attributes.getQName(i).equals("showColumn")) {
 						cal.setShowColumn("true".equals(attributes.getValue(i)));
-						
-					} else if(attributes.getQName(i).equals("toolTip")) {
+
+					} else if (attributes.getQName(i).equals("toolTip")) {
 						cal.setToolTip(attributes.getValue(i));
-						
-					} else if(attributes.getQName(i).equals("copyable")) {
+
+					} else if (attributes.getQName(i).equals("copyable")) {
 						cal.setCopyable("true".equals(attributes.getValue(i)));
-						
-					} else if(attributes.getQName(i).equals("searchable")) {
+
+					} else if (attributes.getQName(i).equals("searchable")) {
 						cal.setSearchable("true".equals(attributes.getValue(i)));
-						
-					} else if(attributes.getQName(i).equals("required")) {
+
+					} else if (attributes.getQName(i).equals("required")) {
 						cal.setRequired("true".equals(attributes.getValue(i)));
-						
-					} else if(attributes.getQName(i).equals("unique")) {
+
+					} else if (attributes.getQName(i).equals("unique")) {
 						cal.setUnique("true".equals(attributes.getValue(i)));
-						
+
 					}
 				}
 				elementMap.get(baseProperty).addStereotype(cal);
-				
+
 			}
 			break;
-			
+
 		case "_:Id":
 			Id id = new Id(label, visible, uIElementType);
-			
+
 			for (int i = 0; i < attributes.getLength(); i++) {
 				if (attributes.getQName(i).equals("showColumn")) {
 					id.setShowColumn("true".equals(attributes.getValue(i)));
-					
-				} else if(attributes.getQName(i).equals("toolTip")) {
+
+				} else if (attributes.getQName(i).equals("toolTip")) {
 					id.setToolTip(attributes.getValue(i));
-					
-				} else if(attributes.getQName(i).equals("copyable")) {
+
+				} else if (attributes.getQName(i).equals("copyable")) {
 					id.setCopyable("true".equals(attributes.getValue(i)));
-					
-				} else if(attributes.getQName(i).equals("searchable")) {
+
+				} else if (attributes.getQName(i).equals("searchable")) {
 					id.setSearchable("true".equals(attributes.getValue(i)));
-					
-				} else if(attributes.getQName(i).equals("required")) {
+
+				} else if (attributes.getQName(i).equals("required")) {
 					id.setRequired("true".equals(attributes.getValue(i)));
-					
-				} else if(attributes.getQName(i).equals("unique")) {
+
+				} else if (attributes.getQName(i).equals("unique")) {
 					id.setUnique("true".equals(attributes.getValue(i)));
-					
+
 				}
 			}
 			elementMap.get(baseProperty).addStereotype(id);
-			
+
 			break;
-			
+
 		case "_:Zoom":
-			elementMap.get(baseProperty).addStereotype(new Zoom(label, visible, uIElementType));
-			
+			elementMap.get(baseProperty).addStereotype(
+					new Zoom(label, visible, uIElementType));
+
 			break;
-			
+
 		case "_:Next":
-			elementMap.get(baseProperty).addStereotype(new Next(label, visible, uIElementType));
-			
+			elementMap.get(baseProperty).addStereotype(
+					new Next(label, visible, uIElementType));
+
 			break;
-			
+
 		case "_:Tab":
 			Tab t = new Tab(label, visible, uIElementType);
-			
+
 			for (int i = 0; i < attributes.getLength(); i++) {
 				if (attributes.getQName(i).equals("dependant")) {
 					t.setDependant("true".equals(attributes.getValue(i)));
 				}
 			}
-			//System.out.println("tab na " + elementMap.get(baseProperty).getName());
+			// System.out.println("tab na " +
+			// elementMap.get(baseProperty).getName());
 			elementMap.get(baseProperty).addStereotype(t);
-			
+
 			break;
-			
+
 		case "_:UIGroup":
 			elementMap.get(baseProperty).addStereotype(new UIGroup());
-			
+
 			break;
-			
+
 		case "_:BusinessOperation":
-			elementMap.get(baseOperation).addStereotype(new BusinessOperation());
-			
+			elementMap.get(baseOperation)
+					.addStereotype(new BusinessOperation());
+
 			break;
-			
+
 		case "_:Report":
-			elementMap.get(baseOperation).addStereotype(new BusinessOperation());
-			
+			elementMap.get(baseOperation)
+					.addStereotype(new BusinessOperation());
+
 			break;
-			
+
 		case "_:Transaction":
-			elementMap.get(baseOperation).addStereotype(new BusinessOperation());
-			
+			elementMap.get(baseOperation)
+					.addStereotype(new BusinessOperation());
+
 			break;
 
 		default:
 			break;
-			
+
 		}
 
 	}
