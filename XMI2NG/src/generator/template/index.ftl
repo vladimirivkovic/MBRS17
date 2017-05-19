@@ -40,6 +40,11 @@
     <script type="application/javascript" src="app/${class.lowerName}/${class.lowerName}.js"></script>
     <script type="application/javascript" src="app/${class.lowerName}/${class.lowerName}Ctrl.js"></script>
     <script type="application/javascript" src="app/${class.lowerName}/${class.lowerName}ModalCtrl.js"></script>
+    <#list class.properties as property>
+    <#if property.upper == 1 && !property.primitive>
+    <script type="application/javascript" src="app/${class.lowerName}/modal/${property.name}ModalCtrl.js"></script>
+    </#if>
+    </#list>
     <script type="application/javascript" src="app/${class.lowerName}/${class.lowerName}Rsrc.js"></script>
     </#list>
 

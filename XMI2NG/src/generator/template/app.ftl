@@ -2,7 +2,11 @@
     angular.module('app.${class.name}', [
 	    'app.${class.name}.controller',
         'app.${class.name}.modalController',
-        //'app.${class.name}./class.property/ModalController',	
+        <#list properties as property>
+        <#if property.upper == 1 && !property.primitive>
+        'app.${class.name}.${property.name}ModalController',	
+        </#if>
+        </#list>
 
     ]);
 }(angular));

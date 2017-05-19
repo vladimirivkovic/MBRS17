@@ -6,27 +6,19 @@
 		
 		<table class="table">
 			<tr><th>&nbsp</th>
-			<#list class.properties as property>
+			<#list propClass.properties as property>
+			<#if property.upper == 1 && property.primitive>
 				<th>${property.originName}</th>
+			</#if>
 			</#list></tr>
-			<tr>
+			<tr ng-repeat="rec in ${prop.name}s">
 			<td>
-				<input type="radio" ng-model="color" value="red">
+				<input type="radio" name="choose" ng-model="$parent.__chosen" ng-value="rec">
 			</td>
-			<#list class.properties as property>
-				<td>o</td>
-			</#list></tr>
-			<tr><td>
-				<input type="radio" ng-model="color" value="blue">
-			</td>
-			<#list class.properties as property>
-				<td>o</td>
-			</#list></tr>
-			<tr><td>
-				<input type="radio" ng-model="color" value="green">
-			</td>
-			<#list class.properties as property>
-				<td>o</td>
+			<#list propClass.properties as property>
+			<#if property.upper == 1 && property.primitive>
+				<td>{{rec.${property.name}}}</td>
+			</#if>
 			</#list></tr>
 		</table>
 

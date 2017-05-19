@@ -51,9 +51,12 @@
         
         $scope.remove = function() {
         	//console.log($scope.selectedIndex);
-        	$scope.${class.lowerName}s.splice($scope.selectedIndex,1);
-        	$scope.selected = null;
-        	$scope.selectedIndex = null;
+        	${class.name}.delete({Id: $scope.selected.Id},
+	        	function() { 
+		        	$scope.${class.lowerName}s.splice($scope.selectedIndex,1);
+		        	$scope.selected = null;
+		        	$scope.selectedIndex = null;
+        	})
         }
         
         $scope.init = function () {

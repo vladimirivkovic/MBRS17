@@ -180,12 +180,21 @@ public class GeneratorEngine {
 						if (!p.getPrimitive()) {
 							model.clear();
 							model.put("prop", p);
-							model.put("class", (FMClass) elementMap.get(p.getTypeId()));
+							model.put("class", cl);
+							model.put("propClass", (FMClass) elementMap.get(p.getTypeId()));
 							
 							Template tempx = cfg.getTemplate("chooseModalView.ftl");
 							FileWriter fwx = new FileWriter(new File(
 									"generated/app/" + cl.getLowerName() + "/modal/"
 									+ p.getName() + "ModalView.html"));
+							tempx.process(model, fwx);
+							fwx.flush();
+							fwx.close();
+							
+							tempx = cfg.getTemplate("chooseModalCtrl.ftl");
+							fwx = new FileWriter(new File(
+									"generated/app/" + cl.getLowerName() + "/modal/"
+									+ p.getName() + "ModalCtrl.js"));
 							tempx.process(model, fwx);
 							fwx.flush();
 							fwx.close();

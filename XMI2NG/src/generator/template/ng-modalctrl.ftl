@@ -12,8 +12,10 @@
         	
         	
         		$scope.init = function(rec) {
+        			$scope._rec = _rec;
+        		
         			<#list properties as property>
-        			<#if property.upper == 1 && property.primitive> 
+        			<#if property.upper == 1> 
         				$scope.${property.name} = rec.${property.name};
         			</#if>
         			</#list>
@@ -24,28 +26,52 @@
         			console.log('saving...');
         			console.log(ret);
         			
-        			var newRecord = new ${class.name}();
+        			if(!$scope._rec) {
+        				var newRecord = new ${class.name}();
         			
-        			<#list properties as property>
-        			<#if property.upper == 1> 
-        				newRecord.${property.name} = $scope.${property.name};
-        			</#if>
-        			</#list>
-
-	                newRecord.$save(
-	                    function () {
-	                        $uibModalInstance.close(ret);
-	                    },
-	                    function (response) {
-	                        $scope.message = response.data.message;
-	                    }
-	                );
+	        			<#list properties as property>
+	        			<#if property.upper == 1> 
+	        				newRecord.${property.name} = $scope.${property.name};
+	        				<#if !property.primitive>
+	        				newRecord.${property.name}_ID = $scope.${property.name}_ID;
+	        				</#if>
+	        			</#if>
+	        			</#list>
+	
+		                newRecord.$save(
+		                    function () {
+		                        $uibModalInstance.close(ret);
+		                    },
+		                    function (response) {
+		                        $scope.message = response.data.message;
+		                    }
+		                );
+		             } else {
+		             	var newRecord = {};
+		             
+		             	<#list properties as property>
+	        			<#if property.upper == 1> 
+	        				newRecord.${property.name} = $scope.${property.name};
+	        				<#if !property.primitive>
+	        				newRecord.${property.name}_ID = $scope.${property.name}.Id;
+	        				</#if>
+	        			</#if>
+	        			</#list>
+	        			
+	        			${class.name}.update({ Id: newRecord.Id }, newRecord,
+		                    function () {
+		                        $uibModalInstance.close(newRecord);
+		                    },
+		                    function (response) {
+		                        $scope.message = response.data.message;
+		                    }
+		                );
+		             }
         			
         			
         		}
         		
         		$scope.cancel = function() {
-        			console.log($scope.selRuk);
         			console.log('cancel...');
         			$uibModalInstance.dismiss('cancel');
         		}
@@ -67,14 +93,18 @@
 				$scope.${property.name}Choose = function () {
 		            var modal${property.capName}Instance = $uibModal.open({
 		                templateUrl: 'app/${class.lowerName}/modal/${property.name}ModalView.html',
-		                //controller: '${class.lowerName}__${property.name}ModalController',
+		                controller: '${class.lowerName}__${property.name}ModalController',
 		                resolve: {
+				                _rec : function() {
+			                		return $scope.${property.name};
+			                }
 		                }
 		            });
 		            
 		            modal${property.capName}Instance.result.then(function (result) {
 			            if (result !== 'No' && result !== 'Error') {
-							// TODO : implement
+			            $scope.${property.name}_ID = result.Id;
+							return $scope.${property.name} = result;
 			            }
 		        	});
 		        }
