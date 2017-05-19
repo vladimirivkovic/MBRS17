@@ -2,8 +2,8 @@
 	var ${class.lowerName}sModalControllerModule = angular.module('app.${class.name}.modalController', 
     	['app.${class.name}.resource']);
     	
-    var ${class.lowerName}sModalController = ['$scope', '$uibModalInstance', '_rec', '$uibModal', '${class.name}', //,'$stateParams'  
-    	function ($scope, $uibModalInstance, _rec, $uibModal, ${class.name}) { //, $stateParams
+    var ${class.lowerName}sModalController = ['$scope', '$uibModalInstance', '_rec', 'copy', '$uibModal', '${class.name}', //,'$stateParams'  
+    	function ($scope, $uibModalInstance, _rec, copy, $uibModal, ${class.name}) { //, $stateParams
         		<#list properties as property>
     			<#if (property.type == "date")> 
     				$scope.${property.name}Popup = { opened : false };
@@ -26,21 +26,22 @@
         			console.log('saving...');
         			console.log(ret);
         			
-        			if(!$scope._rec) {
+        			if(!$scope._rec || copy) {
         				var newRecord = new ${class.name}();
         			
 	        			<#list properties as property>
-	        			<#if property.upper == 1> 
-	        				newRecord.${property.name} = $scope.${property.name};
+	        			<#if property.upper == 1>	
 	        				<#if !property.primitive>
-	        				newRecord.${property.name}_ID = $scope.${property.name}_ID;
+	        				newRecord.${property.name}_ID = $scope.${property.name}.Id;
+	        				<#else>
+	        				newRecord.${property.name} = $scope.${property.name};
 	        				</#if>
 	        			</#if>
 	        			</#list>
 	
 		                newRecord.$save(
-		                    function () {
-		                        $uibModalInstance.close(ret);
+		                    function (response) {
+		                        $uibModalInstance.close(response);
 		                    },
 		                    function (response) {
 		                        $scope.message = response.data.message;
@@ -50,17 +51,18 @@
 		             	var newRecord = {};
 		             
 		             	<#list properties as property>
-	        			<#if property.upper == 1> 
-	        				newRecord.${property.name} = $scope.${property.name};
+	        			<#if property.upper == 1>	
 	        				<#if !property.primitive>
 	        				newRecord.${property.name}_ID = $scope.${property.name}.Id;
+	        				<#else>
+	        				newRecord.${property.name} = $scope.${property.name};
 	        				</#if>
 	        			</#if>
 	        			</#list>
 	        			
 	        			${class.name}.update({ Id: newRecord.Id }, newRecord,
-		                    function () {
-		                        $uibModalInstance.close(newRecord);
+		                    function (response) {
+		                        $uibModalInstance.close(response);
 		                    },
 		                    function (response) {
 		                        $scope.message = response.data.message;
@@ -103,8 +105,8 @@
 		            
 		            modal${property.capName}Instance.result.then(function (result) {
 			            if (result !== 'No' && result !== 'Error') {
-			            $scope.${property.name}_ID = result.Id;
-							return $scope.${property.name} = result;
+			            	$scope.${property.name}_ID = result.Id;
+							$scope.${property.name} = result;
 			            }
 		        	});
 		        }

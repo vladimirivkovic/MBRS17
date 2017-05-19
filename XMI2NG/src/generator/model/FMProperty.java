@@ -67,7 +67,6 @@ public class FMProperty extends FMNamedElement  {
 	}
 	
 	public FMClass getFMClass() {
-		System.out.println(ParserEngine.getClass(type).getName());
 		return ParserEngine.getClass(type);
 	}
 	

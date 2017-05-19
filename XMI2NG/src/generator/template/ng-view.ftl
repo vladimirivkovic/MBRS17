@@ -36,7 +36,14 @@
             <tr>
             <#list properties as property>
 			<#if property.upper == 1> 
-            	<th>${property.originName}</th>
+			<#if property.primitive>
+	            <th>${property.originName}</th>
+	            <#else>
+	            <#list property.FMClass.lookupProperties as lp>
+	            <th>${property.originName}>${lp.originName}</th>
+	            </#list>
+	            </#if>
+            	
             </#if>
             </#list>
             </tr>
@@ -45,7 +52,13 @@
             	ng-repeat="i in ${class.lowerName}s">
                 <#list properties as property>
 				<#if property.upper == 1> 
+				<#if property.primitive>
 	            <td>{{i.${property.name}}}</td>
+	            <#else>
+	            <#list property.FMClass.lookupProperties as lp>
+	            <td>{{i.${property.name}.${lp.name}}}</td>
+	            </#list>
+	            </#if>
 	            </#if>
 	            </#list>
             </tr>
@@ -61,16 +74,16 @@
     		<table class="table table-hover">
 	            <tr>
 	            <#list property.FMClass.properties as property>
-				<#if property.upper == 1> 
+				<#if property.upper == 1 && property.primitive> 
 	            	<th>${property.originName}</th>
 	            </#if>
 	            </#list>
 	            </tr>
-	            <tr ng-click="select${property.name}($index)" 
-	            	ng-class="{active: $index === ${property.name}selectedIndex}"
-	            	ng-repeat="i in ${property.name}.elements">
+	            <tr //ng-click="select${property.name}($index)" 
+	            	//ng-class="{active: $index === ${property.name}selectedIndex}"
+	            	ng-repeat="i in ${property.name}_tab">
 	                <#list property.FMClass.properties as property>
-					<#if property.upper == 1> 
+					<#if property.upper == 1 && property.primitive> 
 		            <td>{{i.${property.name}}}</td>
 		            </#if>
 		            </#list>
