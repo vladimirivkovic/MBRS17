@@ -40,7 +40,7 @@
 	            <th>${property.originName}</th>
 	            <#else>
 	            <#list property.FMClass.lookupProperties as lp>
-	            <th>${property.originName}>${lp.originName}</th>
+	            <th>${property.originName} -> ${lp.originName}</th>
 	            </#list>
 	            </#if>
             	
@@ -70,7 +70,7 @@
 	<uib-tabset>
 		<#list properties as property>
 		<#if property.tab??> 
-    	<uib-tab index="0" heading="${property.name}">
+    	<uib-tab index="0" heading="${property.originName}">
     		<table class="table table-hover">
 	            <tr>
 	            <#list property.FMClass.properties as property>
