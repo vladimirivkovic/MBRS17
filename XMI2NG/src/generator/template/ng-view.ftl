@@ -7,7 +7,7 @@
 		  content: '\25bc';   // BLACK DOWN-POINTING TRIANGLE
 		}
 	</style>
-    <h1>${class.name}</h1>
+    <h1>${class.originName}</h1>
     <#if class.UIClass??>
     <#if class.UIClass.create>
     <div class="btn-group clearfix">
