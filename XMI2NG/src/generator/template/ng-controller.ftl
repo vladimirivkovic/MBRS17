@@ -12,6 +12,8 @@
     	</#list>
     	) { //, $stateParams
     	
+
+    	
     	$scope.${class.lowerName}s = [];
 
         $scope.selected = null;
@@ -83,8 +85,13 @@
         }
         
         $scope.init = function () {
+        	$scope.__rpp = 5;
+    		$scope.__total_items = 0;
+        
             var ${class.lowerName}s = ${class.name}.query(function () {
                 $scope.${class.lowerName}s = ${class.lowerName}s;
+                $scope.page_${class.lowerName}s = $scope.${class.lowerName}s.slice(0, $scope.__rpp);
+                $scope.__total_items = $scope.${class.lowerName}s.length;
             });
             
             <#list properties as property>
@@ -93,6 +100,11 @@
 			</#if>
 	    	</#list>
 			
+        }
+        
+        $scope.pageChanged = function() {
+        	$scope.page_${class.lowerName}s = 
+        	$scope.${class.lowerName}s.slice(($scope.__cp-1)*$scope.__rpp,  $scope.__cp*$scope.__rpp);
         }
 
         $scope.status = {

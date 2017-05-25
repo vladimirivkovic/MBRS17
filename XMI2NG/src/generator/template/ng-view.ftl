@@ -38,18 +38,36 @@
 			<#if property.upper == 1> 
 			<#if property.primitive>
 	            <th>${property.originName}</th>
-	            <#else>
+	        <#else>
 	            <#list property.FMClass.lookupProperties as lp>
 	            <th>${property.originName} -> ${lp.originName}</th>
-	            </#list>
-	            </#if>
+	        </#list>
+	        </#if>
             	
+            </#if>
+            </#list>
+            </tr>
+            <tr>
+            <#list properties as property>
+			<#if property.upper == 1> 
+			<#if property.primitive>
+				<#if property.uIProperty.searchable>
+	            <th><input style="max-width: 200px" type="text" class="form-control"
+					ng-model="__search.${property.name}"></th>
+	            <#else>
+	            <th>&nbsp;</th>
+	            </#if>
+	        <#else>
+	            <#list property.FMClass.lookupProperties as lp>
+	            <th>&nbsp;</th>
+	            </#list>
+	        </#if>
             </#if>
             </#list>
             </tr>
             <tr ng-click="select${class.name}($index)" 
             	ng-class="{active: $index === selectedIndex}"
-            	ng-repeat="i in ${class.lowerName}s">
+            	ng-repeat="i in page_${class.lowerName}s | filter:__search:strict">
                 <#list properties as property>
 				<#if property.upper == 1> 
 				<#if property.primitive>
@@ -63,9 +81,10 @@
 	            </#list>
             </tr>
         </table>
+        <ul uib-pagination items-per-page="__rpp" total-items="__total_items" ng-model="__cp" ng-change="pageChanged()"></ul>
 	</div>
 	
-	<p> A sada tabovi </p>
+	<hr/>
 	
 	<uib-tabset>
 		<#list properties as property>
