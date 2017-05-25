@@ -65,12 +65,18 @@
         </table>
 	</div>
 	
-	<p> A sada tabovi </p>
+	<br/>
+	
+	<div class="btn-group clearfix">
+        <button type="button" ng-click="childModal()" class="btn btn-default">
+            <i class="glyphicon glyphicon-plus"></i>&nbsp;Create
+        </button>
+    </div>
 	
 	<uib-tabset>
 		<#list properties as property>
 		<#if property.tab??> 
-    	<uib-tab index="0" heading="${property.originName}">
+    	<uib-tab index="${property.FMClass.lowerName}" heading="${property.originName}"  select="tabSelection('${property.FMClass.lowerName}', '${property.FMClass.name}')">
     		<table class="table table-hover">
 	            <tr>
 	            <#list property.FMClass.properties as property>

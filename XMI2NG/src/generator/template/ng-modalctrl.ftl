@@ -94,7 +94,7 @@
     			<#if property.upper == 1 && !property.primitive> 
 				$scope.${property.name}Choose = function () {
 		            var modal${property.capName}Instance = $uibModal.open({
-		                templateUrl: 'app/${class.lowerName}/modal/${property.name}ModalView.html',
+		                templateUrl: '${class.lowerName}/modal/${property.name}ModalView.html',
 		                controller: '${class.lowerName}__${property.name}ModalController',
 		                resolve: {
 				                _rec : function() {

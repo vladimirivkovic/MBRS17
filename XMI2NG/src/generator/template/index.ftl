@@ -34,18 +34,18 @@
     <!--<script src="https://unpkg.com/angular-ui-router@0.4.2/release/angular-ui-router.min.js"></script>-->
 
     <!-- <angular> -->
-    <script type="application/javascript" src="app/app.js"></script>
+    <script type="application/javascript" src="app.js"></script>
     
     <#list classes as class>
-    <script type="application/javascript" src="app/${class.lowerName}/${class.lowerName}.js"></script>
-    <script type="application/javascript" src="app/${class.lowerName}/${class.lowerName}Ctrl.js"></script>
-    <script type="application/javascript" src="app/${class.lowerName}/${class.lowerName}ModalCtrl.js"></script>
+    <script type="application/javascript" src="${class.lowerName}/${class.lowerName}.js"></script>
+    <script type="application/javascript" src="${class.lowerName}/${class.lowerName}Ctrl.js"></script>
+    <script type="application/javascript" src="${class.lowerName}/${class.lowerName}ModalCtrl.js"></script>
     <#list class.properties as property>
     <#if property.upper == 1 && !property.primitive>
-    <script type="application/javascript" src="app/${class.lowerName}/modal/${property.name}ModalCtrl.js"></script>
+    <script type="application/javascript" src="${class.lowerName}/modal/${property.name}ModalCtrl.js"></script>
     </#if>
     </#list>
-    <script type="application/javascript" src="app/${class.lowerName}/${class.lowerName}Rsrc.js"></script>
+    <script type="application/javascript" src="${class.lowerName}/${class.lowerName}Rsrc.js"></script>
     </#list>
 
 </head>
@@ -67,7 +67,7 @@
 				<ul class="dropdown-menu" uib-dropdown-menu
 					aria-labelledby="simple-dropdown">
 					<#list classes as class>
-					<li><a href="app/index.html#/${class.lowerName}">${class.name}</a></li>
+					<li><a href="index.html#/${class.lowerName}">${class.name}</a></li>
 					</#list>
 				</ul>
 			</li>

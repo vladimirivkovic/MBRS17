@@ -16,6 +16,13 @@
 
         $scope.selected = null;
         $scope.selectedIndex = null;
+        $scope.selectedTabLower = null;
+        $scope.selctedTab = null;
+        
+        $scope.tabSelection = function(lowerName, name) {
+   			$scope.selectedTabLower = lowerName;
+   			$scope.selectedTab = name;
+ 		};
 
         $scope.unselect = function () {
         	$scope.selected = null;
@@ -45,10 +52,41 @@
                 $scope.unselect();
             }
         }
+        
+        $scope.childModal = function(){
+			var templateUrl = $scope.selectedTabLower + '/' + $scope.selectedTabLower + 'ModalView.html';
+			var ctrl = $scope.selectedTab + 'sModalCtrl';
+
+        	var update = false;
+        	var copy = false;
+        	var modalInstance = $uibModal.open({
+	            templateUrl: templateUrl,
+	            controller: ctrl,
+	            resolve: {
+	                _rec : function() {
+	                	return update ? $scope.selected : null;
+	                },
+	                copy : function() {
+	                	return copy;
+	                }
+	            }
+			});
+	        modalInstance.result.then(function (result) {
+	            if (result !== 'No' && result !== 'Error') {
+	                if (!update) {
+	                    $scope.preduzeces.push(result);
+	                } else if (copy) {
+	                    $scope.preduzeces.push(result);
+	                } else {
+	                	$scope.preduzeces[$scope.selectedIndex] = result;
+	                }
+	            }
+	        }); 
+        }
 
 		$scope.openModal = function (update, copy) {
 	        var modalInstance = $uibModal.open({
-	            templateUrl: 'app/${class.lowerName}/${class.lowerName}ModalView.html',
+	            templateUrl: '${class.lowerName}/${class.lowerName}ModalView.html',
 	            controller: '${class.name}sModalCtrl',
 	            resolve: {
 	                _rec : function() {

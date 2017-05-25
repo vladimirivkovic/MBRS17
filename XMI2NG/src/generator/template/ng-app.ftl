@@ -6,7 +6,7 @@
         $routeProvider
         <#list classes as class>
         .when('/${class.lowerName}', {
-	        templateUrl: 'app/${class.lowerName}/${class.lowerName}View.html',
+	        templateUrl: '${class.lowerName}/${class.lowerName}View.html',
 	        controller: '${class.name}sCtrl'
 	    })
         </#list>
@@ -19,7 +19,7 @@
         <#list classes as class>
         .state('${class.lowerName}', {
 	        url: '/${class.lowerName}',
-	        templateUrl: 'app/${class.lowerName}/${class.lowerName}View.html',
+	        templateUrl: '${class.lowerName}/${class.lowerName}View.html',
 	        controller: '${class.name}sCtrl'
 	    })
         </#list>
