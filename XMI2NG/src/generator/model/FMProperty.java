@@ -255,7 +255,6 @@ public class FMProperty extends FMNamedElement  {
 		
 		if(!this.uIProperty.getSearchable() && uip.getSearchable()){ //menja u slucaju da ga niko nije postavio na true...
 			this.uIProperty.setSearchable(true);
-			
 		}
 		
 		if(!this.uIProperty.getRequired() && uip.getRequired()){ //menja u slucaju da ga niko nije postavio na true...

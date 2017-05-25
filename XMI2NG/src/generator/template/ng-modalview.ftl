@@ -2,13 +2,14 @@
 
 <div>
 	<div class="modal-header">
-		<h3 class="modal-title" id="modal-title">New/Edit ${class.name}</h3>
+		<h3 class="modal-title" id="modal-title">New/Edit ${class.originName}</h3>
 	</div>
 	<div class="modal-body" id="modal-body">
 		
 		<table class="table">
 			<#list properties as property>
 			<#if (property.upper == 1) && property.primitive> 
+			<#if !(property.id)??>
 			<#if (property.type == "date")>
 			<tr>
 				<td>${property.originName}</td>
@@ -41,6 +42,7 @@
 				<td><button class="btn btn-default" type="button" ng-click="${property.name}Choose()">Choose...</button></td>
 				<td>{{${property.name}.Id}}</td>
 			</tr>
+			</#if>
 			</#if>
 			</#list>
 		</table>

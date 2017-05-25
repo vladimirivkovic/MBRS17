@@ -496,8 +496,33 @@ public class ParserEngine {
 			break;
 
 		case "_:Lookup":
+			Lookup l = new Lookup(label, visible, uIElementType);
+			
+			for (int i = 0; i < attributes.getLength(); i++) {
+				if (attributes.getQName(i).equals("showColumn")) {
+					l.setShowColumn("true".equals(attributes.getValue(i)));
+
+				} else if (attributes.getQName(i).equals("toolTip")) {
+					l.setToolTip(attributes.getValue(i));
+
+				} else if (attributes.getQName(i).equals("copyable")) {
+					l.setCopyable("true".equals(attributes.getValue(i)));
+
+				} else if (attributes.getQName(i).equals("searchable")) {
+					l.setSearchable("true".equals(attributes.getValue(i)));
+
+				} else if (attributes.getQName(i).equals("required")) {
+					l.setRequired("true".equals(attributes.getValue(i)));
+
+				} else if (attributes.getQName(i).equals("unique")) {
+					l.setUnique("true".equals(attributes.getValue(i)));
+
+				}
+
+			}
+			
 			elementMap.get(baseProperty).addStereotype(
-					new Lookup(label, visible, uIElementType));
+					l);
 
 			break;
 
