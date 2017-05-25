@@ -1,4 +1,12 @@
 <div class="users">
+	<style>
+		.sortorder:after {
+		  content: '\25b2';   // BLACK UP-POINTING TRIANGLE
+		}
+		.sortorder.reverse:after {
+		  content: '\25bc';   // BLACK DOWN-POINTING TRIANGLE
+		}
+	</style>
     <h1>${class.name}</h1>
     <#if class.UIClass??>
     <#if class.UIClass.create>
@@ -37,7 +45,11 @@
             <#list properties as property>
 			<#if property.upper == 1> 
 			<#if property.primitive>
-	            <th>${property.originName}</th>
+	            <th> 
+	            <p ng-click="sortBy('${property.name}')">
+	            ${property.originName}
+	            <span class="sortorder" ng-show="propertyName === '${property.name}'" ng-class="{reverse: reverse}"></span>
+	            </p></th>
 	        <#else>
 	            <#list property.FMClass.lookupProperties as lp>
 	            <th>${property.originName} -> ${lp.originName}</th>
@@ -65,6 +77,10 @@
             </#if>
             </#list>
             </tr>
+            <p ng-show="false">
+            {{ page_${class.lowerName}s = (${class.lowerName}s | filter:__search:strict).slice((__cp-1)*__rpp,  __cp*__rpp)}}
+            {{ __total_items = (${class.lowerName}s | filter:__search:strict).length }}
+            </p>
             <tr ng-click="select${class.name}($index)" 
             	ng-class="{active: $index === selectedIndex}"
             	ng-repeat="i in page_${class.lowerName}s | filter:__search:strict">
@@ -81,7 +97,9 @@
 	            </#list>
             </tr>
         </table>
-        <ul uib-pagination items-per-page="__rpp" total-items="__total_items" ng-model="__cp" ng-change="pageChanged()"></ul>
+        <ul uib-pagination boundary-links="true" items-per-page="__rpp" 
+        total-items="__total_items" ng-model="__cp" ng-change="pageChanged()"
+        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
 	</div>
 	
 	<hr/>
