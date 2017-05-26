@@ -67,7 +67,7 @@
 				<ul class="dropdown-menu" uib-dropdown-menu
 					aria-labelledby="simple-dropdown">
 					<#list classes as class>
-					<li><a href="index.html#/${class.lowerName}">${class.originName}</a></li>
+					<li><a href="#/${class.lowerName}">${class.originName}</a></li>
 					</#list>
 				</ul>
 			</li>
