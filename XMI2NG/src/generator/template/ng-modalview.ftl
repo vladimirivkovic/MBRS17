@@ -36,13 +36,13 @@
 			</tr>
 			</#if>
 			</#if>
-			<#if (property.upper == 1) && !property.primitive> 
+			</#if>
+			<#if ((property.upper == 1) && property.FMClass??)> 
 			<tr>
 				<td>${property.originName}</td>
 				<td><button class="btn btn-default" type="button" ng-click="${property.name}Choose()">Choose...</button></td>
 				<td>{{${property.name}.Id}}</td>
 			</tr>
-			</#if>
 			</#if>
 			</#list>
 		</table>
