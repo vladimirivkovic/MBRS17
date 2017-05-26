@@ -53,7 +53,7 @@
         }
         
         $scope.childModal = function(){
-			var templateUrl = $scope.selectedTabLower + '/' + $scope.selectedTabLower + 'ModalView.html';
+			var templateUrl = '${root}' + $scope.selectedTabLower + '/' + $scope.selectedTabLower + 'ModalView.html';
 			var ctrl = $scope.selectedTab + 'sModalCtrl';
 
         	var update = false;
@@ -85,7 +85,7 @@
 
 		$scope.openModal = function (update, copy) {
 	        var modalInstance = $uibModal.open({
-	            templateUrl: '${class.lowerName}/${class.lowerName}ModalView.html',
+	            templateUrl: '${root}${class.lowerName}/${class.lowerName}ModalView.html',
 	            controller: '${class.name}sModalCtrl',
 	            resolve: {
 	                _rec : function() {

@@ -11,6 +11,7 @@ import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import freemarker.template.TemplateModelException;
 import generator.model.FMClass;
 import generator.model.FMEnumeration;
 import generator.model.FMNamedElement;
@@ -33,6 +34,13 @@ public class GeneratorEngine {
 				"template"));
 
 		//cfg.setObjectWrapper(new DefaultObjectWrapper());
+
+		try {
+			cfg.setSharedVariable("root", "");
+			//cfg.setSharedVariable("root", "app/");
+		} catch (TemplateModelException e1) {
+			e1.printStackTrace();
+		}
 
 		Map<String, Object> model = new HashMap<String, Object>();
 		Map<String, Object> model2 = new HashMap<String, Object>();
