@@ -6,8 +6,14 @@
     	function ($scope, $uibModalInstance, _rec, $uibModal, ${propClass.name}) { //, $stateParams
         	
         		$scope.init = function() {
+        			$scope.__rpp = 5;
+		    		$scope.__total_items = 0;
+		    		$scope.__cp = 1;
+        		
         			var ${prop.name}s = ${propClass.name}.query(function () {
 		                $scope.${prop.name}s = ${prop.name}s;
+		                $scope.page_${prop.name}s = $scope.${prop.name}s.slice(0, $scope.__rpp);
+                		$scope.__total_items = $scope.${prop.name}s.length;
 		                
 		                $scope._chosen = null;
 		                

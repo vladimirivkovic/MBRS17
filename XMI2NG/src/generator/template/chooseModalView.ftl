@@ -11,7 +11,22 @@
 				<th>${property.originName}</th>
 			</#if>
 			</#list></tr>
-			<tr ng-repeat="rec in ${prop.name}s">
+			<tr><th>&nbsp</th>
+			<#list propClass.properties as property>
+			<#if property.upper == 1 && property.primitive>
+				<#if property.uIProperty.searchable>
+				 <th><input style="max-width: 200px" type="text" class="form-control"
+					ng-model="__search.${property.name}"></th>
+				<#else>
+	            <th>&nbsp;</th>
+	            </#if>
+			</#if>
+			</#list></tr>
+			<p ng-show="false">
+            {{ page_${prop.name}s = (${prop.name}s | filter:__search:strict).slice((__cp-1)*__rpp,  __cp*__rpp)}}
+            {{ __total_items = (${prop.name}s | filter:__search:strict).length }}
+            </p>
+			<tr ng-repeat="rec in page_${prop.name}s">
 			<td>
 				<input type="radio" name="choose" ng-model="$parent.__chosen" ng-value="rec">
 			</td>
@@ -21,6 +36,9 @@
 			</#if>
 			</#list></tr>
 		</table>
+		<ul uib-pagination boundary-links="true" items-per-page="__rpp" 
+        total-items="__total_items" ng-model="__cp" ng-change="pageChanged()"
+        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
 
 	</div>
 	<div class="modal-footer">
