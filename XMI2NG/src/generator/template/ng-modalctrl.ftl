@@ -2,8 +2,8 @@
 	var ${class.lowerName}sModalControllerModule = angular.module('app.${class.name}.modalController', 
     	['app.${class.name}.resource']);
     	
-    var ${class.lowerName}sModalController = ['$scope', '$uibModalInstance', '_rec', 'copy', '$uibModal', '${class.name}', //,'$stateParams'  
-    	function ($scope, $uibModalInstance, _rec, copy, $uibModal, ${class.name}) { //, $stateParams
+    var ${class.lowerName}sModalController = ['$scope', '$uibModalInstance', '_rec', 'copy', 'parent', 'parentType', '$uibModal', '${class.name}', //,'$stateParams'  
+    	function ($scope, $uibModalInstance, _rec, copy, parent, parentType, $uibModal, ${class.name}) { //, $stateParams
         		<#list properties as property>
     			<#if (property.type == "date")> 
     				$scope.${property.name}Popup = { opened : false };
@@ -91,25 +91,30 @@
         		}
         		
         		<#list properties as property>
-    			<#if property.upper == 1 && !property.primitive> 
-				$scope.${property.name}Choose = function () {
-		            var modal${property.capName}Instance = $uibModal.open({
-		                templateUrl: '${root}${class.lowerName}/modal/${property.name}ModalView.html',
-		                controller: '${class.lowerName}__${property.name}ModalController',
-		                resolve: {
-				                _rec : function() {
-			                		return $scope.${property.name};
+    			<#if property.upper == 1 && !property.primitive>
+    			if(parentType != '${property.name}'){
+					$scope.${property.name}Choose = function () {
+			            var modal${property.capName}Instance = $uibModal.open({
+			                templateUrl: '${root}${class.lowerName}/modal/${property.name}ModalView.html',
+			                controller: '${class.lowerName}__${property.name}ModalController',
+			                resolve: {
+					                _rec : function() {
+				                		return $scope.${property.name};
+				                }
 			                }
-		                }
-		            });
-		            
-		            modal${property.capName}Instance.result.then(function (result) {
-			            if (result !== 'No' && result !== 'Error') {
-			            	$scope.${property.name}_ID = result.Id;
-							$scope.${property.name} = result;
-			            }
-		        	});
-		        }
+			            });
+			            
+			            modal${property.capName}Instance.result.then(function (result) {
+				            if (result !== 'No' && result !== 'Error') {
+				            	$scope.${property.name}_ID = result.Id;
+								$scope.${property.name} = result;
+				            }
+			        	});
+			        }
+			    }else{
+			    	$scope.${property.name}_ID = parent.Id;
+			    	$scope.${property.name} = parent;
+			    }
     			</#if>
     			</#list>
     			

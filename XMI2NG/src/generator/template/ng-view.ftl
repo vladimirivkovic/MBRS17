@@ -136,4 +136,6 @@
     	</#if>
 	    </#list>
   	</uib-tabset>
+  	
+  	<div style="clear: both; margin-top:100px"></div>
 </div>

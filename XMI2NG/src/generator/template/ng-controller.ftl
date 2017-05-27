@@ -55,6 +55,10 @@
         $scope.childModal = function(){
 			var templateUrl = '${root}' + $scope.selectedTabLower + '/' + $scope.selectedTabLower + 'ModalView.html';
 			var ctrl = $scope.selectedTab + 'sModalCtrl';
+			var selectedIndex = $scope.selectedIndex;
+			
+			if (selectedIndex == null)
+				return;
 
         	var update = false;
         	var copy = false;
@@ -67,18 +71,20 @@
 	                },
 	                copy : function() {
 	                	return copy;
+	                },
+	                parent : function() {
+	                	return $scope.selected;
+	                },
+	                parentType : function(){
+	                	return '${class.name}';
 	                }
 	            }
 			});
 	        modalInstance.result.then(function (result) {
 	            if (result !== 'No' && result !== 'Error') {
-	                if (!update) {
-	                    $scope.preduzeces.push(result);
-	                } else if (copy) {
-	                    $scope.preduzeces.push(result);
-	                } else {
-	                	$scope.preduzeces[$scope.selectedIndex] = result;
-	                }
+	                $scope.unselect();
+	                $scope.select${class.name}(selectedIndex);
+	                $scope.childModal();
 	            }
 	        }); 
         }
@@ -93,6 +99,12 @@
 	                },
 	                copy : function() {
 	                	return copy;
+	                },
+	                parent : function() {
+	                	return null;
+	                },
+	                parentType : function(){
+	                	return null;
 	                }
 	            }
 			});
@@ -108,6 +120,7 @@
 	                }
 */
 					$scope.init(false);
+					$scope.openModal();
 	            }
 	        }); 
         }
