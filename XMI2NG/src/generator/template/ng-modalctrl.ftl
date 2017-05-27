@@ -92,7 +92,7 @@
         		
         		<#list properties as property>
     			<#if property.upper == 1 && !property.primitive>
-    			if(parentType != '${property.name}'){
+    			if(parentType != '${property.name}' || _rec != null){
 					$scope.${property.name}Choose = function () {
 			            var modal${property.capName}Instance = $uibModal.open({
 			                templateUrl: '${root}${class.lowerName}/modal/${property.name}ModalView.html',

@@ -105,15 +105,33 @@
 	<hr/>
 	
 	<div class="btn-group clearfix">
-        <button type="button" ng-click="childModal()" class="btn btn-default">
+        <button type="button" ng-click="childModal(false, false)" class="btn btn-default">
             <i class="glyphicon glyphicon-plus"></i>&nbsp;Create
         </button>
     </div>
+    
+    <div class="btn-group clearfix">
+        <button type="button" ng-click="childModal(true, false)" class="btn btn-default" ng-disabled="!selected">
+            <i class="glyphicon glyphicon-edit"></i>&nbsp;Edit
+        </button>
+    </div>
+    
+    <div class="btn-group clearfix">
+        <button type="button" ng-click="removeFromTab()" class="btn btn-default" ng-disabled="!selected">
+            <i class="glyphicon glyphicon-remove"></i>&nbsp;Delete
+        </button>
+    </div>
+ 
+    <div class="btn-group clearfix">
+        <button type="button" ng-click="childModal(true, true)" class="btn btn-default" ng-disabled="!selected">
+            <i class="glyphicon glyphicon-copy"></i>&nbsp;Copy
+        </button>
+    </div>
 	
-	<uib-tabset>
+	<uib-tabset style="margin-top: 15px;">
 		<#list properties as property>
 		<#if property.tab??> 
-    	<uib-tab index="${property.FMClass.lowerName}" heading="${property.originName}"  select="tabSelection('${property.FMClass.lowerName}', '${property.FMClass.name}')">
+    	<uib-tab index="${property.FMClass.lowerName}" heading="${property.originName}"  select="tabSelection('${property.FMClass.lowerName}', '${property.FMClass.name}', '${property.name}')">
     		<table class="table table-hover">
 	            <tr>
 	            <#list property.FMClass.properties as property>
@@ -122,8 +140,8 @@
 	            </#if>
 	            </#list>
 	            </tr>
-	            <tr //ng-click="select${property.name}($index)" 
-	            	//ng-class="{active: $index === ${property.name}selectedIndex}"
+	            <tr ng-click="selectChild($index)" 
+	            	ng-class="{active: $index === selectedChildIndex}"
 	            	ng-repeat="i in ${property.name}_tab">
 	                <#list property.FMClass.properties as property>
 					<#if property.upper == 1 && property.primitive> 

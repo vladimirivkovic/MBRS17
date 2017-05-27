@@ -16,11 +16,14 @@
         $scope.selected = null;
         $scope.selectedIndex = null;
         $scope.selectedTabLower = null;
-        $scope.selctedTab = null;
+        $scope.selectedTab = null;
         
-        $scope.tabSelection = function(lowerName, name) {
+        $scope.selectedChildIndex = null;
+        
+        $scope.tabSelection = function(lowerName, name, originName) {
    			$scope.selectedTabLower = lowerName;
    			$scope.selectedTab = name;
+   			$scope.selectedTabOriginName = originName;
  		};
 
         $scope.unselect = function () {
@@ -52,22 +55,30 @@
             }
         }
         
-        $scope.childModal = function(){
+        $scope.selectChild = function(index){
+        	if(index != $scope.selectedChildIndex){
+        		$scope.selectedChildIndex = index;
+        	}else{
+        		$scope.selectedChildIndex = null;
+        	}
+        }
+        
+        $scope.childModal = function(update, copy){
 			var templateUrl = '${root}' + $scope.selectedTabLower + '/' + $scope.selectedTabLower + 'ModalView.html';
 			var ctrl = $scope.selectedTab + 'sModalCtrl';
 			var selectedIndex = $scope.selectedIndex;
 			
+			var tabRecords = $scope.$eval($scope.selectedTabOriginName + "_tab");
+			
 			if (selectedIndex == null)
 				return;
 
-        	var update = false;
-        	var copy = false;
         	var modalInstance = $uibModal.open({
 	            templateUrl: templateUrl,
 	            controller: ctrl,
 	            resolve: {
 	                _rec : function() {
-	                	return update ? $scope.selected : null;
+	                	return update ? tabRecords[$scope.selectedChildIndex] : null;
 	                },
 	                copy : function() {
 	                	return copy;
@@ -84,7 +95,6 @@
 	            if (result !== 'No' && result !== 'Error') {
 	                $scope.unselect();
 	                $scope.select${class.name}(selectedIndex);
-	                $scope.childModal();
 	            }
 	        }); 
         }
@@ -135,6 +145,16 @@
         	})
         }
         
+        $scope.removeFromTab = function(){
+        	var tabRecords = $scope.$eval($scope.selectedTabOriginName + "_tab");
+        	eval($scope.selectedTab).delete({Id: tabRecords[$scope.selectedChildIndex].Id},
+	        	function() { 
+	        		var selectedIndex = $scope.selectedIndex;
+		        	$scope.unselect();
+	                $scope.selectPreduzece(selectedIndex);
+        	})
+        }
+          
         $scope.init = function (reset) {
         	$scope.__rpp = 5;
     		$scope.__total_items = 0;
