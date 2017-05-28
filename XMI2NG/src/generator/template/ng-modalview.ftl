@@ -40,7 +40,7 @@
 			<#if ((property.upper == 1) && property.FMClass??)> 
 			<tr>
 				<td>${property.originName}</td>
-				<td><button class="btn btn-default" type="button" ng-click="${property.name}Choose()">Choose...</button></td>
+				<td><button ng-disabled="parentType == '${property.name}' && _rec == null" class="btn btn-default" type="button" ng-click="${property.name}Choose()">Choose...</button></td>
 				<td>{{${property.name}.Id}}</td>
 			</tr>
 			</#if>

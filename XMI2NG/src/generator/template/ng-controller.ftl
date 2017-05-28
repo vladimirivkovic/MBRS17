@@ -24,6 +24,30 @@
    			$scope.selectedTabLower = lowerName;
    			$scope.selectedTab = name;
    			$scope.selectedTabOriginName = originName;
+   			
+   			if ($scope.edits.indexOf(originName) > -1){
+   				$scope.hideEdit = false;
+   			}else{
+   				$scope.hideEdit = true;
+   			}
+   			
+   			if ($scope.creates.indexOf(originName) > -1){
+   				$scope.hideCreate = false;
+   			}else{
+   				$scope.hideCreate = true;
+   			}
+   			
+   			if ($scope.copys.indexOf(originName) > -1){
+   				$scope.hideCopy = false;
+   			}else{
+   				$scope.hideCopy = true;
+   			}
+   			
+   			if ($scope.deletes.indexOf(originName) > -1){
+   				$scope.hideDelete = false;
+   			}else{
+   				$scope.hideDelete = true;
+   			}
  		};
 
         $scope.unselect = function () {
@@ -166,9 +190,27 @@
                 $scope.__total_items = $scope.${class.lowerName}s.length;
             });
             
+            $scope.edits = [];
+            $scope.creates = [];
+            $scope.copys = [];
+            $scope.deletes = [];
+            
             <#list properties as property>
 			<#if property.tab??>
 			$scope.${property.name}_tab = []
+			<#if property.FMClass.UIClass.create>
+			$scope.creates.push('${property.name}');
+			</#if>
+			<#if property.FMClass.UIClass.update>
+			$scope.edits.push('${property.name}');
+			</#if>
+			<#if property.FMClass.UIClass.delete>
+			$scope.deletes.push('${property.name}');
+			</#if>
+			<#if property.FMClass.UIClass.copy>
+			$scope.copys.push('${property.name}');
+			</#if>
+
 			</#if>
 	    	</#list>
 			

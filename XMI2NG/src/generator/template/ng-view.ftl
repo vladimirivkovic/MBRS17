@@ -105,25 +105,25 @@
 	<hr/>
 	
 	<div class="btn-group clearfix">
-        <button type="button" ng-click="childModal(false, false)" class="btn btn-default">
+        <button type="button" ng-click="childModal(false, false)" class="btn btn-default" ng-disabled="!selected" ng-hide="hideCreate">
             <i class="glyphicon glyphicon-plus"></i>&nbsp;Create
         </button>
     </div>
     
     <div class="btn-group clearfix">
-        <button type="button" ng-click="childModal(true, false)" class="btn btn-default" ng-disabled="!selected">
+        <button type="button" ng-click="childModal(true, false)" class="btn btn-default" ng-disabled="selectedChildIndex == null" ng-hide="hideEdit">
             <i class="glyphicon glyphicon-edit"></i>&nbsp;Edit
         </button>
     </div>
     
     <div class="btn-group clearfix">
-        <button type="button" ng-click="removeFromTab()" class="btn btn-default" ng-disabled="!selected">
+        <button type="button" ng-click="removeFromTab()" class="btn btn-default" ng-disabled="selectedChildIndex == null" ng-hide="hideDelete">
             <i class="glyphicon glyphicon-remove"></i>&nbsp;Delete
         </button>
     </div>
  
     <div class="btn-group clearfix">
-        <button type="button" ng-click="childModal(true, true)" class="btn btn-default" ng-disabled="!selected">
+        <button type="button" ng-click="childModal(true, true)" class="btn btn-default" ng-disabled="selectedChildIndex == null" ng-hide="hideCopy">
             <i class="glyphicon glyphicon-copy"></i>&nbsp;Copy
         </button>
     </div>

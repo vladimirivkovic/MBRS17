@@ -10,6 +10,7 @@
     			</#if>
     			</#list>
         	
+        		$scope.parentType = parentType;
         	
         		$scope.init = function(rec) {
         			$scope._rec = _rec;
