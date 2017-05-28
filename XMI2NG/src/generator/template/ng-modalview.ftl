@@ -41,7 +41,9 @@
 			<tr>
 				<td>${property.originName}</td>
 				<td><button ng-disabled="parentType == '${property.name}' && _rec == null" class="btn btn-default" type="button" ng-click="${property.name}Choose()">Choose...</button></td>
-				<td>{{${property.name}.Id}}</td>
+				<#list property.FMClass.lookupProperties as lp>
+	            <td>{{${property.name}.${lp.name}}}</td>
+	            </#list>
 			</tr>
 			</#if>
 			</#list>

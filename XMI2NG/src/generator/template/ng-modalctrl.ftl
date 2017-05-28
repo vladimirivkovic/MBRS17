@@ -116,6 +116,7 @@
 			    	$scope.${property.name}_ID = parent.Id;
 			    	$scope.${property.name} = parent;
 			    }
+			    
     			</#if>
     			</#list>
     			
