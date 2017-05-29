@@ -12,6 +12,12 @@
         </#list>
         ;
     })
+    
+    app.filter('yesOrNo', function() {
+	return function(input) {
+	  return input === true ? 'Da' : 'Ne' ;
+	};
+	})
 
     /*app.config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/faktura');

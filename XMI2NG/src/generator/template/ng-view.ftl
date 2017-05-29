@@ -86,7 +86,11 @@
             	ng-repeat="i in page_${class.lowerName}s | filter:__search:strict">
                 <#list properties as property>
 				<#if property.upper == 1> 
-				<#if property.primitive>
+				<#if property.type == 'boolean'>
+				<td>{{i.${property.name} | yesOrNo}}</td>
+				<#elseif property.type == 'date'>
+				<td>{{i.${property.name} | date :  "d.M.y"}}</td>
+				<#elseif property.primitive>
 	            <td>{{i.${property.name}}}</td>
 	            <#else>
 	            <#list property.FMClass.lookupProperties as lp>
@@ -154,7 +158,17 @@
 	            	ng-repeat="i in ${property.name}_tab">
 	                <#list property.FMClass.properties as property>
 					<#if property.upper == 1 && property.primitive> 
+					<#if property.type == 'boolean'>
+					<td>{{i.${property.name} | yesOrNo}}</td>
+					<#elseif property.type == 'date'>
+					<td>{{i.${property.name} | date :  "d.M.y"}}</td>
+					<#elseif property.primitive>
 		            <td>{{i.${property.name}}}</td>
+		            <#else>
+		            <#list property.FMClass.lookupProperties as lp>
+		            <td>{{i.${property.name}.${lp.name}}}</td>
+		            </#list>
+		            </#if>
 		            </#if>
 		            </#list>
 	            </tr>
