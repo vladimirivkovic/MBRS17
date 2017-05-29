@@ -102,8 +102,16 @@
         previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></ul>
 	</div>
 	
+	<#assign tabCount = 0>
+	<#list properties as prop>
+		<#if prop.tab??> 
+		<#assign tabCount++>
+		</#if>	
+	</#list>
+
+	<#if (tabCount > 0)>
 	<hr/>
-	
+		
 	<div class="btn-group clearfix">
         <button type="button" ng-click="childModal(false, false)" class="btn btn-default" ng-disabled="!selected" ng-hide="hideCreate">
             <i class="glyphicon glyphicon-plus"></i>&nbsp;Create
@@ -127,6 +135,7 @@
             <i class="glyphicon glyphicon-copy"></i>&nbsp;Copy
         </button>
     </div>
+    </#if>
 	
 	<uib-tabset style="margin-top: 15px;">
 		<#list properties as property>
