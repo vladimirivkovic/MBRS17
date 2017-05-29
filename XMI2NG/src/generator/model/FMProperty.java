@@ -66,6 +66,10 @@ public class FMProperty extends FMNamedElement  {
 		this.associationId = associationId;
 	}
 	
+	public FMEnumeration getFMEnumeration() {
+		return ParserEngine.getEnum(type);
+	}
+
 	public FMClass getFMClass() {
 		return ParserEngine.getClass(type);
 	}

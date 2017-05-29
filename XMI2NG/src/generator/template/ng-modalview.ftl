@@ -10,7 +10,29 @@
 			<#list properties as property>
 			<#if (property.upper == 1) && property.primitive> 
 			<#if !(property.id)??>
-			<#if (property.type == "date")>
+			<#if property.FMEnumeration??>
+			<#if (property.FMEnumeration.literals?size >= 3) >
+			<tr>
+				<td>${property.originName}</td>
+				<td>
+					<select class="form-control" ng-model="${property.name}"> 
+						<#list property.FMEnumeration.literals as literal>
+						<option value="${literal}">${literal}</option>
+						</#list>
+					</select>
+				</td>
+			</tr>
+			<#else>
+			<tr>
+				<td>${property.originName}</td>
+				<td>
+					<#list property.FMEnumeration.literals as literal>
+					<label class="radio-inline"><input type="radio" ng-model="${property.name}" value=${literal}>${literal}</label>
+					</#list>
+				</td>
+			</tr>
+			</#if>
+			<#elseif (property.type == "date")>
 			<tr>
 				<td>${property.originName}</td>
 				<td>
@@ -27,6 +49,11 @@
 				<td>${property.originName}</td>
 				<td><input type="number" class="form-control"
 					ng-model="${property.name}"></td>
+			</tr>
+			<#elseif (property.type == "boolean")>
+			<tr>
+				<td>${property.originName}</td>
+				<td><input type="checkbox" ng-model="${property.name}"></td>
 			</tr>
 			<#else>
 			<tr>

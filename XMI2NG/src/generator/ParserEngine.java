@@ -702,4 +702,12 @@ public class ParserEngine {
 				return (FMClass) types.get(typeId);
 		return null;
 	}
+	
+	public static FMEnumeration getEnum(String typeId){
+		if (types.containsKey(typeId))
+			if (types.get(typeId) instanceof FMEnumeration)
+				return (FMEnumeration) types.get(typeId);
+		return null;
+	}
+	
 }
