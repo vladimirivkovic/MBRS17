@@ -160,7 +160,9 @@
 	            	ng-repeat="i in ${property.name}_tab">
 	                <#list property.FMClass.properties as property>
 					<#if property.upper == 1 && property.primitive> 
-					<#if property.type == 'boolean'>
+					<#if property.FMEnumeration??>
+					<td>{{i.${property.originName} | ${property.FMEnumeration.name}}}</td>
+					<#elseif property.type == 'boolean'>
 					<td>{{i.${property.name} | yesOrNo}}</td>
 					<#elseif property.type == 'date'>
 					<td>{{i.${property.name} | date :  "d.M.y"}}</td>
