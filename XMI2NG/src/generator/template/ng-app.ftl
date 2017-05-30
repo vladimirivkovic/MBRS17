@@ -18,6 +18,18 @@
 	  return input === true ? 'Da' : 'Ne' ;
 	};
 	})
+	
+	<#list enumerations as enum>
+	app.filter('${enum.name}', function(){
+	return function(input) {
+	  	<#list enum.literals as literal>
+	 	if (input == ${literal?index})
+	 		return '${literal}';
+		</#list>
+	};
+	
+	})
+	</#list>
 
     /*app.config(function ($stateProvider, $urlRouterProvider) {
         $urlRouterProvider.otherwise('/faktura');

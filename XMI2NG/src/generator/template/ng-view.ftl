@@ -86,7 +86,9 @@
             	ng-repeat="i in page_${class.lowerName}s | filter:__search:strict">
                 <#list properties as property>
 				<#if property.upper == 1> 
-				<#if property.type == 'boolean'>
+				<#if property.FMEnumeration??>
+				<td>{{i.${property.originName} | ${property.FMEnumeration.name}}}</td>
+				<#elseif property.type == 'boolean'>
 				<td>{{i.${property.name} | yesOrNo}}</td>
 				<#elseif property.type == 'date'>
 				<td>{{i.${property.name} | date :  "d.M.y"}}</td>

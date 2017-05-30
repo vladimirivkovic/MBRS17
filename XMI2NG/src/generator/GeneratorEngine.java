@@ -45,6 +45,8 @@ public class GeneratorEngine {
 		Map<String, Object> model = new HashMap<String, Object>();
 		Map<String, Object> model2 = new HashMap<String, Object>();
 		model2.put("classes", new ArrayList<FMClass>());
+		
+		ArrayList<FMEnumeration> enumerations = new ArrayList<FMEnumeration>();
 
 		File f = new File("generated");
 
@@ -218,6 +220,8 @@ public class GeneratorEngine {
 			else if(el instanceof FMEnumeration){
 				en = (FMEnumeration) el;
 				
+				enumerations.add(en);
+				
 				System.out.println("********GENERATING for " + en.getName());
 
 				model.clear();
@@ -248,6 +252,7 @@ public class GeneratorEngine {
 		 * Generating ng-app
 		 */
 		try {
+			model2.put("enumerations", enumerations);
 			Template temp = cfg.getTemplate("ng-app.ftl");
 			FileWriter fw = new FileWriter(new File("generated/app/app.js"));
 			temp.process(model2, fw);
