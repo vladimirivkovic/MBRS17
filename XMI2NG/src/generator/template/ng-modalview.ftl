@@ -13,7 +13,7 @@
 			<#if property.FMEnumeration??>
 			<#if (property.FMEnumeration.literals?size >= 3) >
 			<tr>
-				<td>${property.originName}</td>
+				<td>${property.originName} <#if property.uIProperty.required == true> <span style="color: red">*</span> </#if></td>
 				<td>
 					<select class="form-control" ng-model="${property.name}"> 
 						<#list property.FMEnumeration.literals as literal>
@@ -24,7 +24,7 @@
 			</tr>
 			<#else>
 			<tr>
-				<td>${property.originName}</td>
+				<td>${property.originName} <#if property.uIProperty.required == true> <span style="color: red">*</span> </#if></td>
 				<td>
 					<#list property.FMEnumeration.literals as literal>
 					<label class="radio-inline"><input type="radio" ng-model="${property.name}" value=${literal}>${literal}</label>
@@ -34,7 +34,7 @@
 			</#if>
 			<#elseif (property.type == "date")>
 			<tr>
-				<td>${property.originName}</td>
+				<td>${property.originName} <#if property.uIProperty.required == true> <span style="color: red">*</span> </#if></td>
 				<td>
 				<p class="input-group">
 		          <input type="text" class="form-control" uib-datepicker-popup="{{'dd-MMMM-yyyy'}}" ng-model="${property.name}" is-open="${property.name}Popup.opened"  close-text="Close"/>
@@ -46,18 +46,18 @@
 			</tr>
 			<#elseif (property.type == "int")>
 			<tr>
-				<td>${property.originName}</td>
+				<td>${property.originName} <#if property.uIProperty.required == true> <span style="color: red">*</span> </#if></td>
 				<td><input type="number" class="form-control"
 					ng-model="${property.name}"></td>
 			</tr>
 			<#elseif (property.type == "boolean")>
 			<tr>
-				<td>${property.originName}</td>
+				<td>${property.originName} <#if property.uIProperty.required == true> <span style="color: red">*</span> </#if></td>
 				<td><input type="checkbox" ng-model="${property.name}"></td>
 			</tr>
 			<#else>
 			<tr>
-				<td>${property.originName}</td>
+				<td>${property.originName} <#if property.uIProperty.required == true> <span style="color: red">*</span> </#if></td>
 				<td><input type="text" class="form-control"
 					ng-model="${property.name}"></td>
 			</tr>
@@ -66,7 +66,7 @@
 			</#if>
 			<#if ((property.upper == 1) && property.FMClass??)> 
 			<tr>
-				<td>${property.originName}</td>
+				<td>${property.originName} <#if property.uIProperty.required == true> <span style="color: red">*</span> </#if></td>
 				<td><button ng-disabled="parentType == '${property.name}' && _rec == null" class="btn btn-default" type="button" ng-click="${property.name}Choose()">Choose...</button></td>
 				<#list property.FMClass.lookupProperties as lp>
 	            <td>{{${property.name}.${lp.name}}}</td>
