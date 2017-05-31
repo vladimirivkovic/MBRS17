@@ -7,6 +7,7 @@ public class UIClass extends UIElement {
 	private Boolean copy = true;
 	private Boolean delete = true;
 	private int rowsPerPage;
+	private String entityGroup = "Other entities";
 	
 	public UIClass() {
 		// TODO Auto-generated constructor stub
@@ -23,6 +24,14 @@ public class UIClass extends UIElement {
 
 	public UIClass(String label, Boolean visible, UIElementType uIType) {
 		super(label, visible, uIType);
+	}
+	
+	public String getEntityGroup() {
+		return entityGroup;
+	}
+
+	public void setEntityGroup(String entityGroup) {
+		this.entityGroup = entityGroup;
 	}
 
 	public Boolean getCreate() {

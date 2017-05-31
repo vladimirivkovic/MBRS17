@@ -62,15 +62,20 @@
 			<!--                 <a href="#/registarMera">Registar Mera</a> -->
 			<!--             </li> -->
 
+			<#list groups as group>
 			<li uib-dropdown on-toggle="toggled(open)">
-				<a href id="simple-dropdown" uib-dropdown-toggle>Entities</a>
+				<a href id="simple-dropdown" uib-dropdown-toggle>${group} <span class="caret"></span></a>
 				<ul class="dropdown-menu" uib-dropdown-menu
 					aria-labelledby="simple-dropdown">
 					<#list classes as class>
+					<#if class.UIClass.visible && class.UIClass.entityGroup == group>
 					<li><a href="#/${class.lowerName}">${class.originName}</a></li>
+					</#if>
 					</#list>
 				</ul>
+				
 			</li>
+			</#list>
 		</ul>
 	</div>
 </nav>

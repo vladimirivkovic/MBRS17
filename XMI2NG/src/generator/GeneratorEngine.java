@@ -253,6 +253,7 @@ public class GeneratorEngine {
 		 */
 		try {
 			model2.put("enumerations", enumerations);
+			model2.put("groups", ParserEngine.groups);
 			Template temp = cfg.getTemplate("ng-app.ftl");
 			FileWriter fw = new FileWriter(new File("generated/app/app.js"));
 			temp.process(model2, fw);

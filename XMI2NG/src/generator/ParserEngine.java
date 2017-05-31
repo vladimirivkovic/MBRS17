@@ -27,6 +27,7 @@ import generator.model.profile.UIProperty;
 import generator.model.profile.Zoom;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Stack;
 
@@ -37,6 +38,7 @@ public class ParserEngine {
 	private static Map<String, FMType> types = new HashMap<String, FMType>();
 	private static Map<String, FMNamedElement> elementMap = new HashMap<>();
 	private static Stack<FMNamedElement> elementStack = new Stack<FMNamedElement>();
+	static HashSet<String> groups = new HashSet<>();
 
 	public enum STATE {
 		IDLE, MODEL, PACKED_ELEMENT, CLASS, ASSOCIATION, OWNED_ATTRIBUTE, TYPE, OWNED_END, MEMBER_END, LOWER, UPPER, STEREOTYPE, OWNED_LITERAL, OWNED_OPERATION, OWNED_PARAMETER
@@ -516,6 +518,7 @@ public class ParserEngine {
 			break;
 		case "_:UIClass":
 			UIClass c = new UIClass(label, visible, uIElementType);
+			boolean grouped = false;
 			for (int i = 0; i < attributes.getLength(); i++) {
 				if (attributes.getQName(i).equals("create")) {
 					c.setCreate("true".equals(attributes.getValue(i)));
@@ -532,12 +535,19 @@ public class ParserEngine {
 				} else if (attributes.getQName(i).equals("rowsPerPage")) {
 					c.setRowsPerPage(Integer.parseInt(attributes.getValue(i)));
 
+				} else if (attributes.getQName(i).equals("entityGroup")) {
+					c.setEntityGroup(attributes.getValue(i));
+					groups.add(attributes.getValue(i));
+					grouped = true;
 				}
 			}
 			// System.out.println("UICLASS na " +
 			// elementMap.get(baseClass).getName());
 			elementMap.get(baseClass).addStereotype(c);
-
+			if (!grouped){
+				groups.add("Other entities");
+			}
+			
 			break;
 
 		case "_:UIProperty":
