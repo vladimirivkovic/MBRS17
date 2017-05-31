@@ -3,7 +3,9 @@ package generator;
 import generator.model.FMAssociation;
 import generator.model.FMClass;
 import generator.model.FMEnumeration;
+import generator.model.FMMethod;
 import generator.model.FMNamedElement;
+import generator.model.FMParameter;
 import generator.model.FMProperty;
 import generator.model.FMType;
 import generator.model.profile.BusinessOperation;
@@ -35,7 +37,7 @@ public class ParserEngine {
 	private static Stack<FMNamedElement> elementStack = new Stack<FMNamedElement>();
 
 	public enum STATE {
-		IDLE, MODEL, PACKED_ELEMENT, CLASS, ASSOCIATION, OWNED_ATTRIBUTE, TYPE, OWNED_END, MEMBER_END, LOWER, UPPER, STEREOTYPE, OWNED_LITERAL
+		IDLE, MODEL, PACKED_ELEMENT, CLASS, ASSOCIATION, OWNED_ATTRIBUTE, TYPE, OWNED_END, MEMBER_END, LOWER, UPPER, STEREOTYPE, OWNED_LITERAL, OWNED_OPERATION, OWNED_PARAMETER
 	}
 
 	private static STATE current = STATE.IDLE;
@@ -44,7 +46,7 @@ public class ParserEngine {
 
 	public static void handleStart(STATE state, Attributes attributes) {
 		String name = null, visibility = "public", type = null;
-		String xmiId = null, xmiType = null, href = null;
+		String xmiId = null, xmiType = null, href = null, direction = null;
 		String associationId = null;
 		FMNamedElement el;
 		FMAssociation asoc = null;
@@ -143,6 +145,61 @@ public class ParserEngine {
 			// current = STATE.LOWER;
 			break;
 
+		case OWNED_OPERATION:
+			// System.out.println(current);
+			if (current != STATE.OWNED_ATTRIBUTE)
+				break;
+
+			for (int i = 0; i < attributes.getLength(); i++) {
+				if (attributes.getQName(i).equals("name")) {
+					name = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("xmi:id")) {
+					xmiId = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("visibility")) {
+					visibility = attributes.getValue(i);
+				}
+			}
+
+			System.out.println("Operation " + name);
+			FMMethod m = new FMMethod(name, visibility, null);
+			((FMClass) elementStack.peek()).addMethod(m);
+			elementMap.put(xmiId, m);
+			elementStack.push(m);
+
+			current = STATE.OWNED_PARAMETER;
+			break;
+
+		case OWNED_PARAMETER:
+			// System.out.println(current);
+			if (current != STATE.OWNED_PARAMETER)
+				break;
+
+			for (int i = 0; i < attributes.getLength(); i++) {
+				if (attributes.getQName(i).equals("name")) {
+					name = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("xmi:id")) {
+					xmiId = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("visibility")) {
+					visibility = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("direction")) {
+					direction = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("type")) {
+					type = attributes.getValue(i);
+				}
+			}
+
+			System.out.println("Parameter " + name);
+
+			FMMethod currentMethod = ((FMMethod) elementStack.peek());
+
+			FMParameter pm = new FMParameter(name, type);
+			currentMethod.addParameter(pm);
+
+			elementMap.put(xmiId, pm);
+			elementStack.push(pm);
+
+			break;
+
 		case OWNED_LITERAL:
 			// System.out.println(current);
 			if (current != STATE.OWNED_LITERAL)
@@ -166,7 +223,8 @@ public class ParserEngine {
 			break;
 
 		case LOWER:
-			if (current != STATE.OWNED_ATTRIBUTE && current != STATE.OWNED_END)
+			if (current != STATE.OWNED_ATTRIBUTE && current != STATE.OWNED_END
+					&& current != STATE.OWNED_PARAMETER)
 				break;
 
 			el = elementStack.peek();
@@ -187,13 +245,16 @@ public class ParserEngine {
 				} else {
 					asoc.getSecondEnd().setLower(value);
 				}
+			} else if (el instanceof FMParameter) {
+				((FMParameter) el).setLower(value);
 			}
 			System.out.println("lower : " + value);
 			// current = STATE.UPPER;
 			break;
 
 		case UPPER:
-			if (current != STATE.OWNED_ATTRIBUTE && current != STATE.OWNED_END)
+			if (current != STATE.OWNED_ATTRIBUTE && current != STATE.OWNED_END
+					&& current != STATE.OWNED_PARAMETER)
 				break;
 
 			el = elementStack.peek();
@@ -221,12 +282,15 @@ public class ParserEngine {
 					asoc.getSecondEnd().setUpper(value);
 				}
 				current = STATE.OWNED_END;
+			} else if (el instanceof FMParameter) {
+				((FMParameter) el).setUpper(value);
 			}
 			System.out.println("upper : " + value);
 			break;
 
 		case TYPE:
-			if (current != STATE.OWNED_ATTRIBUTE)
+			if (current != STATE.OWNED_ATTRIBUTE
+					&& current != STATE.OWNED_PARAMETER)
 				break;
 
 			for (int i = 0; i < attributes.getLength(); i++) {
@@ -235,12 +299,20 @@ public class ParserEngine {
 				}
 			}
 			String[] words = href.split("::");
-			// System.out.println("Type: " + type);
-			((FMProperty) elementStack.peek()).setType(words[words.length - 1]);
+			String typeName = words[words.length - 1];
+			//System.out.println("Type: " + typeName);
+
+			el = elementStack.peek();
+			if (el instanceof FMProperty) {
+				((FMProperty) el).setType(typeName);
+			} else if (el instanceof FMParameter) {
+				//System.out.println("Setting type for parameter...");
+				((FMParameter) el).setType(typeName);
+			}
 
 			break;
-		//TODO: VLADIMIREEEE BOTH_END_NAVIGABLE
-		// case MEMBER_END: 
+		// TODO: VLADIMIREEEE BOTH_END_NAVIGABLE
+		// case MEMBER_END:
 		//
 		// if (current != STATE.OWNED_END)
 		// break;
@@ -338,10 +410,12 @@ public class ParserEngine {
 									prop.getUpper() == -1 ? 1 : -1);
 
 							secondEndClass.addProperty(a.getFirstEnd());
-							
+
 							a.setSecondEnd(prop);
-							a.getFirstEnd().setInverseProperty(a.getSecondEnd());
-							a.getSecondEnd().setInverseProperty(a.getFirstEnd());
+							a.getFirstEnd()
+									.setInverseProperty(a.getSecondEnd());
+							a.getSecondEnd()
+									.setInverseProperty(a.getFirstEnd());
 
 							System.out.println(firstEndClass.getName()
 									+ " added in " + secondEndClass.getName());
@@ -358,8 +432,15 @@ public class ParserEngine {
 			break;
 
 		case OWNED_ATTRIBUTE:
-			if (current == STATE.OWNED_ATTRIBUTE) {
+		case OWNED_OPERATION:
+		case OWNED_PARAMETER:
+			if (current == STATE.OWNED_ATTRIBUTE
+					|| current == STATE.OWNED_PARAMETER) {
 				elementStack.pop();
+			}
+			
+			if (state == STATE.OWNED_OPERATION) {
+				current = STATE.OWNED_ATTRIBUTE;
 			}
 			break;
 
@@ -497,7 +578,7 @@ public class ParserEngine {
 
 		case "_:Lookup":
 			Lookup l = new Lookup(label, visible, uIElementType);
-			
+
 			for (int i = 0; i < attributes.getLength(); i++) {
 				if (attributes.getQName(i).equals("showColumn")) {
 					l.setShowColumn("true".equals(attributes.getValue(i)));
@@ -520,9 +601,8 @@ public class ParserEngine {
 				}
 
 			}
-			
-			elementMap.get(baseProperty).addStereotype(
-					l);
+
+			elementMap.get(baseProperty).addStereotype(l);
 
 			break;
 
@@ -702,12 +782,12 @@ public class ParserEngine {
 				return (FMClass) types.get(typeId);
 		return null;
 	}
-	
-	public static FMEnumeration getEnum(String typeId){
+
+	public static FMEnumeration getEnum(String typeId) {
 		if (types.containsKey(typeId))
 			if (types.get(typeId) instanceof FMEnumeration)
 				return (FMEnumeration) types.get(typeId);
 		return null;
 	}
-	
+
 }

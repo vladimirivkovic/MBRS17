@@ -85,6 +85,14 @@ public class SAXDtdHandler extends DefaultHandler {
 			ParserEngine.handleStart(ParserEngine.STATE.OWNED_ATTRIBUTE, attributes);
 			break;
 		
+		case "ownedOperation":
+			ParserEngine.handleStart(ParserEngine.STATE.OWNED_OPERATION, attributes);
+			break;
+		
+		case "ownedParameter":
+			ParserEngine.handleStart(ParserEngine.STATE.OWNED_PARAMETER, attributes);
+			break;
+		
 //		case "memberEnd":
 //			ParserEngine2.handleStart(ParserEngine2.STATE.MEMBER_END, attributes);
 //			break;
@@ -150,6 +158,14 @@ public class SAXDtdHandler extends DefaultHandler {
 		
 		case "uml:Model":
 			ParserEngine.handleEnd(ParserEngine.STATE.MODEL);
+			break;
+		
+		case "ownedOperation":
+			ParserEngine.handleEnd(ParserEngine.STATE.OWNED_OPERATION);
+			break;
+		
+		case "ownedParameter":
+			ParserEngine.handleEnd(ParserEngine.STATE.OWNED_PARAMETER);
 			break;
 		
 		default:

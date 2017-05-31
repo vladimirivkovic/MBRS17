@@ -39,6 +39,14 @@
     </#if>
     </#if>
     
+    <#list methods as method>
+    <div class="btn-group clearfix">
+        <button type="button" ng-click="" class="btn btn-default">
+            <i class="glyphicon glyphicon-list-alt"></i>&nbsp;${method.originName}
+        </button>
+    </div>
+    </#list>
+    
     <div>
         <table class="table table-hover">
             <tr>

@@ -7,11 +7,11 @@ public class FMMethod extends FMNamedElement {
 
 	private String visibility;
 	
-	private FMType returnType;
+	private FMParameter returnType = new FMParameter(null, "void");
 	
 	private List<FMParameter> parameters = new ArrayList<>();
 	
-	public FMMethod(String name, String visibility, FMType returnType) {
+	public FMMethod(String name, String visibility, FMParameter returnType) {
 		super(name);
 		
 		this.visibility = visibility;
@@ -26,12 +26,12 @@ public class FMMethod extends FMNamedElement {
 		this.visibility = visibility;
 	}
 
-	public FMType getReturnType() {
-		return returnType;
+	public String getReturnType() {
+		return returnType.getType();
 	}
-
-	public void setReturnType(FMType returnType) {
-		this.returnType = returnType;
+	
+	public String getReturnTypeId() {
+		return returnType.getTypeId();
 	}
 	
 	public List<FMParameter> getParameters() {
@@ -39,7 +39,12 @@ public class FMMethod extends FMNamedElement {
 	}
 	
 	public void addParameter(FMParameter parameter) {
-		this.parameters.add(parameter);
+		// TODO : chech parameter direction
+		if (parameter.getName() == null) {
+			this.returnType = parameter;
+		} else {
+			this.parameters.add(parameter);
+		}
 	}
 
 }

@@ -64,7 +64,7 @@ namespace WebApplication1.Models
 	         
 	</#list>
 	<#list methods as method>
-		${method.visibility} ${method.returnType.name} ${method.name}(<#list method.parameters as parameter><#if parameter_index != 0>, </#if><#if parameter.ref>ref </#if><#if parameter.out>out </#if>${parameter.type} ${parameter.name}</#list>)
+		${method.visibility} ${method.returnType} ${method.name}(<#list method.parameters as parameter><#if parameter_index != 0>, </#if><#if parameter.ref>ref </#if><#if parameter.out>out </#if>${parameter.type} ${parameter.name}</#list>)
 		{
 			/***
 			ENTER YOUR CODE HERE
