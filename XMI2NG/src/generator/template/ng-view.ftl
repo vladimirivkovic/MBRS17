@@ -40,11 +40,20 @@
     </#if>
     
     <#list methods as method>
+    <#if method.transaction??>
     <div class="btn-group clearfix">
         <button type="button" ng-click="" class="btn btn-default">
-            <i class="glyphicon glyphicon-list-alt"></i>&nbsp;${method.originName}
+            <i class="glyphicon glyphicon-calculator"></i>&nbsp;${method.originName}
         </button>
     </div>
+    </#if>
+    <#if method.report??>
+    <div class="btn-group clearfix">
+        <button type="button" ng-click="" class="btn btn-default">
+            <i class="glyphicon glyphicon-note"></i>&nbsp;${method.originName}
+        </button>
+    </div>
+    </#if>
     </#list>
     
     <div>

@@ -15,7 +15,9 @@ import generator.model.profile.Lookup;
 import generator.model.profile.Next;
 import generator.model.profile.NoInsert;
 import generator.model.profile.ReadOnly;
+import generator.model.profile.Report;
 import generator.model.profile.Tab;
+import generator.model.profile.Transaction;
 import generator.model.profile.UIAssociationEnd;
 import generator.model.profile.UIClass;
 import generator.model.profile.UIElement;
@@ -759,13 +761,13 @@ public class ParserEngine {
 
 		case "_:Report":
 			elementMap.get(baseOperation)
-					.addStereotype(new BusinessOperation());
+					.addStereotype(new Report());
 
 			break;
 
 		case "_:Transaction":
 			elementMap.get(baseOperation)
-					.addStereotype(new BusinessOperation());
+					.addStereotype(new Transaction());
 
 			break;
 
