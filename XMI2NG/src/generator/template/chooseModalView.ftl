@@ -3,12 +3,22 @@
 		<h3 class="modal-title" id="modal-title">Choose ${prop.name}</h3>
 	</div>
 	<div class="modal-body" id="modal-body">
+	
+		<div >
+			
+		</div>
 		
 		<table class="table">
 			<tr><th>&nbsp</th>
 			<#list propClass.properties as property>
 			<#if property.upper == 1 && property.primitive>
 				<th>${property.originName}</th>
+			</#if>
+			</#list></tr>
+			<tr ng-if="_rec"><th>Previously<br/>chosen</th>
+			<#list propClass.properties as property>
+			<#if property.upper == 1 && property.primitive>
+				<th>{{_rec.${property.name}}}</th>
 			</#if>
 			</#list></tr>
 			<tr><th>&nbsp</th>

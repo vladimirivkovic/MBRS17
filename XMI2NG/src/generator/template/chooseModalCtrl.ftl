@@ -4,6 +4,7 @@
     	
     var ${class.lowerName}__${prop.name}ModalController = ['$scope', '$uibModalInstance', '_rec', '$uibModal', '${propClass.name}', //,'$stateParams'  
     	function ($scope, $uibModalInstance, _rec, $uibModal, ${propClass.name}) { //, $stateParams
+        		$scope._rec = _rec;
         	
         		$scope.init = function() {
         			$scope.__rpp = 5;

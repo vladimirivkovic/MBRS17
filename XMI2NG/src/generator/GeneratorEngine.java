@@ -271,6 +271,12 @@ public class GeneratorEngine {
 			temp.process(model2, fw);
 			fw.flush();
 			fw.close();
+			
+			temp = cfg.getTemplate("main.ftl");
+			fw = new FileWriter(new File("generated/app/main.html"));
+			temp.process(model2, fw);
+			fw.flush();
+			fw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (TemplateException e) {
