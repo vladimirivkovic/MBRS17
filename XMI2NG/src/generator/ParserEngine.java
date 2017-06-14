@@ -2,6 +2,7 @@ package generator;
 
 import generator.model.FMAssociation;
 import generator.model.FMClass;
+import generator.model.FMConstraint;
 import generator.model.FMEnumeration;
 import generator.model.FMMethod;
 import generator.model.FMNamedElement;
@@ -26,6 +27,7 @@ import generator.model.profile.UIGroup;
 import generator.model.profile.UIProperty;
 import generator.model.profile.Zoom;
 
+import java.nio.Buffer;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -35,13 +37,14 @@ import org.xml.sax.Attributes;
 
 public class ParserEngine {
 
+	private static StringBuilder charBuffer=new StringBuilder();
 	private static Map<String, FMType> types = new HashMap<String, FMType>();
 	private static Map<String, FMNamedElement> elementMap = new HashMap<>();
 	private static Stack<FMNamedElement> elementStack = new Stack<FMNamedElement>();
 	static HashSet<String> groups = new HashSet<>();
 
 	public enum STATE {
-		IDLE, MODEL, PACKED_ELEMENT, CLASS, ASSOCIATION, OWNED_ATTRIBUTE, TYPE, OWNED_END, MEMBER_END, LOWER, UPPER, STEREOTYPE, OWNED_LITERAL, OWNED_OPERATION, OWNED_PARAMETER
+		CONSTRAINT_BODY,OWNED_RULE,IDLE, MODEL, PACKED_ELEMENT, CLASS, ASSOCIATION, OWNED_ATTRIBUTE, TYPE, OWNED_END, MEMBER_END, LOWER, UPPER, STEREOTYPE, OWNED_LITERAL, OWNED_OPERATION, OWNED_PARAMETER
 	}
 
 	private static STATE current = STATE.IDLE;
@@ -119,9 +122,13 @@ public class ParserEngine {
 
 			break;
 
+		case CONSTRAINT_BODY:
+			System.out.println("CONS BODY"+attributes.getLength());
+			
+			break;
 		case OWNED_ATTRIBUTE:
 			// System.out.println(current);
-			if (current != STATE.OWNED_ATTRIBUTE)
+			if (current != STATE.OWNED_ATTRIBUTE && current!=STATE.OWNED_RULE)
 				break;
 
 			for (int i = 0; i < attributes.getLength(); i++) {
@@ -147,6 +154,27 @@ public class ParserEngine {
 			elementStack.push(p);
 
 			// current = STATE.LOWER;
+			break;
+			
+		case OWNED_RULE:
+			if (current != STATE.OWNED_ATTRIBUTE)
+				break;
+			System.out.println("DUzina atributa je" + attributes.getLength());
+			for (int i = 0; i < attributes.getLength(); i++) {
+				if (attributes.getQName(i).equals("name")) {
+					name = attributes.getValue(i);
+					System.out.println("NAME JE " + name);
+				} else if (attributes.getQName(i).equals("xmi:id")) {	
+					xmiId=attributes.getValue(i);
+				} 
+			}
+			
+			FMConstraint cons=new FMConstraint(name);
+			((FMClass) elementStack.peek()).addConstraint(cons);
+			
+			elementMap.put(xmiId, cons);
+			elementStack.push(cons);
+			current=STATE.CONSTRAINT_BODY;
 			break;
 
 		case OWNED_OPERATION:
@@ -293,10 +321,13 @@ public class ParserEngine {
 			break;
 
 		case TYPE:
+			if (current==STATE.OWNED_RULE)
+				System.out.println("U TYPE, OWNED RULE");
 			if (current != STATE.OWNED_ATTRIBUTE
 					&& current != STATE.OWNED_PARAMETER)
 				break;
-
+			
+			
 			for (int i = 0; i < attributes.getLength(); i++) {
 				if (attributes.getQName(i).equals("referentPath")) {
 					href = attributes.getValue(i);
@@ -390,12 +421,20 @@ public class ParserEngine {
 			}
 
 			break;
+		
+		case CONSTRAINT_BODY:
+			FMConstraint c=(FMConstraint)elementStack.peek();
+			c.setConstraintExp(charBuffer.toString());
+			charBuffer=new StringBuilder();
+			break;
+			
 		case PACKED_ELEMENT:
 			if (current == STATE.IDLE) {
 				break;
 			}
 
 			FMNamedElement e = elementStack.pop();
+			System.out.println("ELEMENT " + e.getName());
 
 			if (e instanceof FMAssociation) {
 				FMAssociation a = (FMAssociation) e;
@@ -439,15 +478,21 @@ public class ParserEngine {
 		case OWNED_OPERATION:
 		case OWNED_PARAMETER:
 			if (current == STATE.OWNED_ATTRIBUTE
-					|| current == STATE.OWNED_PARAMETER) {
+					|| current == STATE.OWNED_PARAMETER ) {
 				elementStack.pop();
 			}
 			
 			if (state == STATE.OWNED_OPERATION) {
 				current = STATE.OWNED_ATTRIBUTE;
 			}
+			
 			break;
-
+		case OWNED_RULE:
+			System.out.println("KRAJ OWNED RULE");
+			elementStack.pop();
+			current=STATE.OWNED_ATTRIBUTE;
+			break;
+		
 		default:
 			break;
 		}
@@ -469,7 +514,9 @@ public class ParserEngine {
 	}
 
 	public static void handleCharacters(String characters) {
-
+		if (current==STATE.CONSTRAINT_BODY)
+			charBuffer.append(characters);
+		
 	}
 
 	public static void handleStereotype(String qName, Attributes attributes) {

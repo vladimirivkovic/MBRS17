@@ -21,7 +21,7 @@ namespace WebApplication1.Controllers
         {
             return db.${class.name};
         }
-
+ 
         // GET: api/${class.name}/5
         [ResponseType(typeof(${class.name}))]
         public IHttpActionResult Get${class.name}(int id)

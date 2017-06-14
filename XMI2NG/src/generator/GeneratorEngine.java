@@ -129,6 +129,7 @@ public class GeneratorEngine {
 				model.put("class", cl);
 				model.put("properties", cl.getProperties());
 				model.put("methods", cl.getMethods());
+				model.put("constraints", cl.getConstraints());
 
 				try {
 					Template temp = cfg.getTemplate("model.ftl");
@@ -246,6 +247,30 @@ public class GeneratorEngine {
 				}
 				
 			}
+		}
+		
+		/**
+		 * generate login controller
+		 */
+		System.out.println("GENERATING LOGIN CONTROLLER BACKEND");
+		try{
+			Template tempLoginCtrl = cfg.getTemplate("loginController.ftl");
+	 
+			// Rendering
+			FileWriter fwLoginCtrl = new FileWriter(new File("generated/controller/"
+					+"LoginController.cs"));
+			tempLoginCtrl.process(null, fwLoginCtrl);
+			fwLoginCtrl.flush();
+			fwLoginCtrl.close();
+		}
+		catch(IOException ioExc)
+		{
+			ioExc.printStackTrace();
+		}
+		catch(TemplateException tmplExc)
+		{
+			tmplExc.printStackTrace();
+		
 		}
 		
 		/**

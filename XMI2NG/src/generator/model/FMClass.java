@@ -19,6 +19,8 @@ public class FMClass extends FMType {
 
 	// spisak metoda
 	private List<FMMethod> methods = new ArrayList<FMMethod>();
+	
+	private List<FMConstraint> constraints=new ArrayList<FMConstraint>();
 
 	// Omoguciti definisanje klase-pretka!
 	private FMClass parent;
@@ -95,6 +97,19 @@ public class FMClass extends FMType {
 	public UIClass getUIClass() {
 		return uIClass;
 
+	}
+	
+	public void addConstraint(FMConstraint constraint)
+	{
+		constraints.add(constraint);
+	}
+
+	public List<FMConstraint> getConstraints() {
+		return constraints;
+	}
+
+	public void setConstraints(List<FMConstraint> constraints) {
+		this.constraints = constraints;
 	}
 
 	@Override

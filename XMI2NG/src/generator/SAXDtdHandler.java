@@ -85,8 +85,13 @@ public class SAXDtdHandler extends DefaultHandler {
 			ParserEngine.handleStart(ParserEngine.STATE.OWNED_ATTRIBUTE, attributes);
 			break;
 		
+		case "ownedRule":
+			ParserEngine.handleStart(ParserEngine.STATE.OWNED_RULE, attributes);
+			break;
+			
 		case "ownedOperation":
 			ParserEngine.handleStart(ParserEngine.STATE.OWNED_OPERATION, attributes);
+			
 			break;
 		
 		case "ownedParameter":
@@ -99,6 +104,10 @@ public class SAXDtdHandler extends DefaultHandler {
 			
 		case "ownedEnd":
 			ParserEngine.handleStart(ParserEngine.STATE.OWNED_END, attributes);
+			break;
+		case "body":
+
+			ParserEngine.handleStart(ParserEngine.STATE.CONSTRAINT_BODY, attributes);
 			break;
 		
 		// case "type":
@@ -151,6 +160,9 @@ public class SAXDtdHandler extends DefaultHandler {
 		case "packagedElement":
 			ParserEngine.handleEnd(ParserEngine.STATE.PACKED_ELEMENT);
 			break;
+		case "body":
+			ParserEngine.handleEnd(ParserEngine.STATE.CONSTRAINT_BODY);
+			break;
 
 		case "ownedAttribute":
 			ParserEngine.handleEnd(ParserEngine.STATE.OWNED_ATTRIBUTE);
@@ -168,6 +180,9 @@ public class SAXDtdHandler extends DefaultHandler {
 			ParserEngine.handleEnd(ParserEngine.STATE.OWNED_PARAMETER);
 			break;
 		
+		case "ownedRule":
+			ParserEngine.handleEnd(ParserEngine.STATE.OWNED_RULE);
+			break;
 		default:
 			break;
 		}

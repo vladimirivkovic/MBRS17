@@ -10,6 +10,10 @@ namespace WebApplication1.Models
 {
 	${class.visibility} class ${class.name}<#if class.parent??>: class.parent.name</#if>
 	{  
+	<#list constraints as constraint>
+		//Constraint :${constraint.name} -> ${constraint.constraintExp}
+	</#list>
+	
 	<#list properties as property>
 		<#list property.annotations as annotation>
 		[${annotation.name}<#if (annotation.size > 0)>(<#list annotation.parameters as parameter>${parameter.type} = ${parameter.name}</#list>)</#if>]
