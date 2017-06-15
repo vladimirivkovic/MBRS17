@@ -23,9 +23,9 @@ public class GeneratorUtil {
 			TemplateException {
 		Template temp = cfg.getTemplate(templateName);
 		File f = new File(fileName);
-		
+
 		if (f.exists())
-			model.put("userCode",getUserCode(fileName, templateName));
+			model.put("userCode", getUserCode(fileName, templateName));
 		else
 			model.put("userCode", new HashMap<String, String>());
 
@@ -57,7 +57,7 @@ public class GeneratorUtil {
 	private static Map<String, String> getUserCode(String fileName, String templateName) throws IOException {
 		List<String> lines;
 		Map<String, String> retVal = new HashMap<String, String>();
-		
+
 		try {
 			lines = Files.readAllLines(Paths.get(fileName));
 		} catch (Exception e) {
@@ -80,43 +80,83 @@ public class GeneratorUtil {
 		} else {
 			return retVal;
 		}
-		
+
 		if (!templateName.equals(template)) {
 			return retVal;
 		}
-		
-		Map<String, String> methodCodeMap = new HashMap<String, String>();
-		Boolean isUserCode = false;
-		String userCode = "";
-		int methodStarts = -1;
 
-		for (int i = 0; i < lines.size(); i++) {
-			String line = lines.get(i);
-			
-			if ("// USER CODE STARTS HERE".equals(line.trim())) {
-				isUserCode = true;
-				methodStarts = i;
-			} else if("// USER CODE ENDS HERE".equals(line.trim())) {
-				isUserCode = false;
-				
-				if (!"".equals(userCode)) {
-					methodCodeMap.put(getMethodName(lines.get(methodStarts-2)), 
-							userCode.substring(0,userCode.length()-1));
-					userCode = "";
-				}
-			} else {
-				if (isUserCode) {
-					userCode += line + "\n";
+		if ("model.ftl".equals(templateName)) {
+			Map<String, String> methodCodeMap = new HashMap<String, String>();
+			Boolean isUserCode = false;
+			String userCode = "";
+			int methodStarts = -1;
+
+			for (int i = 0; i < lines.size(); i++) {
+				String line = lines.get(i);
+
+				if ("// USER CODE STARTS HERE".equals(line.trim())) {
+					isUserCode = true;
+					methodStarts = i;
+				} else if ("// USER CODE ENDS HERE".equals(line.trim())) {
+					isUserCode = false;
+
+					if (!"".equals(userCode)) {
+						methodCodeMap.put(getMethodName(lines.get(methodStarts - 2)),
+								userCode.substring(0, userCode.length() - 1));
+						userCode = "";
+					}
+				} else {
+					if (isUserCode) {
+						userCode += line + "\n";
+					}
 				}
 			}
-		}
 
-		return methodCodeMap;
+			return methodCodeMap;
+		} else if("ng-controller.ftl".equals(templateName)) {
+			System.out.println("controller ng");
+			Map<String, String> buttonCodeMap = new HashMap<String, String>();
+			Boolean isUserCode = false;
+			String userCode = "";
+			int methodStarts = -1;
+
+			for (int i = 0; i < lines.size(); i++) {
+				String line = lines.get(i);
+
+				if ("// USER CODE STARTS HERE".equals(line.trim())) {
+					isUserCode = true;
+					methodStarts = i;
+				} else if ("// USER CODE ENDS HERE".equals(line.trim())) {
+					isUserCode = false;
+					System.out.println(getButtonName(lines.get(methodStarts - 1)));
+
+					if (!"".equals(userCode)) {
+						buttonCodeMap.put(getButtonName(lines.get(methodStarts - 1)),
+								userCode.substring(0, userCode.length() - 1));
+						userCode = "";
+					}
+				} else {
+					if (isUserCode) {
+						userCode += line + "\n";
+					}
+				}
+			}
+			
+			return buttonCodeMap;
+		}
+		
+		return retVal;
 	}
-	
+
 	private static String getMethodName(String methodLine) {
 		String[] temp = methodLine.trim().split("\\(")[0].split(" ");
-		return temp[temp.length-1];
+		return temp[temp.length - 1];
+	}
+	
+	private static String getButtonName(String buttonLine) {
+		System.out.println(buttonLine);
+		String temp = buttonLine.trim().split("Click")[0];
+		return temp.split("\\.")[1];
 	}
 
 }

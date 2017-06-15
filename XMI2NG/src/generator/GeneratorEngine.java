@@ -100,7 +100,7 @@ public class GeneratorEngine {
 									"generated/app/" + cl.getLowerName() + "/modal/" + p.getName() + "ModalView.html", cfg, model);
 	
 							GeneratorUtil.generateFile("chooseModalCtrl.ftl", 
-									"generated/app/" + cl.getLowerName() + "/modal/" + p.getName() + "ModalCtrl.html", cfg, model);
+									"generated/app/" + cl.getLowerName() + "/modal/" + p.getName() + "ModalCtrl.js", cfg, model);
 						}
 					}
 
