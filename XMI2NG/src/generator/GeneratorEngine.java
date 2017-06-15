@@ -149,6 +149,27 @@ public class GeneratorEngine {
 		/**
 		 * Generating ng-app
 		 */
+		System.out.println("GENERATING login stuff on frontend");
+		try{
+			GeneratorUtil.generateFile("loginViewFront.ftl","generated/app/login/"
+					+"loginView.html",cfg,model2);
+	 
+			GeneratorUtil.generateFile("loginCtrlFront.ftl","generated/app/login/"
+					+"loginCtrl.js",cfg,model2);
+			
+			GeneratorUtil.generateFile("authenticationServiceFront.ftl","generated/app/login/"
+					+"AuthenticationService.js",cfg,model2);
+		}
+		catch(IOException ioExc)
+		{
+			ioExc.printStackTrace();
+		}
+		catch(TemplateException tmplExc)
+		{
+			tmplExc.printStackTrace();
+		
+		}
+		
 		try {
 			model2.put("enumerations", enumerations);
 			model2.put("groups", ParserEngine.groups);
