@@ -151,6 +151,8 @@ public class GeneratorEngine {
 		 */
 		System.out.println("GENERATING login stuff on frontend");
 		try{
+			GeneratorUtil.createDirectory("generated/app/login/");
+			
 			GeneratorUtil.generateFile("loginViewFront.ftl","generated/app/login/"
 					+"loginView.html",cfg,model2);
 	 

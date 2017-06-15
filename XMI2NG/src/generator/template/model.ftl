@@ -1,3 +1,6 @@
+// DO NOT CHANGE THIS CODE
+// TEMPLATE model.ftl
+// AUTOMATICALLY GENERATED MODEL FOR ${class.name}
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -71,9 +74,10 @@ namespace WebApplication1.Models
 	<#list methods as method>
 		${method.visibility} ${method.returnType} ${method.name}(<#list method.parameters as parameter><#if parameter_index != 0>, </#if><#if parameter.ref>ref </#if><#if parameter.out>out </#if>${parameter.type} ${parameter.name}</#list>)
 		{
-			/***
-			ENTER YOUR CODE HERE
-			***/
+			// USER CODE STARTS HERE
+<#if userCode[method.name]??>${userCode[method.name]}<#else>
+			<#if method.void>return;<#else>return null;</#if></#if>
+			// USER CODE ENDS HERE
 		}
 	</#list>
 	}

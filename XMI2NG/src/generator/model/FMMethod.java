@@ -37,6 +37,10 @@ public class FMMethod extends FMNamedElement {
 		return returnType.getType();
 	}
 	
+	public boolean getVoid() {
+		return "void".equals(returnType.getTypeId());
+	}
+	
 	public String getReturnTypeId() {
 		return returnType.getTypeId();
 	}
