@@ -7,6 +7,12 @@
 			},
 			{
 			    update: { method: 'PUT' }
+	    		<#list methods as method>
+				,${method.name} : {
+					url : $rootScope.host + 'api/${class.name}/:Id/${method.name}',
+					method : <#if method.transaction??>'GET'<#else>'POST'</#if>
+				}
+				</#list>
 			}
         );
 	    return ${class.name};
