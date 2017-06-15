@@ -1,7 +1,5 @@
 package generator;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +7,6 @@ import java.util.Map;
 
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
-import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateModelException;
 import generator.model.FMClass;

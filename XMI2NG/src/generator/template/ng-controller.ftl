@@ -5,12 +5,20 @@
     var ${class.lowerName}sController = ['$scope', '${class.name}', '$uibModal', '$filter',//, '$stateParams'
     	<#list properties as property>
 		<#if property.tab??>'${property.FMClass.name}',</#if>
-    	</#list>  
+    	</#list>
+    	'AuthenticationService','$window',
     	function ($scope, ${class.name}, $uibModal, $filter,
     	<#list properties as property>
 		<#if property.tab??>${property.FMClass.name},</#if>
     	</#list>
+    	AuthenticationService,$window,
+    	
     	) { //, $stateParams
+    	if (AuthenticationService.getCurrentUser()==null)
+        {
+          $window.location.href="#/login"
+          return;
+        }
     	$scope.${class.lowerName}s = [];
 
         $scope.selected = null;

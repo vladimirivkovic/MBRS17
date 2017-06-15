@@ -47,6 +47,8 @@
     </#list>
     <script type="application/javascript" src="${root}${class.lowerName}/${class.lowerName}Rsrc.js"></script>
     </#list>
+    <script type="application/javascript" src="login/loginCtrl.js"></script>
+    <script type="application/javascript" src="login/AuthenticationService.js"></script>
 
 </head>
 <body>
@@ -76,6 +78,12 @@
 				
 			</li>
 			</#list>
+			<ul class="nav navbar-nav navbar-right">
+          		<li><a href="#/login">Log in</a></li>
+     		 </ul>
+      		<ul class="nav navbar-nav navbar-right">
+          		<li><a ng-click="logout()">Log out</a></li>
+      		</ul>
 		</ul>
 	</div>
 </nav>
