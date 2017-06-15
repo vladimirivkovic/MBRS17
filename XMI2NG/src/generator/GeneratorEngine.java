@@ -18,26 +18,25 @@ import generator.model.FMNamedElement;
 import generator.model.FMProperty;
 
 public class GeneratorEngine {
-	private static String[] templates = { "ng-controller.ftl",
-		"ng-resource.ftl", "ng-view.ftl", "app.ftl", "ng-modalctrl.ftl", "ng-modalview.ftl" };
+	private static String[] templates = { "ng-controller.ftl", "ng-resource.ftl", "ng-view.ftl", "app.ftl",
+			"ng-modalctrl.ftl", "ng-modalview.ftl" };
 	private static String[] tplnames = { "Ctrl.js", "Rsrc.js", "View.html", ".js", "ModalCtrl.js", "ModalView.html" };
 
 	/**
 	 * Generate folder structure and apply freemarker templates
 	 */
-	
+
 	@SuppressWarnings("unchecked")
 	static void generate(Map<String, FMNamedElement> elementMap) {
 		Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
 
-		cfg.setTemplateLoader(new ClassTemplateLoader(GeneratorEngine.class,
-				"template"));
+		cfg.setTemplateLoader(new ClassTemplateLoader(GeneratorEngine.class, "template"));
 
-		//cfg.setObjectWrapper(new DefaultObjectWrapper());
+		// cfg.setObjectWrapper(new DefaultObjectWrapper());
 
 		try {
 			cfg.setSharedVariable("root", "");
-			//cfg.setSharedVariable("root", "app/");
+			// cfg.setSharedVariable("root", "app/");
 		} catch (TemplateModelException e1) {
 			e1.printStackTrace();
 		}
@@ -45,83 +44,27 @@ public class GeneratorEngine {
 		Map<String, Object> model = new HashMap<String, Object>();
 		Map<String, Object> model2 = new HashMap<String, Object>();
 		model2.put("classes", new ArrayList<FMClass>());
-		
+
 		ArrayList<FMEnumeration> enumerations = new ArrayList<FMEnumeration>();
 
-		File f = new File("generated");
+		GeneratorUtil.createDirectory("generated");
 
-		if (!f.exists()) {
-			System.out.println("creating directory: " + f.getName());
-			boolean result = false;
+		GeneratorUtil.createDirectory("generated/app");
 
-			try {
-				f.mkdir();
-				result = true;
-			} catch (SecurityException se) {
-			}
-			if (result) {
-				System.out.println("DIR created");
-			}
-		}
+		GeneratorUtil.createDirectory("generated/model");
 
-		File fa = new File("generated/app");
+		GeneratorUtil.createDirectory("generated/controller");
 
-		if (!fa.exists()) {
-			System.out.println("creating directory: " + fa.getName());
-			boolean result = false;
-
-			try {
-				fa.mkdir();
-				result = true;
-			} catch (SecurityException se) {
-			}
-			if (result) {
-				System.out.println("DIR created");
-			}
-		}
-		
-		File fmodel = new File("generated/model");
-
-		if (!fmodel.exists()) {
-			System.out.println("creating directory: " + fmodel.getName());
-			boolean result = false;
-
-			try {
-				fmodel.mkdir();
-				result = true;
-			} catch (SecurityException se) {
-			}
-			if (result) {
-				System.out.println("DIR created");
-			}
-		}
-
-		File fcontroller = new File("generated/controller");
-
-		if (!fcontroller.exists()) {
-			System.out.println("creating directory: " + fcontroller.getName());
-			boolean result = false;
-
-			try {
-				fcontroller.mkdir();
-				result = true;
-			} catch (SecurityException se) {
-			}
-			if (result) {
-				System.out.println("DIR created");
-			}
-		}
-		
 		// name, package, visibility - dummy values
 		FMClass cl = new FMClass("City", "ordering", "public");
 		FMEnumeration en = new FMEnumeration("dummyName", "dummyNamespace");
-		
+
 		for (FMNamedElement el : elementMap.values()) {
 			if (el instanceof FMClass) {
 				cl = (FMClass) el;
-				
+
 				((ArrayList<FMClass>) model2.get("classes")).add(cl);
-				
+
 				System.out.println("********GENERATING for " + cl.getName());
 
 				model.clear();
@@ -132,59 +75,21 @@ public class GeneratorEngine {
 				model.put("constraints", cl.getConstraints());
 
 				try {
-					Template temp = cfg.getTemplate("model.ftl");
+					GeneratorUtil.generateFile("model.ftl", "generated/model/" + cl.getName() + ".cs", cfg, model);
 
-					// Rendering
-					FileWriter fw = new FileWriter(new File("generated/model/"
-							+ cl.getName() + ".cs"));
-					temp.process(model, fw);
-					fw.flush();
-					fw.close();
-					
-					
-					
-					temp = cfg.getTemplate("controller.ftl");
-
-					// Rendering
-					fw = new FileWriter(new File("generated/controller/"
-							+ cl.getName() + "Controller.cs"));
-					temp.process(model, fw);
-					fw.flush();
-					fw.close();
-					
+					GeneratorUtil.generateFile("controller.ftl",
+							"generated/controller/" + cl.getName() + "Controller.cs", cfg, model);
 
 					/**
 					 * New folder for each class in AngularJS app structure
 					 */
-					File f1 = new File("generated/app/" + cl.getLowerName());
-
-					if (!f1.exists()) {
-						System.out.println("creating directory: "
-								+ f1.getName() + "/modal");
-						boolean result = false;
-
-						try {
-							f1.mkdir();
-							result = true;
-							
-							File fm = new File("generated/app/" + cl.getLowerName() + "/modal");
-							fm.mkdir();
-						} catch (SecurityException se) {
-							// handle it
-						}
-						if (result) {
-							System.out.println("DIR created");
-						}
-					}
+					
+					GeneratorUtil.createDirectory("generated/app/" + cl.getLowerName());
+					GeneratorUtil.createDirectory("generated/app/" + cl.getLowerName() + "/modal");
 
 					for (int i = 0; i < templates.length; i++) {
-						Template tempx = cfg.getTemplate(templates[i]);
-						FileWriter fwx = new FileWriter(new File(
-										"generated/app/" + cl.getLowerName() + "/"
-										+ cl.getLowerName() + tplnames[i]));
-						tempx.process(model, fwx);
-						fwx.flush();
-						fwx.close();
+						GeneratorUtil.generateFile(templates[i], 
+								"generated/app/" + cl.getLowerName() + "/" + cl.getLowerName() + tplnames[i], cfg, model);
 					}
 					
 					for (FMProperty p : cl.getProperties()) {
@@ -193,22 +98,12 @@ public class GeneratorEngine {
 							model.put("prop", p);
 							model.put("class", cl);
 							model.put("propClass", (FMClass) elementMap.get(p.getTypeId()));
-							
-							Template tempx = cfg.getTemplate("chooseModalView.ftl");
-							FileWriter fwx = new FileWriter(new File(
-									"generated/app/" + cl.getLowerName() + "/modal/"
-									+ p.getName() + "ModalView.html"));
-							tempx.process(model, fwx);
-							fwx.flush();
-							fwx.close();
-							
-							tempx = cfg.getTemplate("chooseModalCtrl.ftl");
-							fwx = new FileWriter(new File(
-									"generated/app/" + cl.getLowerName() + "/modal/"
-									+ p.getName() + "ModalCtrl.js"));
-							tempx.process(model, fwx);
-							fwx.flush();
-							fwx.close();
+
+							GeneratorUtil.generateFile("chooseModalView.ftl", 
+									"generated/app/" + cl.getLowerName() + "/modal/" + p.getName() + "ModalView.html", cfg, model);
+	
+							GeneratorUtil.generateFile("chooseModalCtrl.ftl", 
+									"generated/app/" + cl.getLowerName() + "/modal/" + p.getName() + "ModalCtrl.html", cfg, model);
 						}
 					}
 
@@ -217,91 +112,62 @@ public class GeneratorEngine {
 				} catch (TemplateException e) {
 					e.printStackTrace();
 				}
-			}
-			else if(el instanceof FMEnumeration){
+			} else if (el instanceof FMEnumeration) {
 				en = (FMEnumeration) el;
-				
+
 				enumerations.add(en);
-				
+
 				System.out.println("********GENERATING for " + en.getName());
 
 				model.clear();
 				model.put("enumeration", en);
-				
-				try {
-					Template temp = cfg.getTemplate("enumeration.ftl");
 
-					// Rendering
-					FileWriter fw = new FileWriter(new File("generated/model/"
-							+ en.getName() + ".cs"));
-					temp.process(model, fw);
-					fw.flush();
-					fw.close();
-				
-				
-				
+				try {
+					GeneratorUtil.generateFile("enumeration.ftl", 
+							"generated/model/" + en.getName() + ".cs", cfg, model);
+
 				} catch (IOException e) {
 					e.printStackTrace();
 				} catch (TemplateException e) {
 					e.printStackTrace();
 				}
-				
+
 			}
 		}
-		
+
 		/**
 		 * generate login controller
 		 */
 		System.out.println("GENERATING LOGIN CONTROLLER BACKEND");
-		try{
-			Template tempLoginCtrl = cfg.getTemplate("loginController.ftl");
-	 
-			// Rendering
-			FileWriter fwLoginCtrl = new FileWriter(new File("generated/controller/"
-					+"LoginController.cs"));
-			tempLoginCtrl.process(null, fwLoginCtrl);
-			fwLoginCtrl.flush();
-			fwLoginCtrl.close();
-		}
-		catch(IOException ioExc)
-		{
+		try {
+			GeneratorUtil.generateFile("loginController.ftl", 
+					"generated/controller/" + "LoginController.cs", cfg, model);
+		} catch (IOException ioExc) {
 			ioExc.printStackTrace();
-		}
-		catch(TemplateException tmplExc)
-		{
+		} catch (TemplateException tmplExc) {
 			tmplExc.printStackTrace();
-		
+
 		}
-		
+
 		/**
 		 * Generating ng-app
 		 */
 		try {
 			model2.put("enumerations", enumerations);
 			model2.put("groups", ParserEngine.groups);
-			Template temp = cfg.getTemplate("ng-app.ftl");
-			FileWriter fw = new FileWriter(new File("generated/app/app.js"));
-			temp.process(model2, fw);
-			fw.flush();
-			fw.close();
 			
-			temp = cfg.getTemplate("appDBContext.ftl");
-			fw = new FileWriter(new File("generated/model/AppDBContext.cs"));
-			temp.process(model2, fw);
-			fw.flush();
-			fw.close();
+			GeneratorUtil.generateFile("ng-app.ftl", 
+					"generated/app/app.js", cfg, model);
 			
-			temp = cfg.getTemplate("index.ftl");
-			fw = new FileWriter(new File("generated/app/index.html"));
-			temp.process(model2, fw);
-			fw.flush();
-			fw.close();
+			GeneratorUtil.generateFile("appDBContext.ftl", 
+					"generated/model/AppDBContext.cs", cfg, model);
+		
+			GeneratorUtil.generateFile("index.ftl", 
+					"generated/app/index.html", cfg, model);
 			
-			temp = cfg.getTemplate("main.ftl");
-			fw = new FileWriter(new File("generated/app/main.html"));
-			temp.process(model2, fw);
-			fw.flush();
-			fw.close();
+			GeneratorUtil.generateFile("main.ftl", 
+					"generated/app/main.html", cfg, model);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (TemplateException e) {
