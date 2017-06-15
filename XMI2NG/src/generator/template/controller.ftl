@@ -26,6 +26,11 @@ namespace WebApplication1.Controllers
         [ResponseType(typeof(${class.name}))]
         public IHttpActionResult Get${class.name}(int id)
         {
+            if (!LoginController.CheckAuthorizationForRequest(Request))
+            {
+                return Unauthorized();
+            }
+            
             ${class.name} ${class.name?lower_case} = db. ${class.name}.Find(id);
             if (${class.name?lower_case} == null)
             {
@@ -39,6 +44,11 @@ namespace WebApplication1.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult Put${class.name}(int id,  ${class.name} ${class.name?lower_case})
         {
+        	if (!LoginController.CheckAuthorizationForRequest(Request))
+            {
+                return Unauthorized();
+            }
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -74,6 +84,11 @@ namespace WebApplication1.Controllers
         [ResponseType(typeof(${class.name}))]
         public IHttpActionResult Post${class.name}(${class.name} ${class.name?lower_case})
         {
+        	if (!LoginController.CheckAuthorizationForRequest(Request))
+            {
+                return Unauthorized();
+            }
+            
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -89,6 +104,11 @@ namespace WebApplication1.Controllers
         [ResponseType(typeof(${class.name}))]
         public IHttpActionResult Delete${class.name}(int id)
         {
+        	if (!LoginController.CheckAuthorizationForRequest(Request))
+            {
+                return Unauthorized();
+            }
+            
             ${class.name} ${class.name?lower_case} = db.${class.name}.Find(id);
             if (${class.name?lower_case} == null)
             {
