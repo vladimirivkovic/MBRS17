@@ -276,6 +276,46 @@ public class GeneratorEngine {
 		/**
 		 * Generating ng-app
 		 */
+		System.out.println("GENERATING login stuff on frontend");
+		try{
+			Template tempLoginView = cfg.getTemplate("loginViewFront.ftl");
+	 
+			// Rendering
+			FileWriter fwLoginView = new FileWriter(new File("generated/app/login/"
+					+"loginView.html"));
+			tempLoginView.process(null, fwLoginView);
+			fwLoginView.flush();
+			fwLoginView.close();
+			
+			
+			Template tempLoginCtrlFront = cfg.getTemplate("loginCtrlFront.ftl");
+			 
+			// Rendering
+			FileWriter fwLoginCtrlFront = new FileWriter(new File("generated/app/login/"
+					+"loginCtrl.js"));
+			tempLoginCtrlFront.process(null, fwLoginCtrlFront);
+			fwLoginCtrlFront.flush();
+			fwLoginCtrlFront.close();
+			
+			Template tempAuthService = cfg.getTemplate("authenticationServiceFront.ftl");
+			 
+			// Rendering
+			FileWriter fwAuthService = new FileWriter(new File("generated/app/login/"
+					+"AuthenticationService.js"));
+			tempAuthService.process(null, fwAuthService);
+			fwAuthService.flush();
+			fwAuthService.close();
+		}
+		catch(IOException ioExc)
+		{
+			ioExc.printStackTrace();
+		}
+		catch(TemplateException tmplExc)
+		{
+			tmplExc.printStackTrace();
+		
+		}
+		
 		try {
 			model2.put("enumerations", enumerations);
 			model2.put("groups", ParserEngine.groups);
