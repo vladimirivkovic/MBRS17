@@ -154,16 +154,16 @@ public class GeneratorEngine {
 			model2.put("groups", ParserEngine.groups);
 			
 			GeneratorUtil.generateFile("ng-app.ftl", 
-					"generated/app/app.js", cfg, model);
+					"generated/app/app.js", cfg, model2);
 			
 			GeneratorUtil.generateFile("appDBContext.ftl", 
-					"generated/model/AppDBContext.cs", cfg, model);
+					"generated/model/AppDBContext.cs", cfg, model2);
 		
 			GeneratorUtil.generateFile("index.ftl", 
-					"generated/app/index.html", cfg, model);
+					"generated/app/index.html", cfg, model2);
 			
 			GeneratorUtil.generateFile("main.ftl", 
-					"generated/app/main.html", cfg, model);
+					"generated/app/main.html", cfg, model2);
 
 		} catch (IOException e) {
 			e.printStackTrace();
