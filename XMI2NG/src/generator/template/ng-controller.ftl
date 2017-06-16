@@ -196,9 +196,9 @@
     		if (reset) $scope.__cp = 1;
         
             var ${class.lowerName}s = ${class.name}.query(function () {
-                $scope.${class.lowerName}s = ${class.lowerName}s;
-                $scope.page_${class.lowerName}s = $scope.${class.lowerName}s.slice(0, $scope.__rpp);
-                $scope.__total_items = $scope.${class.lowerName}s.length;
+                $scope.${class.lowerName}s = ${class.lowerName}s.value;
+                $scope.page_${class.lowerName}s = $scope.${class.lowerName}s;
+                $scope.__total_items = ${class.lowerName}s.odata.count;
             });
             
             $scope.edits = [];
