@@ -662,31 +662,7 @@ public class ParserEngine {
 		case "_:UIProperty":
 			if (elementMap.containsKey(baseProperty)) {
 				UIProperty p = new UIProperty(label, visible, uIElementType);
-
-				for (int i = 0; i < attributes.getLength(); i++) {
-					if (attributes.getQName(i).equals("showColumn")) {
-						p.setShowColumn("true".equals(attributes.getValue(i)));
-
-					} else if (attributes.getQName(i).equals("toolTip")) {
-						p.setToolTip(attributes.getValue(i));
-
-					} else if (attributes.getQName(i).equals("copyable")) {
-						p.setCopyable("true".equals(attributes.getValue(i)));
-
-					} else if (attributes.getQName(i).equals("searchable")) {
-						p.setSearchable("true".equals(attributes.getValue(i)));
-
-					} else if (attributes.getQName(i).equals("required")) {
-						p.setRequired("true".equals(attributes.getValue(i)));
-
-					} else if (attributes.getQName(i).equals("unique")) {
-						p.setUnique("true".equals(attributes.getValue(i)));
-
-					} else if (attributes.getQName(i).equals("fieldProperty")) {
-						p.setFieldGroup(attributes.getValue(i));
-					}
-
-				}
+				readPropertyAttributes(attributes, p);
 				elementMap.get(baseProperty).addStereotype(p);
 
 			}
@@ -701,92 +677,21 @@ public class ParserEngine {
 
 		case "_:Lookup":
 			Lookup l = new Lookup(label, visible, uIElementType);
-
-			for (int i = 0; i < attributes.getLength(); i++) {
-				if (attributes.getQName(i).equals("showColumn")) {
-					l.setShowColumn("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("toolTip")) {
-					l.setToolTip(attributes.getValue(i));
-
-				} else if (attributes.getQName(i).equals("copyable")) {
-					l.setCopyable("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("searchable")) {
-					l.setSearchable("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("required")) {
-					l.setRequired("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("unique")) {
-					l.setUnique("true".equals(attributes.getValue(i)));
-					
-				} else if (attributes.getQName(i).equals("fieldProperty")) {
-					l.setFieldGroup(attributes.getValue(i));
-				}
-
-			}
-
+			readPropertyAttributes(attributes, l);
 			elementMap.get(baseProperty).addStereotype(l);
 
 			break;
 
 		case "_:ReadOnly":
 			ReadOnly r = new ReadOnly(label, visible, uIElementType);
-
-			for (int i = 0; i < attributes.getLength(); i++) {
-				if (attributes.getQName(i).equals("showColumn")) {
-					r.setShowColumn("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("toolTip")) {
-					r.setToolTip(attributes.getValue(i));
-
-				} else if (attributes.getQName(i).equals("copyable")) {
-					r.setCopyable("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("searchable")) {
-					r.setSearchable("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("required")) {
-
-					r.setRequired("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("unique")) {
-					r.setUnique("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("fieldProperty")) {
-					r.setFieldGroup(attributes.getValue(i));
-				}
-			}
+			readPropertyAttributes(attributes, r);
 			elementMap.get(baseProperty).addStereotype(r);
 
 			break;
 		case "_:NoInsert":
 			NoInsert n = new NoInsert(label, visible, uIElementType);
 
-			for (int i = 0; i < attributes.getLength(); i++) {
-				if (attributes.getQName(i).equals("showColumn")) {
-					n.setShowColumn("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("toolTip")) {
-					n.setToolTip(attributes.getValue(i));
-
-				} else if (attributes.getQName(i).equals("copyable")) {
-					n.setCopyable("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("searchable")) {
-					n.setSearchable("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("required")) {
-					n.setRequired("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("unique")) {
-					n.setUnique("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("fieldProperty")) {
-					n.setFieldGroup(attributes.getValue(i));
-				}
-			}
+			readPropertyAttributes(attributes, n);
 			elementMap.get(baseProperty).addStereotype(n);
 
 			break;
@@ -794,30 +699,7 @@ public class ParserEngine {
 		case "_:Calculated":
 			if (elementMap.containsKey(baseProperty)) {
 				Calculated cal = new Calculated(label, visible, uIElementType);
-
-				for (int i = 0; i < attributes.getLength(); i++) {
-					if (attributes.getQName(i).equals("showColumn")) {
-						cal.setShowColumn("true".equals(attributes.getValue(i)));
-
-					} else if (attributes.getQName(i).equals("toolTip")) {
-						cal.setToolTip(attributes.getValue(i));
-
-					} else if (attributes.getQName(i).equals("copyable")) {
-						cal.setCopyable("true".equals(attributes.getValue(i)));
-
-					} else if (attributes.getQName(i).equals("searchable")) {
-						cal.setSearchable("true".equals(attributes.getValue(i)));
-
-					} else if (attributes.getQName(i).equals("required")) {
-						cal.setRequired("true".equals(attributes.getValue(i)));
-
-					} else if (attributes.getQName(i).equals("unique")) {
-						cal.setUnique("true".equals(attributes.getValue(i)));
-
-					} else if (attributes.getQName(i).equals("fieldProperty")) {
-						cal.setFieldGroup(attributes.getValue(i));
-					}
-				}
+				readPropertyAttributes(attributes, cal);
 				elementMap.get(baseProperty).addStereotype(cal);
 
 			}
@@ -825,30 +707,7 @@ public class ParserEngine {
 
 		case "_:Id":
 			Id id = new Id(label, visible, uIElementType);
-
-			for (int i = 0; i < attributes.getLength(); i++) {
-				if (attributes.getQName(i).equals("showColumn")) {
-					id.setShowColumn("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("toolTip")) {
-					id.setToolTip(attributes.getValue(i));
-
-				} else if (attributes.getQName(i).equals("copyable")) {
-					id.setCopyable("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("searchable")) {
-					id.setSearchable("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("required")) {
-					id.setRequired("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("unique")) {
-					id.setUnique("true".equals(attributes.getValue(i)));
-
-				} else if (attributes.getQName(i).equals("fieldProperty")) {
-					id.setFieldGroup(attributes.getValue(i));
-				}
-			}
+			readPropertyAttributes(attributes, id);
 			elementMap.get(baseProperty).addStereotype(id);
 
 			break;
@@ -905,6 +764,32 @@ public class ParserEngine {
 
 		}
 
+	}
+	
+	private static void readPropertyAttributes(Attributes attributes, UIProperty p) {
+		for (int i = 0; i < attributes.getLength(); i++) {
+			if (attributes.getQName(i).equals("showColumn")) {
+				p.setShowColumn("true".equals(attributes.getValue(i)));
+
+			} else if (attributes.getQName(i).equals("toolTip")) {
+				p.setToolTip(attributes.getValue(i));
+
+			} else if (attributes.getQName(i).equals("copyable")) {
+				p.setCopyable("true".equals(attributes.getValue(i)));
+
+			} else if (attributes.getQName(i).equals("searchable")) {
+				p.setSearchable("true".equals(attributes.getValue(i)));
+
+			} else if (attributes.getQName(i).equals("required")) {
+				p.setRequired("true".equals(attributes.getValue(i)));
+
+			} else if (attributes.getQName(i).equals("unique")) {
+				p.setUnique("true".equals(attributes.getValue(i)));
+
+			} else if (attributes.getQName(i).equals("fieldProperty")) {
+				p.setFieldGroup(attributes.getValue(i));
+			}
+		}
 	}
 
 	public static FMClass getClass(String typeId) {

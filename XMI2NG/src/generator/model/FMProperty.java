@@ -34,7 +34,7 @@ public class FMProperty extends FMNamedElement  {
 	private Calculated calculated;
 	private Tab tab;
 	
-	private UIProperty uIProperty = new UIProperty();
+	private UIProperty uIProperty = null;
 	
 	//anotacije
 	private List<FMAnnotation> annotations = new ArrayList<FMAnnotation>();
@@ -178,6 +178,7 @@ public class FMProperty extends FMNamedElement  {
 	public void addStereotype(Stereotype st) {
 		super.addStereotype(st);
 		
+		if (uIProperty == null) uIProperty = new UIProperty();
 		
 		if (st instanceof Id) {
 			id = (Id) st;

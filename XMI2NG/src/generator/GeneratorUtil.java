@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,8 @@ import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateNotFoundException;
+import generator.model.FMClass;
+import generator.model.FMProperty;
 
 public class GeneratorUtil {
 
@@ -128,7 +131,6 @@ public class GeneratorUtil {
 					methodStarts = i;
 				} else if ("// USER CODE ENDS HERE".equals(line.trim())) {
 					isUserCode = false;
-					System.out.println(getButtonName(lines.get(methodStarts - 1)));
 
 					if (!"".equals(userCode)) {
 						buttonCodeMap.put(getButtonName(lines.get(methodStarts - 1)),
@@ -147,7 +149,7 @@ public class GeneratorUtil {
 		
 		return retVal;
 	}
-
+	
 	private static String getMethodName(String methodLine) {
 		String[] temp = methodLine.trim().split("\\(")[0].split(" ");
 		return temp[temp.length - 1];
@@ -157,6 +159,21 @@ public class GeneratorUtil {
 		System.out.println(buttonLine);
 		String temp = buttonLine.trim().split("Click")[0];
 		return temp.split("\\.")[1];
+	}
+
+	public static Map<String, List<FMProperty>> getFieldGroupsMap(FMClass cl) {
+		Map<String, List<FMProperty>> map = new HashMap<String, List<FMProperty>>();
+		
+		for (FMProperty p : cl.getProperties()) {
+			if (p.getuIProperty() != null) {
+				if (!map.containsKey(p.getuIProperty().getFieldGroup())) {
+					map.put(p.getuIProperty().getFieldGroup(), new ArrayList<FMProperty>());
+				}
+				map.get(p.getuIProperty().getFieldGroup()).add(p);
+			}
+		}
+		
+		return map;
 	}
 
 }
