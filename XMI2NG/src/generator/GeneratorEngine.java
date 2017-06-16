@@ -158,16 +158,20 @@ public class GeneratorEngine {
 		/**
 		 * generate login controller
 		 */
-		System.out.println("GENERATING LOGIN CONTROLLER BACKEND");
 		try {
 			GeneratorUtil.generateFile("loginController.ftl", 
 					"generated/controller/" + "LoginController.cs", cfg, model);
+			System.out.println("GENERATING LOGIN CONTROLLER BACKEND");
+			GeneratorUtil.generateFile("korisnik.ftl", 
+					"generated/model/" + "Korisnik.cs", cfg, model);
+			System.out.println("GENERATING KORISNIK BACKEND");
 		} catch (IOException ioExc) {
 			ioExc.printStackTrace();
 		} catch (TemplateException tmplExc) {
 			tmplExc.printStackTrace();
 
 		}
+
 
 		/**
 		 * Generating ng-app
