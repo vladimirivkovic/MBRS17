@@ -15,7 +15,7 @@
 					<xmi:Extension extender='MagicDraw UML 18.5'>
 						<diagramRepresentation>
 							<diagram:DiagramRepresentationObject ID='_18_5_125803ba_1492697822193_338427_4671' diagramStyleID='_18_5_1_8b1027c_1497644121496_683261_6113' initialFrameSizeSet='true' requiredFeature=';UML_Standard_Profile.mdzip^UML_FEATURE' type='Profile Diagram' umlType='Profile Diagram' xmi:id='_Bf5dICXUEeeR_rtbTxII0A' xmi:version='2.0' xmlns:binary='http://www.nomagic.com/ns/cameo/client/binary/1.0' xmlns:diagram='http://www.nomagic.com/ns/magicdraw/core/diagram/1.0' xmlns:xmi='http://www.omg.org/XMI' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
-								<diagramContents contentHash='964d1d7a-7bbe-4195-92c6-d5dbe352fcc4' exporterName='MagicDraw UML' exporterVersion='18.5' xmi:id='_Bf5dISXUEeeR_rtbTxII0A'>
+								<diagramContents contentHash='f2168672-9ccb-420a-92a2-c4ba0cbc3592' exporterName='MagicDraw UML' exporterVersion='18.5' xmi:id='_Bf5dISXUEeeR_rtbTxII0A'>
 									<binaryObject streamContentID='BINARY-c5874c9f-df5f-48be-a24b-85e20adf1a1c' xmi:id='_Bf5dIiXUEeeR_rtbTxII0A' xsi:type='binary:StreamIdentityBinaryObject'/>
 									<usedObjects href='#_18_5_125803ba_1492698797318_65861_5015'/>
 									<usedObjects href='#_18_5_125803ba_1492698596145_503232_4890'/>
@@ -124,8 +124,8 @@
 					<xmi:Extension extender='MagicDraw UML 18.5'>
 						<diagramRepresentation>
 							<diagram:DiagramRepresentationObject ID='_18_5_125803ba_1492703993365_564871_5919' diagramStyleID='_18_5_1_8b1027c_1497644121496_683261_6113' initialFrameSizeSet='true' requiredFeature=';UML_Standard_Profile.mdzip^UML_FEATURE' type='Class Diagram' umlType='Class Diagram' xmi:id='_ZExUUCXiEeeR_rtbTxII0A' xmi:version='2.0' xmlns:binary='http://www.nomagic.com/ns/cameo/client/binary/1.0' xmlns:diagram='http://www.nomagic.com/ns/magicdraw/core/diagram/1.0' xmlns:xmi='http://www.omg.org/XMI' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
-								<diagramContents contentHash='1df1d192-ae30-49e4-b86e-94e4508e78b9' exporterName='MagicDraw UML' exporterVersion='18.5' xmi:id='_ZExUUSXiEeeR_rtbTxII0A'>
-									<binaryObject streamContentID='BINARY-96cf2fea-c786-43e5-b510-174b7e3c0ea4' xmi:id='_ZExUUiXiEeeR_rtbTxII0A' xsi:type='binary:StreamIdentityBinaryObject'/>
+								<diagramContents contentHash='ccbd7174-706b-4c84-b024-d918cf7f118f' exporterName='MagicDraw UML' exporterVersion='18.5' xmi:id='_ZExUUSXiEeeR_rtbTxII0A'>
+									<binaryObject streamContentID='BINARY-3d0f3570-f4a0-4100-a972-89cfd1a60c81' xmi:id='_ZExUUiXiEeeR_rtbTxII0A' xsi:type='binary:StreamIdentityBinaryObject'/>
 									<usedObjects href='#_18_5_125803ba_1493377075926_125083_6812'/>
 									<usedObjects href='#_18_5_125803ba_1493378344709_493778_7339'/>
 									<usedObjects href='#_18_5_125803ba_1493378515079_294382_7444'/>
@@ -1021,14 +1021,14 @@
 			</ownedAttribute>
 		</packagedElement>
 		<packagedElement xmi:type='uml:Class' xmi:id='_18_5_125803ba_1493304818299_177340_5324' name='Prijemni dokument'>
-			<ownedAttribute xmi:type='uml:Property' xmi:id='_18_5_125803ba_1493305803814_348868_5516' name='Id' visibility='private'>
+			<ownedAttribute xmi:type='uml:Property' xmi:id='_18_5_125803ba_1493305809729_720846_5518' name='Redni broj' visibility='private'>
 				<type href='UML_Standard_Profile.mdzip#eee_1045467100323_917313_65'>
 					<xmi:Extension extender='MagicDraw UML 18.5'>
 						<referenceExtension referentPath='UML Standard Profile::MagicDraw Profile::datatypes::int' referentType='DataType'/>
 					</xmi:Extension>
 				</type>
 			</ownedAttribute>
-			<ownedAttribute xmi:type='uml:Property' xmi:id='_18_5_125803ba_1493305809729_720846_5518' name='Redni broj' visibility='private'>
+			<ownedAttribute xmi:type='uml:Property' xmi:id='_18_5_125803ba_1493305803814_348868_5516' name='Id' visibility='private'>
 				<type href='UML_Standard_Profile.mdzip#eee_1045467100323_917313_65'>
 					<xmi:Extension extender='MagicDraw UML 18.5'>
 						<referenceExtension referentPath='UML Standard Profile::MagicDraw Profile::datatypes::int' referentType='DataType'/>
@@ -2046,49 +2046,49 @@
 			<tag name='_:Zoom:jsonIgnore' tagID='_18_5_1_8b1027c_1497620692288_965188_6222' tagURI='local:/PROJECT-63cced53-fe9b-4783-90f4-66ebf8cfb5fa?resource=com.nomagic.magicdraw.uml_umodel.model#_18_5_1_8b1027c_1497620692288_965188_6222'/>
 		</stereotypesHREFS>
 	</xmi:Extension>
-	<MagicDraw_Profile:DiagramInfo xmi:id='_18_5_125803ba_1492697822183_8719_4662' base_Diagram='_18_5_125803ba_1492697822166_809293_4650' Creation_date='4/20/17 4:17 PM' Modification_date='6/16/17 10:11 PM' Author='Todorovic' Last_modified_by='ragnar'/>
 	<_:UIElement xmi:id='_18_5_125803ba_1492701624657_318404_5794' base_Element='_18_5_125803ba_1492697942779_468053_4760'/>
+	<MagicDraw_Profile:DiagramInfo xmi:id='_18_5_125803ba_1492703993358_857195_5910' base_Diagram='_18_5_125803ba_1492703993352_967522_5899' Creation_date='4/20/17 5:59 PM' Modification_date='6/16/17 11:22 PM' Author='Todorovic' Last_modified_by='ragnar'/>
 	<_:Id xmi:id='_18_5_125803ba_1493309645709_263477_5709' base_Property='_18_5_125803ba_1493305767661_636003_5510'/>
-	<_:UIClass xmi:id='_18_5_125803ba_1493372236921_747225_6132' base_Class='_18_5_125803ba_1493304810001_245296_5216' copy='true' create='true' delete='true' rowsPerPage='4' update='true' entityGroup='Preduzece'/>
-	<MagicDraw_Profile:DiagramInfo xmi:id='_18_5_125803ba_1492703993358_857195_5910' base_Diagram='_18_5_125803ba_1492703993352_967522_5899' Creation_date='4/20/17 5:59 PM' Modification_date='6/16/17 10:16 PM' Author='Todorovic' Last_modified_by='ragnar'/>
+	<MagicDraw_Profile:DiagramInfo xmi:id='_18_5_125803ba_1492697822183_8719_4662' base_Diagram='_18_5_125803ba_1492697822166_809293_4650' Creation_date='4/20/17 4:17 PM' Modification_date='6/16/17 10:11 PM' Author='Todorovic' Last_modified_by='ragnar'/>
+	<_:Tab xmi:id='_18_5_b6002dd_1493501014389_238090_6575' base_Property='_18_5_125803ba_1493377075926_157084_6811'/>
+	<_:UIProperty xmi:id='_18_5_b6002dd_1494101653559_356224_6095' base_Property='_18_5_125803ba_1493305779292_388864_5514' searchable='true'/>
 	<_:Tab xmi:id='_18_5_b6002dd_1493500946164_621926_6557' base_Property='_18_5_125803ba_1493377195336_42050_6872'/>
 	<_:Tab xmi:id='_18_5_b6002dd_1493501041207_155612_6581' base_Property='_18_5_125803ba_1493377613771_984402_7063'/>
-	<_:UIProperty xmi:id='_18_5_b6002dd_1494101653559_356224_6095' base_Property='_18_5_125803ba_1493305779292_388864_5514' searchable='true'/>
 	<_:Id xmi:id='_18_5_125803ba_1493370732457_664564_5925' base_Property='_18_5_125803ba_1493370706188_72263_5923'/>
-	<_:UIClass xmi:id='_18_5_125803ba_1493370699264_671635_5922' base_Class='_18_5_125803ba_1493304813704_837221_5243' create='true' delete='true' rowsPerPage='50' update='true' entityGroup='Preduzece'/>
-	<_:Lookup xmi:id='_18_5_125803ba_1493370796667_452841_5928' base_Property='_18_5_125803ba_1493370740140_341442_5926' required='true' searchable='true' unique='true'/>
+	<_:UIClass xmi:id='_18_5_125803ba_1493372236921_747225_6132' base_Class='_18_5_125803ba_1493304810001_245296_5216' copy='true' create='true' delete='true' rowsPerPage='4' update='true' entityGroup='Preduzece'/>
 	<_:Tab xmi:id='_18_5_b6002dd_1493501074119_708416_6593' base_Property='_18_5_125803ba_1493377727290_12058_7096'/>
+	<_:UIClass xmi:id='_18_5_125803ba_1493370699264_671635_5922' base_Class='_18_5_125803ba_1493304813704_837221_5243' create='true' delete='true' rowsPerPage='50' update='true' entityGroup='Preduzece'/>
 	<_:Tab xmi:id='_18_5_b6002dd_1493501119145_403262_6605' base_Property='_18_5_125803ba_1493378515079_294382_7444'/>
 	<_:Id xmi:id='_18_5_125803ba_1493311539457_58283_5866' base_Property='_18_5_125803ba_1493311526050_793293_5864'/>
-	<_:Lookup xmi:id='_18_5_125803ba_1493311572543_402142_5869' base_Property='_18_5_125803ba_1493311551798_222629_5867' required='true' searchable='true'/>
+	<_:Lookup xmi:id='_18_5_125803ba_1493370796667_452841_5928' base_Property='_18_5_125803ba_1493370740140_341442_5926' required='true' searchable='true' unique='true'/>
 	<_:Tab xmi:id='_18_5_b6002dd_1493500898367_560555_6545' base_Property='_18_5_125803ba_1493377580015_123942_7030'/>
+	<_:Lookup xmi:id='_18_5_125803ba_1493311572543_402142_5869' base_Property='_18_5_125803ba_1493311551798_222629_5867' required='true' searchable='true'/>
 	<_:UIClass xmi:id='_18_5_125803ba_1493372218014_885405_6131' base_Class='_18_5_125803ba_1493304815486_532074_5270' create='true' delete='true' rowsPerPage='50' update='true' copy='true' entityGroup='Preduzece'/>
-	<_:Id xmi:id='_18_5_125803ba_1493305219802_951792_5496' base_Property='_18_5_125803ba_1493305090942_460664_5486'/>
 	<_:Lookup xmi:id='_18_5_125803ba_1493305264819_253414_5497' base_Property='_18_5_125803ba_1493305127055_658071_5488' required='true' searchable='true'/>
 	<_:UIClass xmi:id='_18_5_125803ba_1493305084755_375256_5485' base_Class='_18_5_125803ba_1493304816877_803334_5297' copy='true' create='true' delete='true' rowsPerPage='3' update='true' visible='true' entityGroup='Preduzece'/>
+	<_:ReadOnly xmi:id='_18_5_b6002dd_1493495374977_350732_5964' base_Property='_18_5_125803ba_1493305151777_589122_5490' unique='true' required='true'/>
 	<_:ReadOnly xmi:id='_18_5_b6002dd_1493495389353_752701_5965' base_Property='_18_5_125803ba_1493305160614_709292_5492' unique='true' required='true'/>
 	<_:Tab xmi:id='_18_5_b6002dd_1493500363228_502410_6479' base_Property='_18_5_125803ba_1493376579896_649513_6600'/>
 	<_:Tab xmi:id='_18_5_b6002dd_1493500285144_241062_6473' base_Property='_18_5_125803ba_1493376588940_431838_6621'/>
 	<_:Tab xmi:id='_18_5_b6002dd_1493500634635_832386_6521' base_Property='_18_5_125803ba_1493376873934_209014_6746'/>
 	<_:Tab xmi:id='_18_5_b6002dd_1493500800019_985764_6539' base_Property='_18_5_125803ba_1493378446145_1566_7411'/>
-	<_:Tab xmi:id='_18_5_b6002dd_1493501014389_238090_6575' base_Property='_18_5_125803ba_1493377075926_157084_6811'/>
+	<_:UIProperty xmi:id='_18_5_1_8b1027c_1497648220101_168194_6436' base_Property='_18_5_125803ba_1493305809729_720846_5518'/>
 	<_:Id xmi:id='_18_5_125803ba_1493307686420_309506_5649' base_Property='_18_5_125803ba_1493305803814_348868_5516' fieldGroup='Osnovno'/>
-	<_:UIClass xmi:id='_18_5_125803ba_1493372255131_595333_6133' base_Class='_18_5_125803ba_1493304818299_177340_5324' copy='false' create='true' delete='true' rowsPerPage='50' update='false' entityGroup='Poslovni procesi'/>
 	<_:UIProperty xmi:id='_18_5_b6002dd_1494100754004_760730_6065' base_Property='_18_5_125803ba_1493305817360_162719_5520' required='true' fieldGroup='Osnovno'/>
-	<_:NoInsert xmi:id='_18_5_b6002dd_1493498671620_511235_6113' base_Property='_18_5_125803ba_1493305843400_877255_5524' fieldGroup='Osnovno'/>
+	<_:UIClass xmi:id='_18_5_125803ba_1493372255131_595333_6133' base_Class='_18_5_125803ba_1493304818299_177340_5324' copy='false' create='true' delete='true' rowsPerPage='50' update='false' entityGroup='Poslovni procesi'/>
 	<_:NoInsert xmi:id='_18_5_125803ba_1493308324512_944623_5703' base_Property='_18_5_125803ba_1493305828699_783316_5522' fieldGroup='Osnovno'/>
+	<_:NoInsert xmi:id='_18_5_b6002dd_1493498671620_511235_6113' base_Property='_18_5_125803ba_1493305843400_877255_5524' fieldGroup='Osnovno'/>
 	<_:NoInsert xmi:id='_18_5_125803ba_1493310552186_52236_5793' base_Property='_18_5_125803ba_1493305851775_41505_5526' fieldGroup='Osnovno'/>
 	<_:ReadOnly xmi:id='_18_5_125803ba_1493310568514_101223_5795' base_Property='_18_5_125803ba_1493305861515_393577_5528' required='true' fieldGroup='Troskovi'/>
 	<_:ReadOnly xmi:id='_18_5_125803ba_1493310606046_219740_5797' base_Property='_18_5_125803ba_1493305872565_128365_5530' required='true' fieldGroup='Troskovi'/>
-	<_:Tab xmi:id='_18_5_125803ba_1493311233994_872155_5840' base_Property='_18_5_125803ba_1493310866641_176082_5823' dependent='true'/>
+	<_:UIClass xmi:id='_18_5_125803ba_1493372280967_542332_6136' base_Class='_18_5_125803ba_1493304820643_889541_5351' create='true' delete='true' rowsPerPage='50' update='true' copy='false' visible='false' entityGroup='Poslovni procesi'/>
 	<_:Id xmi:id='_18_5_125803ba_1493309467119_903402_5708' base_Property='_18_5_125803ba_1493305942752_887292_5532'/>
-	<_:UIProperty xmi:id='_18_5_b6002dd_1493496203386_821186_6061' base_Property='_18_5_125803ba_1493307738405_558355_5651' required='true'/>
+	<_:Lookup xmi:id='_18_5_b6002dd_1493498529151_295783_6099' base_Property='_18_5_125803ba_1493305774236_879614_5512' required='true' searchable='true'/>
 	<_:UIProperty xmi:id='_18_5_b6002dd_1494101555050_584020_6086' base_Property='_18_5_125803ba_1493305952650_539517_5534' required='true'/>
 	<_:UIProperty xmi:id='_18_5_b6002dd_1494101577529_561587_6089' base_Property='_18_5_b6002dd_1493494386557_348490_5958' required='true'/>
-	<_:ReadOnly xmi:id='_18_5_b6002dd_1493495374977_350732_5964' base_Property='_18_5_125803ba_1493305151777_589122_5490' unique='true' required='true'/>
-	<_:UIProperty xmi:id='_18_5_b6002dd_1494101616015_204842_6092' base_Property='_18_5_125803ba_1493305969099_772874_5538' required='true'/>
 	<_:ReadOnly xmi:id='_18_5_125803ba_1493310746114_911964_5808' base_Property='_18_5_125803ba_1493305959769_480090_5536' required='false'/>
 	<_:Calculated xmi:id='_18_5_125803ba_1493310746114_911964_5808application1' base_Property='_18_5_125803ba_1493305959769_480090_5536' formula='redni_broj*kolicina'/>
+	<_:UIProperty xmi:id='_18_5_b6002dd_1494101616015_204842_6092' base_Property='_18_5_125803ba_1493305969099_772874_5538' required='true'/>
 	<_:ReadOnly xmi:id='_18_5_125803ba_1493310794612_793592_5814' base_Property='_18_5_125803ba_1493305980583_55531_5540'/>
 	<_:NoInsert xmi:id='_18_5_125803ba_1493310794612_793592_5814application1' base_Property='_18_5_125803ba_1493305980583_55531_5540'/>
 	<_:ReadOnly xmi:id='_18_5_125803ba_1493310804703_830217_5815' base_Property='_18_5_125803ba_1493305991686_776871_5542'/>
@@ -2097,7 +2097,8 @@
 	<_:ReadOnly xmi:id='_18_5_125803ba_1493310826938_450263_5816application1' base_Property='_18_5_125803ba_1493306022306_57465_5544'/>
 	<_:NoInsert xmi:id='_18_5_125803ba_1493310840266_551404_5817' base_Property='_18_5_125803ba_1493306039982_679204_5546'/>
 	<_:ReadOnly xmi:id='_18_5_125803ba_1493310840266_551404_5817application1' base_Property='_18_5_125803ba_1493306039982_679204_5546'/>
-	<_:UIClass xmi:id='_18_5_125803ba_1493372280967_542332_6136' base_Class='_18_5_125803ba_1493304820643_889541_5351' create='true' delete='true' rowsPerPage='50' update='true' copy='false' visible='false' entityGroup='Poslovni procesi'/>
+	<_:UIClass xmi:id='_18_5_125803ba_1493372206355_218481_6130' base_Class='_18_5_125803ba_1493304823846_319567_5378' create='false' delete='false' update='false' rowsPerPage='50' copy='true' entityGroup='Poslovni procesi'/>
+	<_:Id xmi:id='_18_5_125803ba_1493370531173_439607_5918' base_Property='_18_5_125803ba_1493309944019_796142_5732'/>
 	<_:ReadOnly xmi:id='_18_5_b6002dd_1493497261600_67190_6090' base_Property='_18_5_125803ba_1493309957078_613314_5734'/>
 	<_:ReadOnly xmi:id='_18_5_b6002dd_1493497284507_414997_6092' base_Property='_18_5_125803ba_1493309970438_87608_5736'/>
 	<_:ReadOnly xmi:id='_18_5_b6002dd_1493497284507_728035_6095' base_Property='_18_5_125803ba_1493310374572_447752_5778'/>
@@ -2112,58 +2113,59 @@
 	<_:UIClass xmi:id='_18_5_125803ba_1493372267445_583807_6135' base_Class='_18_5_125803ba_1493304825503_335233_5405' create='true' delete='true' rowsPerPage='50' update='true' copy='true' entityGroup='Preduzece'/>
 	<_:Id xmi:id='_18_5_125803ba_1493306956216_617138_5566' base_Property='_18_5_125803ba_1493305684392_15285_5498'/>
 	<_:UIProperty xmi:id='_18_5_b6002dd_1494100345824_736180_6037' base_Property='_18_5_125803ba_1493305702358_503037_5500' required='true'/>
+	<_:UIProperty xmi:id='_18_5_b6002dd_1493496203386_821186_6061' base_Property='_18_5_125803ba_1493307738405_558355_5651' required='true'/>
 	<_:Lookup xmi:id='_18_5_125803ba_1493307200157_852893_5602' base_Property='_18_5_125803ba_1493305709626_103677_5502' required='true' searchable='true'/>
 	<_:ReadOnly xmi:id='_18_5_b6002dd_1493496765121_949980_6080' base_Property='_18_5_125803ba_1493305716035_149470_5504' unique='true' required='true'/>
-	<_:ReadOnly xmi:id='_18_5_b6002dd_1493496770602_952396_6081' base_Property='_18_5_125803ba_1493305729650_335420_5506' unique='true' required='true'/>
 	<_:Tab xmi:id='_18_5_b6002dd_1493500476187_554307_6509' base_Property='_18_5_125803ba_1493377374584_620419_6948'/>
+	<_:ReadOnly xmi:id='_18_5_b6002dd_1493496770602_952396_6081' base_Property='_18_5_125803ba_1493305729650_335420_5506' unique='true' required='true'/>
 	<_:Tab xmi:id='_18_5_b6002dd_1493500424137_975692_6497' base_Property='_18_5_125803ba_1493378632252_514946_7477'/>
-	<_:UIClass xmi:id='_18_5_125803ba_1493370951696_412487_5936' base_Class='_18_5_125803ba_1493304826659_93042_5432' copy='false' create='false' delete='false' rowsPerPage='50' update='false' visible='false' entityGroup='Poslovni procesi'/>
 	<_:Id xmi:id='_18_5_125803ba_1493370976322_593477_5939' base_Property='_18_5_125803ba_1493370962977_538268_5937'/>
 	<_:ReadOnly xmi:id='_18_5_125803ba_1493371038308_809652_5942' base_Property='_18_5_125803ba_1493370992821_173156_5940' required='false'/>
 	<_:ReadOnly xmi:id='_18_5_125803ba_1493371681578_591562_6058' base_Property='_18_5_125803ba_1493371056600_680859_5945' required='false'/>
 	<_:ReadOnly xmi:id='_18_5_125803ba_1493371731555_542492_6063' base_Property='_18_5_125803ba_1493371705773_431945_6061' required='false'/>
+	<_:UIClass xmi:id='_18_5_125803ba_1493370951696_412487_5936' base_Class='_18_5_125803ba_1493304826659_93042_5432' copy='false' create='false' delete='false' rowsPerPage='50' update='false' visible='false' entityGroup='Poslovni procesi'/>
 	<_:ReadOnly xmi:id='_18_5_125803ba_1493371886007_131883_6108' base_Property='_18_5_125803ba_1493371855987_588199_6106' required='false'/>
 	<_:ReadOnly xmi:id='_18_5_125803ba_1493371937103_136638_6113' base_Property='_18_5_125803ba_1493371915740_566907_6111' required='false'/>
 	<_:ReadOnly xmi:id='_18_5_125803ba_1493371964997_668971_6118' base_Property='_18_5_125803ba_1493371947087_928933_6116' required='false'/>
-	<_:UIClass xmi:id='_18_5_125803ba_1493372191127_404584_6129' base_Class='_18_5_125803ba_1493304828050_649800_5459' create='true' delete='true' rowsPerPage='50' update='false' entityGroup='Opsti podaci'/>
 	<_:Id xmi:id='_18_5_125803ba_1493372086849_558464_6123' base_Property='_18_5_125803ba_1493372077566_69883_6121'/>
 	<_:UIProperty xmi:id='_18_5_b6002dd_1494099561620_6006_6024' base_Property='_18_5_125803ba_1493372119182_552466_6124' required='true' searchable='true'/>
+	<_:UIClass xmi:id='_18_5_125803ba_1493372191127_404584_6129' base_Class='_18_5_125803ba_1493304828050_649800_5459' create='true' delete='true' rowsPerPage='50' update='false' entityGroup='Opsti podaci'/>
 	<_:Lookup xmi:id='_18_5_b6002dd_1494099498776_222623_6019' base_Property='_18_5_b6002dd_1494099424468_787190_6017' required='true' unique='true'/>
-	<_:UIClass xmi:id='_18_5_125803ba_1493372508726_375113_6259' base_Class='_18_5_125803ba_1493372341104_942616_6138' create='true' delete='false' rowsPerPage='50' update='false' copy='false' entityGroup='Opsti podaci'/>
 	<_:Id xmi:id='_18_5_125803ba_1493372568933_5911_6262' base_Property='_18_5_125803ba_1493372551862_538855_6260'/>
 	<_:Lookup xmi:id='_18_5_125803ba_1493372598308_759787_6265' base_Property='_18_5_125803ba_1493372571576_600060_6263' required='true' searchable='true'/>
 	<_:Tab xmi:id='_18_5_b6002dd_1493499995020_42421_6429' base_Property='_18_5_125803ba_1493378228646_479207_7240'/>
 	<_:Tab xmi:id='_18_5_b6002dd_1493499942770_583785_6417' base_Property='_18_5_125803ba_1493378261412_874968_7273'/>
-	<_:UIClass xmi:id='_18_5_125803ba_1493372841801_332979_6282' base_Class='_18_5_125803ba_1493372342918_631797_6165' create='true' delete='true' rowsPerPage='50' update='true' copy='true' entityGroup='Preduzece'/>
-	<_:UIProperty xmi:id='_18_5_125803ba_1493372841801_332979_6282application1' base_Element='_18_5_125803ba_1493372342918_631797_6165' searchable='true'/>
+	<_:UIClass xmi:id='_18_5_125803ba_1493372508726_375113_6259' base_Class='_18_5_125803ba_1493372341104_942616_6138' create='true' delete='false' rowsPerPage='50' update='false' copy='false' entityGroup='Opsti podaci'/>
 	<_:Id xmi:id='_18_5_125803ba_1493372867305_960925_6285' base_Property='_18_5_125803ba_1493372846779_862133_6283'/>
 	<_:Lookup xmi:id='_18_5_125803ba_1493372904528_548177_6288' base_Property='_18_5_125803ba_1493372880183_237869_6286' required='true' searchable='true'/>
 	<_:Tab xmi:id='_18_5_b6002dd_1493500041020_633322_6441' base_Property='_18_5_125803ba_1493376387004_171765_6532'/>
 	<_:UIClass xmi:id='_18_5_125803ba_1493372377167_951368_6245' base_Class='_18_5_125803ba_1493372347370_58298_6192' copy='true' create='true' delete='true' rowsPerPage='50' update='true' entityGroup='Opsti podaci'/>
-	<_:UIClass xmi:id='_18_5_125803ba_1493372206355_218481_6130' base_Class='_18_5_125803ba_1493304823846_319567_5378' create='false' delete='false' update='false' rowsPerPage='50' copy='true' entityGroup='Poslovni procesi'/>
+	<_:Id xmi:id='_18_5_125803ba_1493372397770_102498_6248' base_Property='_18_5_125803ba_1493372380815_749566_6246'/>
+	<_:UIClass xmi:id='_18_5_125803ba_1493372841801_332979_6282' base_Class='_18_5_125803ba_1493372342918_631797_6165' create='true' delete='true' rowsPerPage='50' update='true' copy='true' entityGroup='Preduzece'/>
+	<_:UIProperty xmi:id='_18_5_125803ba_1493372841801_332979_6282application1' base_Element='_18_5_125803ba_1493372342918_631797_6165' searchable='true'/>
 	<_:Lookup xmi:id='_18_5_125803ba_1493372427898_661048_6251' base_Property='_18_5_125803ba_1493372402280_782256_6249' required='true' searchable='true'/>
-	<_:Lookup xmi:id='_18_5_b6002dd_1493498529151_295783_6099' base_Property='_18_5_125803ba_1493305774236_879614_5512' required='true' searchable='true'/>
-	<_:Tab xmi:id='_18_5_b6002dd_1493499804185_73563_6399' base_Property='_18_5_125803ba_1493377900533_203897_7174' jsonIgnore='true'/>
-	<_:Tab xmi:id='_18_5_b6002dd_1493499717164_365180_6375' base_Property='_18_5_125803ba_1493377943986_425892_7207'/>
 	<_:Lookup xmi:id='_18_5_b6002dd_1493498589860_753066_6100' base_Property='_18_5_125803ba_1493372435845_150221_6254' required='true' unique='true'/>
+	<_:Tab xmi:id='_18_5_b6002dd_1493499717164_365180_6375' base_Property='_18_5_125803ba_1493377943986_425892_7207'/>
+	<_:Tab xmi:id='_18_5_b6002dd_1493499804185_73563_6399' base_Property='_18_5_125803ba_1493377900533_203897_7174' jsonIgnore='true'/>
 	<_:Tab xmi:id='_18_5_b6002dd_1493499768974_988352_6387' base_Property='_18_5_125803ba_1493378297173_166538_7306' jsonIgnore='true'/>
 	<_:Id xmi:id='_18_5_125803ba_1493372662101_913404_6271' base_Property='_18_5_125803ba_1493372642441_206460_6269'/>
 	<_:Lookup xmi:id='_18_5_125803ba_1493372711593_935177_6274' base_Property='_18_5_125803ba_1493372689998_515959_6272' required='true'/>
-	<_:UIClass xmi:id='_18_5_125803ba_1493372635280_304890_6268' base_Class='_18_5_125803ba_1493372349277_165901_6219' create='true' delete='true' rowsPerPage='50' update='false' copy='false' entityGroup='Opsti podaci'/>
 	<_:UIProperty xmi:id='_18_5_b6002dd_1494099329752_968049_6011' base_Property='_18_5_125803ba_1493372727798_629729_6277' required='true' toolTip='Datum od kog važi stopa'/>
+	<_:UIClass xmi:id='_18_5_125803ba_1493372635280_304890_6268' base_Class='_18_5_125803ba_1493372349277_165901_6219' create='true' delete='true' rowsPerPage='50' update='false' copy='false' entityGroup='Opsti podaci'/>
 	<_:Id xmi:id='_18_5_125803ba_1493373171212_446209_6323' base_Property='_18_5_125803ba_1493373148063_498821_6321'/>
 	<_:UIProperty xmi:id='_18_5_b6002dd_1494102386628_256241_6102' base_Property='_18_5_125803ba_1493373177038_3824_6324' unique='true' required='true'/>
-	<_:UIProperty xmi:id='_18_5_b6002dd_1494102424611_235045_6107' base_Property='_18_5_125803ba_1493373219607_105314_6329' required='true'/>
 	<_:UIClass xmi:id='_18_5_125803ba_1493373139884_616978_6320' base_Class='_18_5_125803ba_1493373122636_187074_6294' copy='true' create='true' delete='true' rowsPerPage='50' update='true' entityGroup='Poslovni procesi'/>
+	<_:UIProperty xmi:id='_18_5_b6002dd_1494102424611_235045_6107' base_Property='_18_5_125803ba_1493373219607_105314_6329' required='true'/>
 	<_:UIProperty xmi:id='_18_5_b6002dd_1494102437396_4298_6110' base_Property='_18_5_125803ba_1493373252432_946590_6334' required='true'/>
 	<_:UIProperty xmi:id='_18_5_b6002dd_1494102708896_74120_6116' base_Property='_18_5_125803ba_1493373348293_138113_6347' required='true'/>
 	<_:UIProperty xmi:id='_18_5_b6002dd_1494102699956_103396_6113' base_Property='_18_5_125803ba_1493373378373_152155_6350' required='true'/>
-	<_:Report xmi:id='_18_5_65d0217_1496245053205_89016_6005' base_Operation='_18_5_1_8b1027c_1496219008672_841236_5657'/>
 	<_:Transaction xmi:id='_18_5_65d0217_1496245115742_561964_6011' base_Operation='_18_5_65d0217_1496245086528_90836_6008'/>
-	<_:Zoom xmi:id='_18_5_b6002dd_1493500373926_136382_6485' base_Property='_18_5_125803ba_1493376579896_129915_6601'/>
+	<_:Report xmi:id='_18_5_65d0217_1496245053205_89016_6005' base_Operation='_18_5_1_8b1027c_1496219008672_841236_5657'/>
 	<_:Zoom xmi:id='_18_5_b6002dd_1493500032045_594121_6435' base_Property='_18_5_125803ba_1493376387004_919772_6533'/>
+	<_:Zoom xmi:id='_18_5_b6002dd_1493500373926_136382_6485' base_Property='_18_5_125803ba_1493376579896_129915_6601'/>
 	<_:Zoom xmi:id='_18_5_b6002dd_1493500760499_876083_6527' base_Property='_18_5_125803ba_1493376588956_626022_6622'/>
 	<_:Zoom xmi:id='_18_5_b6002dd_1493500625655_597189_6515' base_Property='_18_5_125803ba_1493376873934_473634_6747'/>
+	<_:Zoom xmi:id='_18_5_b6002dd_1493501008535_997443_6569' base_Property='_18_5_125803ba_1493377075926_125083_6812'/>
 	<_:Zoom xmi:id='_18_5_b6002dd_1493500952355_121100_6563' base_Property='_18_5_125803ba_1493377195336_708235_6873'/>
 	<_:Zoom xmi:id='_18_5_b6002dd_1493500450079_114179_6503' base_Property='_18_5_125803ba_1493377374584_301155_6949'/>
 	<_:Zoom xmi:id='_18_5_b6002dd_1493500907260_42360_6551' base_Property='_18_5_125803ba_1493377580015_418612_7031'/>
@@ -2171,16 +2173,15 @@
 	<_:Zoom xmi:id='_18_5_b6002dd_1493501079246_582878_6599' base_Property='_18_5_125803ba_1493377727290_764675_7097'/>
 	<_:Zoom xmi:id='_18_5_b6002dd_1493499795630_543979_6393' base_Property='_18_5_125803ba_1493377900533_962864_7175'/>
 	<_:Zoom xmi:id='_18_5_b6002dd_1493499638398_518143_6369' base_Property='_18_5_125803ba_1493377943986_117619_7208'/>
-	<_:Zoom xmi:id='_18_5_b6002dd_1493499988583_614056_6423' base_Property='_18_5_125803ba_1493378228646_617923_7241'/>
-	<_:Id xmi:id='_18_5_125803ba_1493372397770_102498_6248' base_Property='_18_5_125803ba_1493372380815_749566_6246'/>
 	<_:Zoom xmi:id='_18_5_b6002dd_1493499755269_563882_6381' base_Property='_18_5_125803ba_1493378297173_198683_7307'/>
+	<_:Zoom xmi:id='_18_5_b6002dd_1493499988583_614056_6423' base_Property='_18_5_125803ba_1493378228646_617923_7241'/>
 	<_:Zoom xmi:id='_18_5_b6002dd_1493500157255_567920_6453' base_Property='_18_5_125803ba_1493378344709_134630_7340'/>
 	<_:Zoom xmi:id='_18_5_125803ba_1493378431535_109032_7400' base_Property='_18_5_125803ba_1493378383646_629113_7373'/>
 	<_:Zoom xmi:id='_18_5_b6002dd_1493500792555_26670_6533' base_Property='_18_5_125803ba_1493378446145_754325_7412'/>
 	<_:Zoom xmi:id='_18_5_b6002dd_1493501124547_873400_6611' base_Property='_18_5_125803ba_1493378515079_370138_7445'/>
 	<_:Zoom xmi:id='_18_5_b6002dd_1493500416478_411863_6491' base_Property='_18_5_125803ba_1493378632252_451096_7478'/>
-	<_:Id xmi:id='_18_5_125803ba_1493370531173_439607_5918' base_Property='_18_5_125803ba_1493309944019_796142_5732'/>
-	<_:Zoom xmi:id='_18_5_b6002dd_1493501008535_997443_6569' base_Property='_18_5_125803ba_1493377075926_125083_6812'/>
+	<_:Id xmi:id='_18_5_125803ba_1493305219802_951792_5496' base_Property='_18_5_125803ba_1493305090942_460664_5486'/>
+	<_:Tab xmi:id='_18_5_125803ba_1493311233994_872155_5840' base_Property='_18_5_125803ba_1493310866641_176082_5823' dependent='true'/>
 	<xmi:Extension extender='MagicDraw UML 18.5'>
 		<filePart name='proxy.local__PROJECT$h877558e9224f114d50dea1f39a1c119_resource_com$dnomagic$dci$dmetamodel$dproject$dsnapshot' type='XML' header='&lt;?xml version=&quot;1.0&quot; encoding=&quot;ASCII&quot;?&gt;'>
 <project:Project xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:project="http://www.nomagic.com/ns/cameo/client/project/1.0" xmi:id="_VWTUgU_TEeCNOP_jel_PNg" description="" id="PROJECT-877558e9224f114d50dea1f39a1c119">
@@ -2216,10 +2217,10 @@
 	<xmi:Extension extender='MagicDraw UML 18.5'>
 		<filePart name='com.nomagic.ci.persistence.local.proxy.privatedependencylist' type='XML' header='&lt;?xml version=&quot;1.0&quot; encoding=&quot;ASCII&quot;?&gt;'>
 <snapshot:PrivateDependenciesContainer xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:snapshot="http://www.nomagic.com/ns/cameo/client/snapshot/1.0" xmi:id="_XfkCsAJHEeKcqJgnVU4y2Q">
-  <referencedResources xmi:id="_Ali_8FLSEeeJKOmm5T0jgg" originalResourceURI="local:/PROJECT-63cced53-fe9b-4783-90f4-66ebf8cfb5fa?resource=com.nomagic.magicdraw.uml_umodel.model">
+  <referencedResources xmi:id="_EzP10FLaEeeJKOmm5T0jgg" originalResourceURI="local:/PROJECT-63cced53-fe9b-4783-90f4-66ebf8cfb5fa?resource=com.nomagic.magicdraw.uml_umodel.model">
     <referencedObjects>eee_1045467100313_135436_1</referencedObjects>
   </referencedResources>
-  <referencedResources xmi:id="_Ali_8VLSEeeJKOmm5T0jgg" originalResourceURI="local:/PROJECT-877558e9224f114d50dea1f39a1c119?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel">
+  <referencedResources xmi:id="_EzP10VLaEeeJKOmm5T0jgg" originalResourceURI="local:/PROJECT-877558e9224f114d50dea1f39a1c119?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel">
     <referencedObjects>eee_1045467100323_848034_66</referencedObjects>
     <referencedObjects>_9_0_62a020a_1105704884698_645168_7692</referencedObjects>
     <referencedObjects>_9_0_2_91a0295_1110274713995_297054_0</referencedObjects>
@@ -2790,7 +2791,7 @@
     <mountPoints xmi:id="_HBun4FYDEeCyhsLctII43A" sharePointID="magicdraw_uml_standard_profile_v_0001" containmentFeatureID="61" featureName="UML Model" containmentIndex="-1" containmentFeatureName="packagedElement">
       <mountedPoint href="PROJECT-877558e9224f114d50dea1f39a1c119?resource=com.nomagic.magicdraw.uml_umodel.shared_umodel#magicdraw_uml_standard_profile_v_0001"/>
       <mountedOn href="PROJECT-63cced53-fe9b-4783-90f4-66ebf8cfb5fa?resource=com.nomagic.magicdraw.uml_umodel.model#eee_1045467100313_135436_1"/>
-      <options xmi:id="_AjfKcFLSEeeJKOmm5T0jgg" key="preferredPath" value="::"/>
+      <options xmi:id="_ExXmgFLaEeeJKOmm5T0jgg" key="preferredPath" value="::"/>
     </mountPoints>
     <properties xmi:id="_HBzgYFYDEeCyhsLctII43A" key="usedVersion" value="18.5"/>
     <properties xmi:id="_I2i0cFYDEeCyhsLctII43A" key="LOCAL_PROJECT_ID" value="PROJECT-877558e9224f114d50dea1f39a1c119"/>
@@ -2803,18 +2804,18 @@
   <properties xmi:id="_GPLwoFYDEeCyhsLctII43A" key="standardProfile" value="false"/>
   <properties xmi:id="_GPLwoVYDEeCyhsLctII43A" key="internalVersion" value="-1"/>
   <properties xmi:id="_I3t5IFYDEeCyhsLctII43A" key="MODULES_DIRS" value="&lt;project.dir>&lt;>&lt;install.root>/profiles&lt;>&lt;install.root>/modelLibraries"/>
-  <properties xmi:id="_4iLt4JjZEeCrL4EC3xSIEw" key="fileVersion" value="135"/>
+  <properties xmi:id="_4iLt4JjZEeCrL4EC3xSIEw" key="fileVersion" value="138"/>
   <properties xmi:id="_4ieo0JjZEeCrL4EC3xSIEw" key="exporterDescription" value="ac ed 0 5 73 72 0 2e 63 6f 6d 2e 6e 6f 6d 61 67 69 63 2e 70 65 72 73 69 73 74 65 6e 63 65 2e 58 6d 69 45 78 70 6f 72 74 65 72 44 65 73 63 72 69 70 74 69 6f 6e f5 3e fd c8 e7 3c 3b d7 2 0 5 4c 0 5 6d 4e 61 6d 65 74 0 12 4c 6a 61 76 61 2f 6c 61 6e 67 2f 53 74 72 69 6e 67 3b 4c 0 12 6d 52 65 71 75 69 72 65 64 50 6c 75 67 69 6e 4d 61 70 74 0 f 4c 6a 61 76 61 2f 75 74 69 6c 2f 4d 61 70 3b 4c 0 12 6d 52 65 71 75 69 72 65 64 52 65 73 6f 75 72 63 65 73 74 0 10 4c 6a 61 76 61 2f 75 74 69 6c 2f 4c 69 73 74 3b 4c 0 10 6d 55 4d 4c 4e 61 6d 65 73 70 61 63 65 55 52 49 71 0 7e 0 1 4c 0 8 6d 56 65 72 73 69 6f 6e 71 0 7e 0 1 78 70 74 0 d 4d 61 67 69 63 44 72 61 77 20 55 4d 4c 73 72 0 11 6a 61 76 61 2e 75 74 69 6c 2e 48 61 73 68 4d 61 70 5 7 da c1 c3 16 60 d1 3 0 2 46 0 a 6c 6f 61 64 46 61 63 74 6f 72 49 0 9 74 68 72 65 73 68 6f 6c 64 78 70 3f 40 0 0 0 0 0 0 77 8 0 0 0 10 0 0 0 0 78 73 72 0 13 6a 61 76 61 2e 75 74 69 6c 2e 41 72 72 61 79 4c 69 73 74 78 81 d2 1d 99 c7 61 9d 3 0 1 49 0 4 73 69 7a 65 78 70 0 0 0 0 77 4 0 0 0 0 78 70 74 0 4 31 38 2e 35 "/>
   <properties xmi:id="_4ieo0ZjZEeCrL4EC3xSIEw" key="MODEL_ROOT_HREF" value="local:/PROJECT-63cced53-fe9b-4783-90f4-66ebf8cfb5fa?resource=com.nomagic.magicdraw.uml_umodel.model#eee_1045467100313_135436_1"/>
   <properties xmi:id="_Xf1vgAJHEeKcqJgnVU4y2Q" key="CI_VERSION" value="V1702_SP1"/>
   <properties xmi:id="_WHDv8NnXEeSt1dUa3K1eOA" key="fileFormatVersion" value="18.1 beta.esi"/>
-  <properties xmi:id="_oI378G6KEeWoxPthTK0iTA" key="saveID" value="aa4d640e-f924-49f9-9d85-7349533431c3"/>
+  <properties xmi:id="_oI378G6KEeWoxPthTK0iTA" key="saveID" value="c3da6f9a-0d2f-4e36-ab11-5aa93f5021f8"/>
   <projectUsers xmi:id="_zRtSwZjZEeCrL4EC3xSIEw" userId="default"/>
 </project:Project>
 </filePart>
 	</xmi:Extension>
 	<xmi:Extension extender='MagicDraw UML 18.5'>
-		<filePart name='BINARY-96cf2fea-c786-43e5-b510-174b7e3c0ea4' type='XML' header='&lt;?xml version=&#39;1.0&#39; encoding=&#39;UTF-8&#39;?&gt;'>
+		<filePart name='BINARY-3d0f3570-f4a0-4100-a972-89cfd1a60c81' type='XML' header='&lt;?xml version=&#39;1.0&#39; encoding=&#39;UTF-8&#39;?&gt;'>
 
 <mdOwnedViews>
 	<mdElement elementClass='DiagramFrame' xmi:id='_18_5_125803ba_1492703993366_84316_5920'>
@@ -2849,7 +2850,7 @@
 	</mdElement>
 	<mdElement elementClass='Class' xmi:id='_18_5_125803ba_1493304818299_607481_5325'>
 		<elementID xmi:idref='_18_5_125803ba_1493304818299_177340_5324'/>
-		<geometry>168, 812, 453, 258</geometry>
+		<geometry>168, 777, 453, 293</geometry>
 		<compartment compartmentID='TAGGED_VALUES'/>
 		<compartment xmi:value='_18_5_125803ba_1493305809729_720846_5518' compartmentID='ATTRIBUTES'/>
 		<mdOwnedViews/>
@@ -3383,7 +3384,7 @@
 		<elementID xmi:idref='_18_5_125803ba_1493377374584_870797_6947'/>
 		<linkFirstEndID xmi:idref='_18_5_125803ba_1493304818299_607481_5325'/>
 		<linkSecondEndID xmi:idref='_18_5_125803ba_1493304825518_738323_5406'/>
-		<geometry>319, 812; 319, 716; </geometry>
+		<geometry>319, 777; 319, 716; </geometry>
 		<compartment compartmentID='TAGGED_VALUES'/>
 		<compartment compartmentID='CONVEYED_INFORMATION_A' isContentLocked='true'/>
 		<compartment compartmentID='CONVEYED_INFORMATION_B' isContentLocked='true'/>
@@ -3391,22 +3392,22 @@
 		<mdOwnedViews>
 			<mdElement elementClass='Role' xmi:id='_18_5_125803ba_1493377374584_582078_6950'>
 				<elementID xmi:idref='_18_5_125803ba_1493377374584_620419_6948'/>
-				<geometry>314, 802, 10, 10</geometry>
+				<geometry>314, 767, 10, 10</geometry>
 				<compartment compartmentID='TAGGED_VALUES'/>
 				<mdOwnedViews>
 					<mdElement elementClass='TextBox' xmi:id='_18_5_125803ba_1493377436131_737163_6983'>
-						<geometry>322, 797, 24, 12</geometry>
+						<geometry>322, 762, 24, 12</geometry>
 						<mdOwnedViews/>
 						<text>0..*</text>
 					</mdElement>
 					<mdElement elementClass='TextBoxWithIcon' xmi:id='_18_5_b6002dd_1493500476187_34724_6510'>
-						<geometry>280, 782, 36, 12</geometry>
+						<geometry>280, 747, 36, 12</geometry>
 						<mdOwnedViews/>
 						<text>«Tab»</text>
 					</mdElement>
 					<mdElement elementClass='TextBox' xmi:id='_18_5_125803ba_1495100153714_988059_5654'>
 						<elementID xmi:idref='_18_5_125803ba_1493377374584_620419_6948'/>
-						<geometry>132, 797, 184, 12</geometry>
+						<geometry>132, 762, 184, 12</geometry>
 						<mdOwnedViews/>
 						<text>-Dokumenti u kojima se pominje</text>
 					</mdElement>
@@ -4312,7 +4313,7 @@
 		<text>Dva lookupa - for testing purposes</text>
 	</mdElement>
 	<mdElement elementClass='Note' xmi:id='_18_5_b6002dd_1493498712565_205932_6115'>
-		<geometry>462, 994, 100, 129</geometry>
+		<geometry>707, 1043, 100, 129</geometry>
 		<compartment compartmentID='TAGGED_VALUES2'/>
 		<mdOwnedViews/>
 		<text>Transportni i zavisni troskovi se unose samo kod prijemnog dokumenta. Datum formiranja bi trebalo automatski</text>
@@ -4322,12 +4323,6 @@
 		<compartment compartmentID='TAGGED_VALUES2'/>
 		<mdOwnedViews/>
 		<text>Fakturu smo bukvalno ofrlje odradili, samo uneses stvari</text>
-	</mdElement>
-	<mdElement elementClass='Note' xmi:id='_18_5_b6002dd_1493499576030_409084_6357'>
-		<geometry>77, 868, 100, 129</geometry>
-		<compartment compartmentID='TAGGED_VALUES2'/>
-		<mdOwnedViews/>
-		<text>Nema zoom jer stavka ne moze da menja kom dokumentu pripada. Izaberes dokument i dodajes mu stavke</text>
 	</mdElement>
 	<mdElement elementClass='Note' xmi:id='_18_5_b6002dd_1493500210545_790121_6461'>
 		<geometry>1372, 497, 100, 107</geometry>
@@ -4340,6 +4335,12 @@
 		<compartment compartmentID='TAGGED_VALUES2'/>
 		<mdOwnedViews/>
 		<text>(ZA SADA) ATRIBUTE CIJI JE TIP NEKA ENUMERACIJA NAZIVATI SA 2 ILI VISE RECI (KAKO BI SE PRI PARSIRANJU JAVILA DONJA CRTA!</text>
+	</mdElement>
+	<mdElement elementClass='Note' xmi:id='_18_5_b6002dd_1493499576030_409084_6357'>
+		<geometry>77, 868, 100, 129</geometry>
+		<compartment compartmentID='TAGGED_VALUES2'/>
+		<mdOwnedViews/>
+		<text>Nema zoom jer stavka ne moze da menja kom dokumentu pripada. Izaberes dokument i dodajes mu stavke</text>
 	</mdElement>
 </mdOwnedViews></filePart>
 	</xmi:Extension>
@@ -4484,10 +4485,10 @@
 </filePart>
 	</xmi:Extension>
 	<xmi:Extension extender='MagicDraw UML 18.5'>
-		<filePart name='Binaries.properties' type='BINARY'>H4sIAAAAAAAAAC3KsQrCMBAA0L1fEejqheSaNGnBQUVBBwd1cZLLJZFC00Kh+PuCuLzp1VV9WgZxWSehW4HYo+1tJw7H+0Og0q7iuchpLvQeWP6MC33kWsZXmWMa5c/t/nzd3Z7QtZwxJwJ2vgXTJAvBagXameBSwyqR2fwvW+8MdxlithmMDwkITQBvEyqKWZPm6gsgpQPfnwAAAA==</filePart>
+		<filePart name='Binaries.properties' type='BINARY'>H4sIAAAAAAAAAC3KvQrCMBRA4b1PEejqDTd/TVpwUFHQwUFdnOQ26ZVC00Kh+PpKEQ7fdMqiPM29uCyjUJXQpvlljTgc7w+hUfkiTlmOU6Z3H+Vqmukjlzy88pS6Qa5u9+fr7vYEk5CN8whsCcEqRKDaawh15KSowhjU5v9GF7yNNUNix2BD2wFp20JwnUZKrEjF4gs2ZeQFnwAAAA==</filePart>
 	</xmi:Extension>
 	<xmi:Extension extender='MagicDraw UML 18.5'>
-		<filePart name='personal-Binaries.properties' type='BINARY'>H4sIAAAAAAAAAFPmUnYrylTwKs1TMDRTMDKyMjK1MrVUcHYNDlEwMjA05wIAMp4+ZiEAAAA=</filePart>
+		<filePart name='personal-Binaries.properties' type='BINARY'>H4sIAAAAAAAAAFPmUnYrylTwKs1TMDRTMDK2AiITYwVn1+AQBSMDQ3MuAMXNN5whAAAA</filePart>
 	</xmi:Extension>
 	<xmi:Extension extender='MagicDraw UML 18.5'>
 		<filePart name='PROJECT-63cced53-fe9b-4783-90f4-66ebf8cfb5fa' type='BINARY'>H4sIAAAAAAAAAAMAAAAAAAAAAAA=</filePart>
@@ -4499,10 +4500,10 @@
 	</xmi:Extension>
 	<xmi:Extension extender='MagicDraw UML 18.5'>
 		<filePart name='personal-com.nomagic.magicdraw.core.project.options.personalprojectoptions' type='XML' header='&lt;?xml version=&quot;1.0&quot; encoding=&quot;ASCII&quot;?&gt;'>
-<project.options:UserProjectOptions xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:project.options="http://www.nomagic.com/ns/magicdraw/core/project/options/1.0" xmi:id="_HB5nAFYDEeCyhsLctII43A" optionsString="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" diagramViewStyleString="UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAAAAkAVVQFAAEAAAAA7VdLT+MwED7Dr+gtJ0j8SuxVWgQ0rCotULXdBxcsk5hiKYmjJC2FX78mLS3h2dJyYJderHTmmxl/M/aX+HuTJG6MZV4onTYtsOtYDZmGOlLpsGn9HBztUGuvtb3td3Odyby8+aUKVep8PwxlZtbW9pafREEsE5mWDTldD2NRFE2rr5Islv3yJpaW8dvyU5HIVn9w9iPg7c7+997+Me/2TrtBb9AJ+r5dme/8InkpRnHZmCTq21jEI9m0LkVcSMuuzC/luy/xWKRiKPMq5ywpB5QTDiChDroQHGAGXeZRCAFDHCGKocex64FFEVt+Vg/XaT8XxXMQoIBhzCFyPIQ4oYz69lNsFfKlyk9GyYXM7+ufFr4owKBvtU6ORGgIX8SeBV34tWUR5iorTSdrEN4O+oe9TnfQOT1ZwOve00gV2Q9pv5sHe2Ysb7KaDc4tsb7uiXT4CIkdABnFLkYQU+AFO5jMEVdqePUEggwEUoiw6yJKIKVugOgM4ttz7l6n8kDrWIr0FS4jJYa5SE4zmcpoaTprqDUYLfOR3PyeTJ/VWC69man7srtYus43x3hGYj/MdRx3tblJTJY/q/bgEXyNZjgPxvu5Id6BuwB7mCIX04Ct2rb30XG2Hh1n65x2Bj+UkMMrrUL5NiG/VRrp6wM9SqNiVTYeYlekouXb03X6X1hVW7vxziE+B9gl54ws7jKTUE5qJIHNH/BETFSible4sOaIdx7zx4+bUV2jl4wh5BJOzAh5gBMG2DtUF7uQEAdwSjExEk4Yw/+S6gKn+kHzZgIooV8a/L9r8IZ28ekU2oMfK0mfTqM9+LEvLV8a/Wk1uvbk2y99sf8FUEsHCG2jKwd5AgAA8w8AAFBLAQIUABQACAgIAAAAIQBtoysHeQIAAPMPAAAAAAkAAAAAAAAAAAAAAAAAAABVVAUAAQAAAABQSwUGAAAAAAEAAQA3AAAAsAIAAAAA"/>
+<project.options:UserProjectOptions xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:project.options="http://www.nomagic.com/ns/magicdraw/core/project/options/1.0" xmi:id="_HB5nAFYDEeCyhsLctII43A" optionsString="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" diagramViewStyleString="UEsDBBQACAgIAAAAIQAAAAAAAAAAAAAAAAAAAAkAVVQFAAEAAAAA7VdLT+MwED7Dr+gtJ0j8SuxVWgQ0rCotULXdBxcsk5hiKYmjJC2FX78mLS3h2dJyYJderHTmmxl/M/aX+HuTJG6MZV4onTYtsOtYDZmGOlLpsGn9HBztUGuvtb3td3Odyby8+aUKVep8PwxlZtbW9pafREEsE5mWDTldD2NRFE2rr5Islv3yJpaW8dvyU5HIVn9w9iPg7c7+997+Me/2TrtBb9AJ+r5dme/8InkpRnHZmCTq21jEI9m0LkVcSMuuzC/luy/xWKRiKPMq5ywpB5QTDiChDroQHGAGXeZRCAFDHCGKocex64FFEVt+Vg/XaT8XxXMQoIBhzCFyPIQ4oYz69lNsFfKlyk9GyYXM7+ufFr4owKBvtU6ORGgIX8SeBV34tWUR5iorTSdrEN4O+oe9TnfQOT1ZwOve00gV2Q9pv5sHe2Ysb7KaDc4tsb7uiXT4CIkdABnFLkYQU+AFO5jMEVdqePUEggwEUoiw6yJKIKVugOgM4ttz7l6n8kDrWIr0FS4jJYa5SE4zmcpoaTprqDUYLfOR3PyeTJ/VWC69man7srtYus43x3hGYj/MdRx3tblJTJY/q/bgEXyNZjgPxvu5Id6BuwB7mCIX04Ct2rb30XG2Hh1n65x2Bj+UkMMrrUL5NiG/VRrp6wM9SqNiVTYeYlekouXb03X6X1hVW7vxziE+B9gl54ws7jKTUE5qJIHNH/BETFSible4sOaIdx7zx4+bUV2jl4wh5BJOzAh5gBMG2DtUF7uQEAdwSjExEk4Yw/+S6gKn+kHzZgIooV8a/L9r8IZ28ekUGtEvia7xgT72neVLoj+tRNeefPulD/a/UEsHCLc6uRd2AgAA8g8AAFBLAQIUABQACAgIAAAAIQC3OrkXdgIAAPIPAAAAAAkAAAAAAAAAAAAAAAAAAABVVAUAAQAAAABQSwUGAAAAAAEAAQA3AAAArQIAAAAA"/>
 </filePart>
 	</xmi:Extension>
 	<xmi:Extension extender='MagicDraw UML 18.5'>
-		<filePart name='Records.properties' type='BINARY'>H4sIAAAAAAAAAMVUS2+cMBC+8yuQwtUIA14gEodmlUjJoa3SXHpCxh4vrsBGxtt2/329u5CsNqEJaqJejJmH5/HNfBdr3fXUylq20u58UNbsvIsbI/27rfLxyo/jy5hcksJfX3978OMIZ14PZtCKtojpLlS6oxvJwsPJDf0VMm0g7I3+AcyGurdSqyGcfEb5KC7f7ynv6vbzp/vvqFgxEQugiGX5CqUJEFQTHCGcpXUGCYuApuUCW+80MybDDiztNId2yqt8zWDKjJE8S1khEBdEoDSvAdE4rVFOII4oF5hiVi6w9dz7v3dhqxltq+rr/Ze76/VD0KwSxoCTJGgEFHXQpFnu7kUkUqdbQS1yJmoiaGVg0FvDoHIFBHysIOCP3Q/4tmur7aEWJz5+BkX7odG2/J/BzzE55jJpQw4DM7K32pxch3Oc3uQ00+M8ywjJoYjjVGCcchJxoFgkhYMF42KuOiZdKdN4BHycj1eb+kHRnvb4SipqJAz7njihddfyb0pvZlvBLWzXacVcRFAbqQCMVJtymfkzdF0mcrCgnMOhNSN0vZE/qQUOPSjutLvWWT1DeYnz+6I9M8tDQw3wp98PwX5Z7Dk8X2LfI2RnNP6P/t5LA/j2udtXeGTcwzmTzZmVN7YYTZSF9oyF9oSF9nyFTumqXGLs/QHJ9TIOVAcAAA==</filePart>
+		<filePart name='Records.properties' type='BINARY'>H4sIAAAAAAAAAMVUwW6cMBC98xVI4WqEwSxQiUOzSqXm0FZpLj0hY48XV2Aj4227f1+zC81qE5qgJqqEwMy88Xjmjd/VVnc9tbKWrbQHH5Q1B+/qg5H+7V75eOPHyTv3kMTf3ny99+MIZ14PZtCKtojpLlS6ozvJwuObG/ozZNpA2Bv9HZgNdW+lVkM4x0z2yVy+3lbe+Q5Mhh1Y2mkO7RxfPgfwrj9+en/3DbE0zwgrBOIiFYjkNSAakxrlKcQR5QJTzMoVWM/t/+sQtprRtqq+3H2+vdneB80mYQx4mgSNgKIOGpLlbl1EgjjfBmqRM1GnglYGBr03DCpXQMCnCgL+p0sB33dttT/W4synz6BoPzTalv8z+SUnp7PM3pDDwIzsrTZny+GSpxcFLfQ4z7I0zaGIYyIwJjyNOFAsksLRgnGxVB2TrpR5PAI+zcezTX2jbA/37VoqaiQMY0+c0bpl+Tent3CrwF2srtOKuYygdlIBGKl25Tr4I3bdSeRgQbmAY2sm6nojf1ALHHpQ3HkPrUM9YnlN8OuyvTDLQ0MN8IffN+F+Xe4lPp9SyRNlF3L7j/HeUwP48rkbKzwp7vG9cJoL1KzKCY9EkmYREoRGiOAoQrTIYpQXTHBMNxHLcbkC603UoVkK0aiEaBRCNOogOpfBcg3Y+w0HuS9iVAcAAA==</filePart>
 	</xmi:Extension>
 </xmi:XMI>

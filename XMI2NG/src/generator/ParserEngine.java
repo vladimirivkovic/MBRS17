@@ -786,7 +786,7 @@ public class ParserEngine {
 			} else if (attributes.getQName(i).equals("unique")) {
 				p.setUnique("true".equals(attributes.getValue(i)));
 
-			} else if (attributes.getQName(i).equals("fieldProperty")) {
+			} else if (attributes.getQName(i).equals("fieldGroup")) {
 				p.setFieldGroup(attributes.getValue(i));
 			}
 		}

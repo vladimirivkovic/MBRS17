@@ -117,7 +117,6 @@ public class GeneratorUtil {
 
 			return methodCodeMap;
 		} else if("ng-controller.ftl".equals(templateName)) {
-			System.out.println("controller ng");
 			Map<String, String> buttonCodeMap = new HashMap<String, String>();
 			Boolean isUserCode = false;
 			String userCode = "";
@@ -156,7 +155,6 @@ public class GeneratorUtil {
 	}
 	
 	private static String getButtonName(String buttonLine) {
-		System.out.println(buttonLine);
 		String temp = buttonLine.trim().split("Click")[0];
 		return temp.split("\\.")[1];
 	}

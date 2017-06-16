@@ -34,7 +34,7 @@ public class FMProperty extends FMNamedElement  {
 	private Calculated calculated;
 	private Tab tab;
 	
-	private UIProperty uIProperty = null;
+	private UIProperty uIProperty = new UIProperty();
 	
 	//anotacije
 	private List<FMAnnotation> annotations = new ArrayList<FMAnnotation>();
@@ -178,7 +178,7 @@ public class FMProperty extends FMNamedElement  {
 	public void addStereotype(Stereotype st) {
 		super.addStereotype(st);
 		
-		if (uIProperty == null) uIProperty = new UIProperty();
+		//if (uIProperty == null) uIProperty = (UIProperty) st;
 		
 		if (st instanceof Id) {
 			id = (Id) st;
@@ -269,6 +269,11 @@ public class FMProperty extends FMNamedElement  {
 		
 		if(!this.uIProperty.getUnique() && uip.getUnique()){ //menja u slucaju da ga niko nije postavio na true...
 			this.uIProperty.setUnique(true);
+			
+		}
+		
+		if(this.uIProperty.getFieldGroup().equals("Other") && !uip.getFieldGroup().equals("")){ //menja u slucaju da ga niko nije postavio na true...
+			this.uIProperty.setFieldGroup(uip.getFieldGroup());
 			
 		}
 	}
