@@ -564,7 +564,7 @@ public class ParserEngine {
 		if (types.containsKey(typeId))
 			return types.get(typeId).getName();
 		else
-			return typeId;
+			return "date".equals(typeId) ? "Date" : typeId;
 	}
 
 	public static boolean isPrimitive(String typeId) {
@@ -682,6 +682,8 @@ public class ParserEngine {
 					} else if (attributes.getQName(i).equals("unique")) {
 						p.setUnique("true".equals(attributes.getValue(i)));
 
+					} else if (attributes.getQName(i).equals("fieldProperty")) {
+						p.setFieldGroup(attributes.getValue(i));
 					}
 
 				}
@@ -718,7 +720,9 @@ public class ParserEngine {
 
 				} else if (attributes.getQName(i).equals("unique")) {
 					l.setUnique("true".equals(attributes.getValue(i)));
-
+					
+				} else if (attributes.getQName(i).equals("fieldProperty")) {
+					l.setFieldGroup(attributes.getValue(i));
 				}
 
 			}
@@ -750,6 +754,8 @@ public class ParserEngine {
 				} else if (attributes.getQName(i).equals("unique")) {
 					r.setUnique("true".equals(attributes.getValue(i)));
 
+				} else if (attributes.getQName(i).equals("fieldProperty")) {
+					r.setFieldGroup(attributes.getValue(i));
 				}
 			}
 			elementMap.get(baseProperty).addStereotype(r);
@@ -777,6 +783,8 @@ public class ParserEngine {
 				} else if (attributes.getQName(i).equals("unique")) {
 					n.setUnique("true".equals(attributes.getValue(i)));
 
+				} else if (attributes.getQName(i).equals("fieldProperty")) {
+					n.setFieldGroup(attributes.getValue(i));
 				}
 			}
 			elementMap.get(baseProperty).addStereotype(n);
@@ -806,6 +814,8 @@ public class ParserEngine {
 					} else if (attributes.getQName(i).equals("unique")) {
 						cal.setUnique("true".equals(attributes.getValue(i)));
 
+					} else if (attributes.getQName(i).equals("fieldProperty")) {
+						cal.setFieldGroup(attributes.getValue(i));
 					}
 				}
 				elementMap.get(baseProperty).addStereotype(cal);
@@ -835,6 +845,8 @@ public class ParserEngine {
 				} else if (attributes.getQName(i).equals("unique")) {
 					id.setUnique("true".equals(attributes.getValue(i)));
 
+				} else if (attributes.getQName(i).equals("fieldProperty")) {
+					id.setFieldGroup(attributes.getValue(i));
 				}
 			}
 			elementMap.get(baseProperty).addStereotype(id);

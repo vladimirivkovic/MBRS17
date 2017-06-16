@@ -7,6 +7,7 @@ public class UIProperty extends UIElement {
 	protected Boolean searchable = false;
 	protected Boolean required = false;
 	protected Boolean unique = false;
+	protected String fieldGroup = "Other";
 	
 	public UIProperty() {
 		// TODO Auto-generated constructor stub
@@ -76,6 +77,14 @@ public class UIProperty extends UIElement {
 
 	public void setUnique(Boolean unique) {
 		this.unique = unique;
+	}
+	
+	public String getFieldGroup() {
+		return fieldGroup;
+	}
+	
+	public void setFieldGroup(String fieldGroup) {
+		this.fieldGroup = fieldGroup;
 	}
 
 }
