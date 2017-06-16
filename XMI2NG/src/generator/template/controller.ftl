@@ -6,68 +6,58 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Description;
+using System.Web.Http.ModelBinding;
+using System.Web.Http.OData;
+using System.Web.Http.OData.Routing;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-    public class ${class.name}Controller : ApiController
+    public class ${class.name}Controller : ODataController
     {
         private AppDBContext db = new AppDBContext();
 
-        // GET: api/${class.name}
+        // GET: odata/${class.name}
+        [EnableQuery]
         public IQueryable<${class.name}> Get${class.name}()
         {
             return db.${class.name};
         }
- 
-        // GET: api/${class.name}/5
-        [ResponseType(typeof(${class.name}))]
-        public IHttpActionResult Get${class.name}(int id)
-        {
-            if (!LoginController.CheckAuthorizationForRequest(Request))
-            {
-                return Unauthorized();
-            }
-            
-            ${class.name} ${class.name?lower_case} = db. ${class.name}.Find(id);
-            if (${class.name?lower_case} == null)
-            {
-                return NotFound();
-            }
 
-            return Ok(${class.name?lower_case});
+        // GET: odata/${class.name}(5)
+        [EnableQuery]
+        public SingleResult<${class.name}> Get${class.name}([FromODataUri] int key)
+        {
+            return SingleResult.Create(db.${class.name}.Where(${class.name?lower_case} => ${class.name?lower_case}.Id == key));
         }
 
-        // PUT: api/${class.name}/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult Put${class.name}(int id,  ${class.name} ${class.name?lower_case})
+        // PUT: odata/${class.name}(5)
+        public async Task<IHttpActionResult> Put([FromODataUri] int key, Delta<${class.name}> patch)
         {
-        	if (!LoginController.CheckAuthorizationForRequest(Request))
-            {
-                return Unauthorized();
-            }
-            
+            Validate(patch.GetEntity());
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != ${class.name?lower_case}.Id)
+            ${class.name} ${class.name?lower_case} = await db.${class.name}.FindAsync(key);
+            if (roba == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            db.Entry(${class.name?lower_case}).State = EntityState.Modified;
+            patch.Put(${class.name?lower_case});
 
             try
             {
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!${class.name}Exists(id))
+                if (!${class.name}Exists(key))
                 {
                     return NotFound();
                 }
@@ -77,48 +67,74 @@ namespace WebApplication1.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return Updated(${class.name?lower_case});
         }
 
-        // POST: api/${class.name}
-        [ResponseType(typeof(${class.name}))]
-        public IHttpActionResult Post${class.name}(${class.name} ${class.name?lower_case})
+        // POST: odata/${class.name}
+        public async Task<IHttpActionResult> Post(${class.name} ${class.name?lower_case})
         {
-        	if (!LoginController.CheckAuthorizationForRequest(Request))
-            {
-                return Unauthorized();
-            }
-            
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             db.${class.name}.Add(${class.name?lower_case});
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
-            return CreatedAtRoute("DefaultApi", new { id = ${class.name?lower_case}.Id }, ${class.name?lower_case});
+            return Created(${class.name?lower_case});
         }
 
-        // DELETE: api/${class.name}/5
-        [ResponseType(typeof(${class.name}))]
-        public IHttpActionResult Delete${class.name}(int id)
+        // PATCH: odata/${class.name}(5)
+        [AcceptVerbs("PATCH", "MERGE")]
+        public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<${class.name}> patch)
         {
-        	if (!LoginController.CheckAuthorizationForRequest(Request))
+            Validate(patch.GetEntity());
+
+            if (!ModelState.IsValid)
             {
-                return Unauthorized();
+                return BadRequest(ModelState);
             }
-            
-            ${class.name} ${class.name?lower_case} = db.${class.name}.Find(id);
+
+            ${class.name} ${class.name?lower_case} = await db.${class.name}.FindAsync(key);
+            if (${class.name?lower_case} == null)
+            {
+                return NotFound();
+            }
+
+            patch.Patch(${class.name?lower_case});
+
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!${class.name}Exists(key))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return Updated(${class.name?lower_case});
+        }
+
+        // DELETE: odata/${class.name}(5)
+        public async Task<IHttpActionResult> Delete([FromODataUri] int key)
+        {
+            ${class.name} ${class.name?lower_case} = await db.${class.name}.FindAsync(key);
             if (${class.name?lower_case} == null)
             {
                 return NotFound();
             }
 
             db.${class.name}.Remove(${class.name?lower_case});
-            db.SaveChanges();
+            await db.SaveChangesAsync();
 
-            return Ok(${class.name?lower_case});
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
         protected override void Dispose(bool disposing)
@@ -130,9 +146,9 @@ namespace WebApplication1.Controllers
             base.Dispose(disposing);
         }
 
-        private bool ${class.name}Exists(int id)
+        private bool ${class.name}Exists(int key)
         {
-            return db.${class.name}.Count(e => e.Id == id) > 0;
+            return db.${class.name}.Count(e => e.Id == key) > 0;
         }
     }
 }

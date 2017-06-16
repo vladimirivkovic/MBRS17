@@ -49,6 +49,8 @@ public class GeneratorEngine {
 
 		GeneratorUtil.createDirectory("generated/app");
 
+		GeneratorUtil.createDirectory("generated/backendConfig");
+		
 		GeneratorUtil.createDirectory("generated/model");
 
 		GeneratorUtil.createDirectory("generated/controller");
@@ -203,6 +205,9 @@ public class GeneratorEngine {
 			GeneratorUtil.generateFile("appDBContext.ftl", 
 					"generated/model/AppDBContext.cs", cfg, model2);
 		
+			GeneratorUtil.generateFile("webApiConfig.ftl", 
+					"generated/backendConfig/WebApiConfig.cs", cfg, model2);		
+					
 			GeneratorUtil.generateFile("index.ftl", 
 					"generated/app/index.html", cfg, model2);
 			
