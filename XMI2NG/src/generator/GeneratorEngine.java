@@ -11,6 +11,7 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateModelException;
 import generator.model.FMClass;
 import generator.model.FMEnumeration;
+import generator.model.FMInterface;
 import generator.model.FMNamedElement;
 import generator.model.FMProperty;
 
@@ -55,6 +56,7 @@ public class GeneratorEngine {
 		// name, package, visibility - dummy values
 		FMClass cl = new FMClass("City", "ordering", "public");
 		FMEnumeration en = new FMEnumeration("dummyName", "dummyNamespace");
+		FMInterface in = new FMInterface("dummyName", "dummyNamespace");
 
 		for (FMNamedElement el : elementMap.values()) {
 			if (el instanceof FMClass) {
@@ -122,6 +124,25 @@ public class GeneratorEngine {
 				try {
 					GeneratorUtil.generateFile("enumeration.ftl", 
 							"generated/model/" + en.getName() + ".cs", cfg, model);
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (TemplateException e) {
+					e.printStackTrace();
+				}
+
+			} else if (el instanceof FMInterface) {
+				in = (FMInterface) el;
+
+				System.out.println("********GENERATING for " + in.getName());
+
+				model.clear();
+				model.put("interface", in);
+				model.put("methods", in.getMethods());
+
+				try {
+					GeneratorUtil.generateFile("interface.ftl", 
+							"generated/model/" + in.getName() + ".cs", cfg, model);
 
 				} catch (IOException e) {
 					e.printStackTrace();

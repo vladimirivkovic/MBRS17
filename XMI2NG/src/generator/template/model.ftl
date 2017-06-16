@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace WebApplication1.Models
 {
-	${class.visibility} class ${class.name}<#if class.parent??>: class.parent.name</#if>
+	${class.visibility} class ${class.name}<#if class.parent??>: ${class.parent}<#list class.interfaces as i>,${i}</#list><#else><#list class.interfaces as i>${i}<#sep>,</#list></#if>
 	{  
 	<#list constraints as constraint>
 		//Constraint :${constraint.name} -> ${constraint.constraintExp}
@@ -72,7 +72,7 @@ namespace WebApplication1.Models
 	         
 	</#list>
 	<#list methods as method>
-		${method.visibility} ${method.returnType} ${method.name}(<#list method.parameters as parameter><#if parameter_index != 0>, </#if><#if parameter.ref>ref </#if><#if parameter.out>out </#if>${parameter.type} ${parameter.name}</#list>)
+		${method.visibility} <#if method.static>static </#if>${method.returnType} ${method.name}(<#list method.parameters as parameter><#if parameter_index != 0>, </#if><#if parameter.ref>ref </#if><#if parameter.out>out </#if>${parameter.type} ${parameter.name}</#list>)
 		{
 			// USER CODE STARTS HERE
 <#if userCode[method.name]??>${userCode[method.name]}<#else>

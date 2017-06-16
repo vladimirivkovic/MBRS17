@@ -1,5 +1,6 @@
 package generator.model;
 
+import generator.ParserEngine;
 import generator.model.profile.Stereotype;
 import generator.model.profile.UIClass;
 
@@ -11,20 +12,17 @@ public class FMClass extends FMType {
 
 	private String visibility;
 
-	// Obelezja klase
 	private List<FMProperty> properties = new ArrayList<FMProperty>();
 
-	// Spisak paketa (za import deklaraciju klase)
 	private List<String> importedPackages = new ArrayList<String>();
 
-	// spisak metoda
 	private List<FMMethod> methods = new ArrayList<FMMethod>();
 	
-	private List<FMConstraint> constraints=new ArrayList<FMConstraint>();
+	private List<FMConstraint> constraints = new ArrayList<FMConstraint>();
 
-	// Omoguciti definisanje klase-pretka!
-	private FMClass parent;
-	// TODO Interfejsi
+	private String parentId = null;
+	
+	private ArrayList<String> interfaceIds = new ArrayList<>();
 
 	private UIClass uIClass;
 
@@ -81,12 +79,16 @@ public class FMClass extends FMType {
 		methods.add(method);
 	}
 
-	public FMClass getParent() {
-		return parent;
+	public String getParent() {
+		return ParserEngine.getType(parentId);
+	}
+	
+	public String getParentId() {
+		return parentId;
 	}
 
-	public void setParent(FMClass parent) {
-		this.parent = parent;
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
 	}
 
 	public String getLowerName() {
@@ -110,6 +112,24 @@ public class FMClass extends FMType {
 
 	public void setConstraints(List<FMConstraint> constraints) {
 		this.constraints = constraints;
+	}
+	
+	public void addInterfaceId(String interfaceId) {
+		interfaceIds.add(interfaceId);
+	}
+	
+	public ArrayList<String> getInterfaceIds() {
+		return interfaceIds;
+	}
+	
+	public ArrayList<String> getInterfaces() {
+		ArrayList<String> interfaces = new ArrayList<String>();
+		
+		for (String interfaceId : interfaceIds) {
+			interfaces.add(ParserEngine.getType(interfaceId));
+		}
+		
+		return interfaces;
 	}
 
 	@Override
