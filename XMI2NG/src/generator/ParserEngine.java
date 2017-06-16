@@ -4,6 +4,7 @@ import generator.model.FMAssociation;
 import generator.model.FMClass;
 import generator.model.FMConstraint;
 import generator.model.FMEnumeration;
+import generator.model.FMInterface;
 import generator.model.FMMethod;
 import generator.model.FMNamedElement;
 import generator.model.FMParameter;
@@ -27,7 +28,6 @@ import generator.model.profile.UIGroup;
 import generator.model.profile.UIProperty;
 import generator.model.profile.Zoom;
 
-import java.nio.Buffer;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -37,14 +37,17 @@ import org.xml.sax.Attributes;
 
 public class ParserEngine {
 
-	private static StringBuilder charBuffer=new StringBuilder();
+	private static StringBuilder charBuffer = new StringBuilder();
 	private static Map<String, FMType> types = new HashMap<String, FMType>();
 	private static Map<String, FMNamedElement> elementMap = new HashMap<>();
 	private static Stack<FMNamedElement> elementStack = new Stack<FMNamedElement>();
 	static HashSet<String> groups = new HashSet<>();
 
 	public enum STATE {
-		CONSTRAINT_BODY,OWNED_RULE,IDLE, MODEL, PACKED_ELEMENT, CLASS, ASSOCIATION, OWNED_ATTRIBUTE, TYPE, OWNED_END, MEMBER_END, LOWER, UPPER, STEREOTYPE, OWNED_LITERAL, OWNED_OPERATION, OWNED_PARAMETER
+		CONSTRAINT_BODY, OWNED_RULE, IDLE, MODEL, PACKED_ELEMENT, 
+		CLASS, ASSOCIATION, OWNED_ATTRIBUTE, TYPE, OWNED_END, MEMBER_END, 
+		LOWER, UPPER, STEREOTYPE, OWNED_LITERAL, 
+		OWNED_OPERATION, OWNED_PARAMETER, GENERALIZATION, REALIZATION
 	}
 
 	private static STATE current = STATE.IDLE;
@@ -54,7 +57,7 @@ public class ParserEngine {
 	public static void handleStart(STATE state, Attributes attributes) {
 		String name = null, visibility = "public", type = null;
 		String xmiId = null, xmiType = null, href = null, direction = null;
-		String associationId = null;
+		String associationId = null; Boolean isStatic = false;
 		FMNamedElement el;
 		FMAssociation asoc = null;
 		int value = 0;
@@ -116,6 +119,20 @@ public class ParserEngine {
 				current = STATE.OWNED_LITERAL;
 				System.out.println("###################Enumeration : " + name);
 				types.put(xmiId, e);
+			} else if (xmiType.equals("uml:Interface")) {
+				if (name == null) {
+					current = STATE.IDLE;
+					break;
+				}
+
+				FMInterface i = new FMInterface(name, "default");
+				elementMap.put(xmiId, i);
+				elementStack.push(i);
+
+				current = STATE.OWNED_ATTRIBUTE;
+				System.out.println("###################Interface : " + name);
+				types.put(xmiId, i);
+
 			} else {
 				current = STATE.IDLE;
 			}
@@ -123,12 +140,48 @@ public class ParserEngine {
 			break;
 
 		case CONSTRAINT_BODY:
-			System.out.println("CONS BODY"+attributes.getLength());
-			
+			System.out.println("CONS BODY" + attributes.getLength());
+
 			break;
+		case GENERALIZATION:
+			if (current != STATE.OWNED_ATTRIBUTE && current != STATE.OWNED_RULE)
+				break;
+
+			for (int i = 0; i < attributes.getLength(); i++) {
+				if (attributes.getQName(i).equals("general")) {
+					xmiId = attributes.getValue(i);
+				}
+			}
+
+			System.out.println("Generalization");
+			FMNamedElement elem = elementStack.peek();
+			
+			if (elem instanceof FMClass) {
+				((FMClass) elem).setParentId(xmiId);
+			} else if (elem instanceof FMInterface) {
+				((FMInterface) elem).addParentId(xmiId);
+			}
+
+			break;
+			
+		case REALIZATION:
+			if (current != STATE.OWNED_ATTRIBUTE && current != STATE.OWNED_RULE)
+				break;
+
+			for (int i = 0; i < attributes.getLength(); i++) {
+				if (attributes.getQName(i).equals("xmi:idref")) {
+					xmiId = attributes.getValue(i);
+				}
+			}
+
+			System.out.println("Realization");
+			((FMClass) elementStack.peek()).setParentId(xmiId);
+
+			break;
+			
 		case OWNED_ATTRIBUTE:
 			// System.out.println(current);
-			if (current != STATE.OWNED_ATTRIBUTE && current!=STATE.OWNED_RULE)
+			if (current != STATE.OWNED_ATTRIBUTE && current != STATE.OWNED_RULE)
 				break;
 
 			for (int i = 0; i < attributes.getLength(); i++) {
@@ -155,7 +208,7 @@ public class ParserEngine {
 
 			// current = STATE.LOWER;
 			break;
-			
+
 		case OWNED_RULE:
 			if (current != STATE.OWNED_ATTRIBUTE)
 				break;
@@ -164,17 +217,17 @@ public class ParserEngine {
 				if (attributes.getQName(i).equals("name")) {
 					name = attributes.getValue(i);
 					System.out.println("NAME JE " + name);
-				} else if (attributes.getQName(i).equals("xmi:id")) {	
-					xmiId=attributes.getValue(i);
-				} 
+				} else if (attributes.getQName(i).equals("xmi:id")) {
+					xmiId = attributes.getValue(i);
+				}
 			}
-			
-			FMConstraint cons=new FMConstraint(name);
+
+			FMConstraint cons = new FMConstraint(name);
 			((FMClass) elementStack.peek()).addConstraint(cons);
-			
+
 			elementMap.put(xmiId, cons);
 			elementStack.push(cons);
-			current=STATE.CONSTRAINT_BODY;
+			current = STATE.CONSTRAINT_BODY;
 			break;
 
 		case OWNED_OPERATION:
@@ -189,12 +242,22 @@ public class ParserEngine {
 					xmiId = attributes.getValue(i);
 				} else if (attributes.getQName(i).equals("visibility")) {
 					visibility = attributes.getValue(i);
+				} else if (attributes.getQName(i).equals("isStatic")) {
+					isStatic = "true".equals(attributes.getValue(i));
 				}
 			}
 
 			System.out.println("Operation " + name);
-			FMMethod m = new FMMethod(name, visibility, null);
-			((FMClass) elementStack.peek()).addMethod(m);
+			FMMethod m = new FMMethod(name, visibility, null, isStatic);
+			
+			FMNamedElement elm = elementStack.peek();
+			
+			if (elm instanceof FMClass) {
+				((FMClass) elm).addMethod(m);
+			} else if (elm instanceof FMInterface) {
+				((FMInterface) elm).addMethod(m);
+			}
+			
 			elementMap.put(xmiId, m);
 			elementStack.push(m);
 
@@ -321,13 +384,12 @@ public class ParserEngine {
 			break;
 
 		case TYPE:
-			if (current==STATE.OWNED_RULE)
+			if (current == STATE.OWNED_RULE)
 				System.out.println("U TYPE, OWNED RULE");
 			if (current != STATE.OWNED_ATTRIBUTE
 					&& current != STATE.OWNED_PARAMETER)
 				break;
-			
-			
+
 			for (int i = 0; i < attributes.getLength(); i++) {
 				if (attributes.getQName(i).equals("referentPath")) {
 					href = attributes.getValue(i);
@@ -335,13 +397,13 @@ public class ParserEngine {
 			}
 			String[] words = href.split("::");
 			String typeName = words[words.length - 1];
-			//System.out.println("Type: " + typeName);
+			// System.out.println("Type: " + typeName);
 
 			el = elementStack.peek();
 			if (el instanceof FMProperty) {
 				((FMProperty) el).setType(typeName);
 			} else if (el instanceof FMParameter) {
-				//System.out.println("Setting type for parameter...");
+				// System.out.println("Setting type for parameter...");
 				((FMParameter) el).setType(typeName);
 			}
 
@@ -421,13 +483,13 @@ public class ParserEngine {
 			}
 
 			break;
-		
+
 		case CONSTRAINT_BODY:
-			FMConstraint c=(FMConstraint)elementStack.peek();
+			FMConstraint c = (FMConstraint) elementStack.peek();
 			c.setConstraintExp(charBuffer.toString());
-			charBuffer=new StringBuilder();
+			charBuffer = new StringBuilder();
 			break;
-			
+
 		case PACKED_ELEMENT:
 			if (current == STATE.IDLE) {
 				break;
@@ -478,21 +540,21 @@ public class ParserEngine {
 		case OWNED_OPERATION:
 		case OWNED_PARAMETER:
 			if (current == STATE.OWNED_ATTRIBUTE
-					|| current == STATE.OWNED_PARAMETER ) {
+					|| current == STATE.OWNED_PARAMETER) {
 				elementStack.pop();
 			}
-			
+
 			if (state == STATE.OWNED_OPERATION) {
 				current = STATE.OWNED_ATTRIBUTE;
 			}
-			
+
 			break;
 		case OWNED_RULE:
 			System.out.println("KRAJ OWNED RULE");
 			elementStack.pop();
-			current=STATE.OWNED_ATTRIBUTE;
+			current = STATE.OWNED_ATTRIBUTE;
 			break;
-		
+
 		default:
 			break;
 		}
@@ -514,9 +576,9 @@ public class ParserEngine {
 	}
 
 	public static void handleCharacters(String characters) {
-		if (current==STATE.CONSTRAINT_BODY)
+		if (current == STATE.CONSTRAINT_BODY)
 			charBuffer.append(characters);
-		
+
 	}
 
 	public static void handleStereotype(String qName, Attributes attributes) {
@@ -591,10 +653,10 @@ public class ParserEngine {
 			// System.out.println("UICLASS na " +
 			// elementMap.get(baseClass).getName());
 			elementMap.get(baseClass).addStereotype(c);
-			if (!grouped){
+			if (!grouped) {
 				groups.add("Other entities");
 			}
-			
+
 			break;
 
 		case "_:UIProperty":
@@ -817,14 +879,12 @@ public class ParserEngine {
 			break;
 
 		case "_:Report":
-			elementMap.get(baseOperation)
-					.addStereotype(new Report());
+			elementMap.get(baseOperation).addStereotype(new Report());
 
 			break;
 
 		case "_:Transaction":
-			elementMap.get(baseOperation)
-					.addStereotype(new Transaction());
+			elementMap.get(baseOperation).addStereotype(new Transaction());
 
 			break;
 

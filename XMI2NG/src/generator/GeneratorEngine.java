@@ -11,6 +11,7 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateModelException;
 import generator.model.FMClass;
 import generator.model.FMEnumeration;
+import generator.model.FMInterface;
 import generator.model.FMNamedElement;
 import generator.model.FMProperty;
 
@@ -48,6 +49,8 @@ public class GeneratorEngine {
 
 		GeneratorUtil.createDirectory("generated/app");
 
+		GeneratorUtil.createDirectory("generated/backendConfig");
+		
 		GeneratorUtil.createDirectory("generated/model");
 
 		GeneratorUtil.createDirectory("generated/controller");
@@ -55,6 +58,7 @@ public class GeneratorEngine {
 		// name, package, visibility - dummy values
 		FMClass cl = new FMClass("City", "ordering", "public");
 		FMEnumeration en = new FMEnumeration("dummyName", "dummyNamespace");
+		FMInterface in = new FMInterface("dummyName", "dummyNamespace");
 
 		for (FMNamedElement el : elementMap.values()) {
 			if (el instanceof FMClass) {
@@ -76,11 +80,6 @@ public class GeneratorEngine {
 
 					GeneratorUtil.generateFile("controller.ftl",
 							"generated/controller/" + cl.getName() + "Controller.cs", cfg, model);
-					
-					if (cl.getName().equals("Mesto"))
-					GeneratorUtil.generateFile("pdf.ftl","generated/"+cl.getName()
-							+"pdf.cs",cfg,model);
-					System.out.println("PDF");
 
 					/**
 					 * New folder for each class in AngularJS app structure
@@ -105,7 +104,7 @@ public class GeneratorEngine {
 									"generated/app/" + cl.getLowerName() + "/modal/" + p.getName() + "ModalView.html", cfg, model);
 	
 							GeneratorUtil.generateFile("chooseModalCtrl.ftl", 
-									"generated/app/" + cl.getLowerName() + "/modal/" + p.getName() + "ModalCtrl.html", cfg, model);
+									"generated/app/" + cl.getLowerName() + "/modal/" + p.getName() + "ModalCtrl.js", cfg, model);
 						}
 					}
 
@@ -134,14 +133,31 @@ public class GeneratorEngine {
 					e.printStackTrace();
 				}
 
+			} else if (el instanceof FMInterface) {
+				in = (FMInterface) el;
+
+				System.out.println("********GENERATING for " + in.getName());
+
+				model.clear();
+				model.put("interface", in);
+				model.put("methods", in.getMethods());
+
+				try {
+					GeneratorUtil.generateFile("interface.ftl", 
+							"generated/model/" + in.getName() + ".cs", cfg, model);
+
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (TemplateException e) {
+					e.printStackTrace();
+				}
+
 			}
 		}
 
 		/**
 		 * generate login controller
 		 */
-		
-		
 		try {
 			GeneratorUtil.generateFile("loginController.ftl", 
 					"generated/controller/" + "LoginController.cs", cfg, model);
@@ -156,12 +172,14 @@ public class GeneratorEngine {
 
 		}
 
+
 		/**
 		 * Generating ng-app
 		 */
 		System.out.println("GENERATING login stuff on frontend");
 		try{
 			GeneratorUtil.createDirectory("generated/app/login/");
+			
 			GeneratorUtil.generateFile("loginViewFront.ftl","generated/app/login/"
 					+"loginView.html",cfg,model2);
 	 
@@ -170,7 +188,6 @@ public class GeneratorEngine {
 			
 			GeneratorUtil.generateFile("authenticationServiceFront.ftl","generated/app/login/"
 					+"AuthenticationService.js",cfg,model2);
-	
 		}
 		catch(IOException ioExc)
 		{
@@ -192,6 +209,9 @@ public class GeneratorEngine {
 			GeneratorUtil.generateFile("appDBContext.ftl", 
 					"generated/model/AppDBContext.cs", cfg, model2);
 		
+			GeneratorUtil.generateFile("webApiConfig.ftl", 
+					"generated/backendConfig/WebApiConfig.cs", cfg, model2);		
+					
 			GeneratorUtil.generateFile("index.ftl", 
 					"generated/app/index.html", cfg, model2);
 			

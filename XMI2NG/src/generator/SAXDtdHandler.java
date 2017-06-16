@@ -127,6 +127,14 @@ public class SAXDtdHandler extends DefaultHandler {
 			ParserEngine.handleStart(ParserEngine.STATE.OWNED_LITERAL, attributes);
 			break;
 		
+		case "generalization":
+			ParserEngine.handleStart(ParserEngine.STATE.GENERALIZATION, attributes);
+			break;
+		
+		case "supplier":
+			ParserEngine.handleStart(ParserEngine.STATE.REALIZATION, attributes);
+			break;
+		
 		case "_:UIElement":
 		case "_:UIClass":
 		case "_:UIProperty":

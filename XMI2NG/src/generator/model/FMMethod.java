@@ -13,16 +13,20 @@ public class FMMethod extends FMNamedElement {
 	
 	private FMParameter returnType = new FMParameter(null, "void");
 	
+	private Boolean isStatic = false;
+	private Boolean isAbstract = false;
+	
 	private List<FMParameter> parameters = new ArrayList<>();
 	
 	private Report report;
 	private Transaction transaction;
 	
-	public FMMethod(String name, String visibility, FMParameter returnType) {
+	public FMMethod(String name, String visibility, FMParameter returnType, Boolean isStatic) {
 		super(name);
 		
 		this.visibility = visibility;
 		this.returnType = returnType;
+		this.isStatic = isStatic;
 	}
 
 	public String getVisibility() {
@@ -35,6 +39,10 @@ public class FMMethod extends FMNamedElement {
 
 	public String getReturnType() {
 		return returnType.getType();
+	}
+	
+	public boolean getVoid() {
+		return "void".equals(returnType.getTypeId());
 	}
 	
 	public String getReturnTypeId() {
@@ -51,6 +59,14 @@ public class FMMethod extends FMNamedElement {
 	
 	public Report getReport() {
 		return report;
+	}
+	
+	public boolean getStatic() {
+		return isStatic;
+	}
+	
+	public boolean getAbstract() {
+		return isAbstract;
 	}
 	
 	public void addParameter(FMParameter parameter) {

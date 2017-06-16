@@ -1,3 +1,6 @@
+// DO NOT CHANGE THIS CODE
+// TEMPLATE ng-controller.ftl
+// AUTOMATICALLY GENERATED MODEL FOR ${class.name}
 (function (angular) {
     var ${class.lowerName}sControllerModule = angular.module('app.${class.name}.controller', 
     	['app.${class.name}.resource']);
@@ -188,7 +191,7 @@
         }
           
         $scope.init = function (reset) {
-        	$scope.__rpp = 5;
+        	$scope.__rpp = ${class.UIClass.rowsPerPage};
     		$scope.__total_items = 0;
     		if (reset) $scope.__cp = 1;
         
@@ -241,6 +244,14 @@
 		  };
         
 		$scope.init(true);
+		
+		<#list methods as method>
+		$scope.${method.name}Click = function() {
+			// USER CODE STARTS HERE
+<#if userCode[method.name]??>${userCode[method.name]}</#if>
+			// USER CODE ENDS HERE
+		}
+		</#list>
     }];
     ${class.lowerName}sControllerModule.controller('${class.name}sCtrl', ${class.lowerName}sController);
 }(angular));
