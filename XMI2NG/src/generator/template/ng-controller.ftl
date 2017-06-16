@@ -191,7 +191,7 @@
         }
           
         $scope.init = function (reset) {
-        	$scope.__rpp = 5;
+        	$scope.__rpp = ${class.UIClass.rowsPerPage};
     		$scope.__total_items = 0;
     		if (reset) $scope.__cp = 1;
         
