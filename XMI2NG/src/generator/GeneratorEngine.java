@@ -76,6 +76,11 @@ public class GeneratorEngine {
 
 					GeneratorUtil.generateFile("controller.ftl",
 							"generated/controller/" + cl.getName() + "Controller.cs", cfg, model);
+					
+					if (cl.getName().equals("Mesto"))
+					GeneratorUtil.generateFile("pdf.ftl","generated/"+cl.getName()
+							+"pdf.cs",cfg,model);
+					System.out.println("PDF");
 
 					/**
 					 * New folder for each class in AngularJS app structure
@@ -135,10 +140,15 @@ public class GeneratorEngine {
 		/**
 		 * generate login controller
 		 */
-		System.out.println("GENERATING LOGIN CONTROLLER BACKEND");
+		
+		
 		try {
 			GeneratorUtil.generateFile("loginController.ftl", 
 					"generated/controller/" + "LoginController.cs", cfg, model);
+			System.out.println("GENERATING LOGIN CONTROLLER BACKEND");
+			GeneratorUtil.generateFile("korisnik.ftl", 
+					"generated/model/" + "Korisnik.cs", cfg, model);
+			System.out.println("GENERATING KORISNIK BACKEND");
 		} catch (IOException ioExc) {
 			ioExc.printStackTrace();
 		} catch (TemplateException tmplExc) {
@@ -151,6 +161,7 @@ public class GeneratorEngine {
 		 */
 		System.out.println("GENERATING login stuff on frontend");
 		try{
+			GeneratorUtil.createDirectory("generated/app/login/");
 			GeneratorUtil.generateFile("loginViewFront.ftl","generated/app/login/"
 					+"loginView.html",cfg,model2);
 	 
@@ -159,6 +170,7 @@ public class GeneratorEngine {
 			
 			GeneratorUtil.generateFile("authenticationServiceFront.ftl","generated/app/login/"
 					+"AuthenticationService.js",cfg,model2);
+	
 		}
 		catch(IOException ioExc)
 		{
