@@ -1,6 +1,9 @@
 # MBRS17
 Methodologies for Rapid Software Development Course Project
 
+## Running the app
+//TODO
+
 ## Meta-model used for modeling
 ![Meta-model](https://github.com/vladimirivkovic/MBRS17/blob/master/Meta-model.png "Meta-model")
 
@@ -14,6 +17,12 @@ Methodologies for Rapid Software Development Course Project
   
 ### Front-end
   //TODO
+
+
+## Techniques used for preserving manually added code
+//TODO
+### Example of usage
+//TODO
 
 
 Custom code for report
