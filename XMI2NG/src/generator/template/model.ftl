@@ -1,6 +1,13 @@
-// DO NOT CHANGE THIS CODE
-// TEMPLATE model.ftl
-// AUTOMATICALLY GENERATED MODEL FOR ${class.name}
+/*
+
+######## DO NOT CHANGE THIS CODE! ########
+AUTOMATICALLY GENERATED MODEL FOR -- ${class.name} -- AS A PARTIAL CLASS
+
+TO ADD ADDITIONAL METHODS OR PROPERTIES TO THIS CLASS, CREATE ANOTHER PARTIAL CLASS OF THE SAME NAME!
+
+TEMPLATE - model.ftl
+
+*/
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace WebApplication1.Models
 {
-	${class.visibility} class ${class.name}<#if class.parent??>: ${class.parent}<#list class.interfaces as i>,${i}</#list><#else><#list class.interfaces as i>${i}<#sep>,</#list></#if>
+	${class.visibility} partial class ${class.name}<#if class.parent??>: ${class.parent}<#list class.interfaces as i>,${i}</#list><#else><#list class.interfaces as i>${i}<#sep>,</#list></#if>
 	{  
 	<#list constraints as constraint>
 		//Constraint :${constraint.name} -> ${constraint.constraintExp}

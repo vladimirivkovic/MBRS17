@@ -18,7 +18,7 @@ using iTextSharp.text.pdf;
 
 namespace WebApplication1.Controllers
 {
-    public class OperationController : ApiController
+    public partial class OperationController : ApiController
     {
     	private AppDBContext db = new AppDBContext();
     	<#list classes as class>
@@ -114,6 +114,7 @@ namespace WebApplication1.Controllers
         
         		<#elseif method.transaction??>
         [ResponseType(typeof(${class.name}))]
+        [Route("api/operations/${method.name}")]
         [HttpPost]
         public IHttpActionResult ${method.name}(${class.name} ${class.name?lower_case})
         {
