@@ -1,3 +1,5 @@
+// DO NOT CHANGE THIS CODE
+// TEMPLATE operations.ftl
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,7 +27,7 @@ namespace WebApplication1.Controllers
 		 public static String generateHtmlOutOf${class.name}(DbSet<${class.name}> tableData)
         {
             String html = "<body style='text-align:center;align:center'>";
-            html+="<h2>Izveštaj: "+"${class.name}</h2> </br>";
+            html+="<h2>Izveï¿½taj: "+"${class.name}</h2> </br>";
             html += "<table border=1 style='width:100%;border-collapse: collapse;'>";
             int i = 0;
             foreach (var row in tableData)
@@ -115,11 +117,10 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IHttpActionResult ${method.name}(${class.name} ${class.name?lower_case})
         {
-            /*
-            TODO: IMPLEMENT METHOD
-            */
-            
-            return Ok();
+            // USER CODE STARTS HERE
+<#if userCode[method.name]??>${userCode[method.name]}<#else>
+			return Ok();</#if>
+			// USER CODE ENDS HERE
         }
         
 				</#if>

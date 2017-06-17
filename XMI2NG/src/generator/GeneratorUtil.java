@@ -88,7 +88,7 @@ public class GeneratorUtil {
 			return retVal;
 		}
 
-		if ("model.ftl".equals(templateName)) {
+		if ("model.ftl".equals(templateName) || "operations.ftl".equals(templateName)) {
 			Map<String, String> methodCodeMap = new HashMap<String, String>();
 			Boolean isUserCode = false;
 			String userCode = "";
