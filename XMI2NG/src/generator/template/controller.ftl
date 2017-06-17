@@ -30,12 +30,20 @@ namespace WebApplication1.Controllers
         [EnableQuery]
         public SingleResult<${class.name}> Get${class.name}([FromODataUri] int key)
         {
+        	if (!LoginController.CheckAuthorizationForRequest(Request))
+            {
+                //return Unauthorized();
+            }
             return SingleResult.Create(db.${class.name}.Where(${class.name?lower_case} => ${class.name?lower_case}.Id == key));
         }
 
         // PUT: odata/${class.name}(5)
         public async Task<IHttpActionResult> Put([FromODataUri] int key, Delta<${class.name}> patch)
         {
+        	if (!LoginController.CheckAuthorizationForRequest(Request))
+            {
+                return Unauthorized();
+            }
             Validate(patch.GetEntity());
 
             if (!ModelState.IsValid)
@@ -73,6 +81,10 @@ namespace WebApplication1.Controllers
         // POST: odata/${class.name}
         public async Task<IHttpActionResult> Post(${class.name} ${class.name?lower_case})
         {
+        	if (!LoginController.CheckAuthorizationForRequest(Request))
+            {
+                return Unauthorized();
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -88,6 +100,10 @@ namespace WebApplication1.Controllers
         [AcceptVerbs("PATCH", "MERGE")]
         public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<${class.name}> patch)
         {
+        	if (!LoginController.CheckAuthorizationForRequest(Request))
+            {
+                return Unauthorized();
+            }
             Validate(patch.GetEntity());
 
             if (!ModelState.IsValid)
@@ -125,6 +141,10 @@ namespace WebApplication1.Controllers
         // DELETE: odata/${class.name}(5)
         public async Task<IHttpActionResult> Delete([FromODataUri] int key)
         {
+        	if (!LoginController.CheckAuthorizationForRequest(Request))
+            {
+                return Unauthorized();
+            }
             ${class.name} ${class.name?lower_case} = await db.${class.name}.FindAsync(key);
             if (${class.name?lower_case} == null)
             {

@@ -20,7 +20,7 @@ namespace WebApplication1.Controllers
     {
         private static AppDBContext db = new AppDBContext();
 
-		public static String dataToString(Object o)
+		/*public static String dataToString(Object o)
         {
             if (o.GetType()!=typeof(String) && o.GetType()!=typeof(int) && o.GetType()!=typeof(double) && o.GetType()!=typeof(DateTime))
             {
@@ -29,10 +29,13 @@ namespace WebApplication1.Controllers
             return o.ToString();
 
         }
+        */
 
         public static String generateHtmlOutOfObject(DbSet<${class.name}> tableData)
         {
-            String html = "<body style='text-align:center;align:center'><table border=1 style='width:100%;border-collapse: collapse;'>";
+            String html = "<body style='text-align:center;align:center'>";
+            html+="<h2>Izveštaj: "+"${class.name}</h2> </br>";
+            html += "<table border=1 style='width:100%;border-collapse: collapse;'>";
             int i = 0;
             foreach (var row in tableData)
             {
@@ -40,14 +43,29 @@ namespace WebApplication1.Controllers
             {
                 html += "<tr>";
                	<#list properties as property>
-            		html+="<td>"+"${property.name}"+"</td>";
+            		<#if property.upper!=-1>
+            			<#if !property.FMClass??>
+		            		html+="<td>"+"${property.name}"+"</td>";
+		           		<#else>
+		           			<#list property.FMClass.lookupProperties as lp>
+		            		html+="<td>"+"${property.name}"+"</td>";
+		           			</#list>
+		            	</#if>
+            		</#if>
             	</#list>
                 html += "</tr>";
-
             }
             html+="<tr>";
-            <#list properties as property>
-            	html+="<td>"+dataToString(row.${property.name})+"</td>";
+            <#list properties as property>  
+            <#if property.upper!=-1>
+ 				<#if !property.FMClass??>
+		        	html+="<td>"+row.${property.name}+"</td>";
+		         <#else>
+		         	<#list property.FMClass.lookupProperties as lp>
+		            html+="<td>"+row.${property.name}.${lp.name}+"</td>";
+		           	</#list>
+		         </#if> 	
+            </#if>
             </#list>
             html+="</tr>";
             }
