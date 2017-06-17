@@ -1,6 +1,10 @@
 # MBRS17
 Methodologies for Rapid Software Development Course Project
 
+## Meta-model used for modeling
+![Meta-model](https://github.com/vladimirivkovic/MBRS17/blob/master/Meta-model.svg "Meta-model")
+
+
 Custom code for report
 ```
 $scope.Generisi_izvestajClick = function() {
