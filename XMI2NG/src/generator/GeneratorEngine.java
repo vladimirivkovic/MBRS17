@@ -191,6 +191,8 @@ public class GeneratorEngine {
 			
 			GeneratorUtil.generateFile("authenticationServiceFront.ftl","generated/app/login/"
 					+"AuthenticationService.js",cfg,model2);
+			GeneratorUtil.generateFile("mainCtrl.ftl","generated/app/"
+					+"mainCtrl.js",cfg,model2);
 		}
 		catch(IOException ioExc)
 		{
