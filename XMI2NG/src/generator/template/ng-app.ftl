@@ -1,5 +1,5 @@
 (function (angular) {
-    var app = angular.module('app', ['ui.bootstrap', 'ngRoute', 'app.LoginModule','ngStorage',// 'ui.router',//'login', 
+    var app = angular.module('app', ['ui.bootstrap', 'ngRoute', 'app.LoginModule','ngStorage','app.MainModule',// 'ui.router',//'login', 
     	<#list classes as class>'app.${class.name}', </#list>]);
 
 	app.config(function ($routeProvider, $locationProvider, $httpProvider) {
