@@ -76,10 +76,10 @@
 				<#if property.tab??>
 				$scope.${property.name}_tab = []
 				$scope.${property.name}_all = ${property.FMClass.name}.query(function () {
-					for(i in $scope.${property.name}_all) {
-						if($scope.${property.name}_all[i].${property.inverseProperty.name}_ID 
+					for(i in $scope.${property.name}_all.value) {
+						if($scope.${property.name}_all.value[i].${property.inverseProperty.name}_ID 
 								== $scope.selected.Id)
-	                		$scope.${property.name}_tab.push($scope.${property.name}_all[i]);
+	                		$scope.${property.name}_tab.push($scope.${property.name}_all.value[i]);
 	                }
 	            });
 				</#if>
