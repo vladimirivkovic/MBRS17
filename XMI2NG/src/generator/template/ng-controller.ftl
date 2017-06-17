@@ -6,15 +6,10 @@
     	['app.${class.name}.resource']);
 
     var ${class.lowerName}sController = ['$scope', '${class.name}', '$uibModal', '$filter', '$location',//, '$stateParams'
-    	<#list properties as property>
-		<#if property.tab??>'${property.FMClass.name}',</#if>
-    	</#list>
+    	<#list properties as property><#if property.tab??>'${property.FMClass.name}',</#if></#list>
     	'AuthenticationService','$window',
     	function ($scope, ${class.name}, $uibModal, $filter, $location,
-    	<#list properties as property>
-		<#if property.tab??>${property.FMClass.name},</#if>
-		
-    	</#list>
+    	<#list properties as property><#if property.tab??>${property.FMClass.name},</#if></#list>
     	AuthenticationService,$window
     	
     	) { //, $stateParams
@@ -301,9 +296,9 @@
 		    $scope.reverse = (propertyName !== null && $scope.propertyName === propertyName)
 		        ? !$scope.reverse : false;
 		    $scope.propertyName = propertyName;
-		    var sortType = $scope.refeverse ? " desc" : " asc"; 
+		    var sortType = $scope.reverse ? " desc" : " asc"; 
 		    
-		    var ${class.lowerName}s = ${class.name}.query({'$skip': ($scope.__cp-1)*$scope.__rpp ,'$top': $scope.__rpp, '$inlinecount': 'allpages', 'orderby': $scope.propertyName + sortType}, function () {
+		    var ${class.lowerName}s = ${class.name}.query({'$skip': ($scope.__cp-1)*$scope.__rpp ,'$top': $scope.__rpp, '$inlinecount': 'allpages', '$orderby': $scope.propertyName + sortType}, function () {
             	console.log(${class.lowerName}s);
 	            $scope.${class.lowerName}s = ${class.lowerName}s.value;
 	            $scope.page_${class.lowerName}s = $scope.${class.lowerName}s;
