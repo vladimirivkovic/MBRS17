@@ -5,12 +5,12 @@
     var ${class.lowerName}sControllerModule = angular.module('app.${class.name}.controller', 
     	['app.${class.name}.resource']);
 
-    var ${class.lowerName}sController = ['$scope', '${class.name}', '$uibModal', '$filter',//, '$stateParams'
+    var ${class.lowerName}sController = ['$scope', '${class.name}', '$uibModal', '$filter', '$location',//, '$stateParams'
     	<#list properties as property>
 		<#if property.tab??>'${property.FMClass.name}',</#if>
     	</#list>
     	'AuthenticationService','$window',
-    	function ($scope, ${class.name}, $uibModal, $filter,
+    	function ($scope, ${class.name}, $uibModal, $filter, $location,
     	<#list properties as property>
 		<#if property.tab??>${property.FMClass.name},</#if>
     	</#list>
@@ -202,9 +202,15 @@
             }); -->
             
             var ${class.lowerName}s = ${class.name}.query(function () {
-            $scope.${class.lowerName}s = ${class.lowerName}s;
-            $scope.page_${class.lowerName}s = $scope.${class.lowerName}s.slice(0, $scope.__rpp);
-            $scope.__total_items = $scope.${class.lowerName}s.length;
+            	console.log(${class.lowerName}s);
+	            $scope.${class.lowerName}s = ${class.lowerName}s.value;
+	            $scope.page_${class.lowerName}s = $scope.${class.lowerName}s.slice(0, $scope.__rpp);
+	            $scope.__total_items = $scope.${class.lowerName}s.length;
+            }, function(response) {
+            	if (response.status === 401)
+            		$location.path("login");
+            	else 
+            		alert("Error " + response.status);
             });
             
             
