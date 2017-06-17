@@ -39,9 +39,7 @@ namespace WebApplication1.Models
 		[Index]	 	
 			</#if>
 			<#if !property.isClass >
-				<#if property.type == "date" >
-		public DateTime ${property.name} { get; set; }
-				<#elseif property.type == "boolean">
+				<#if property.type ==  "boolean">
 		public Boolean ${property.name} { get; set; }		
 				<#else>
 		public ${property.type} ${property.name} { get; set; }
@@ -71,6 +69,14 @@ namespace WebApplication1.Models
 	    </#if>
 	         
 	</#list>
+	<#list methods as method>
+		<#if method.transaction??>
+		[Timestamp]
+    	public byte[] RowVersion { get; set; }
+    	<#break>
+		</#if>
+	</#list>
+	
 	<#list methods as method>
 		${method.visibility} <#if method.static>static </#if>${method.returnType} ${method.name}(<#list method.parameters as parameter><#if parameter_index != 0>, </#if><#if parameter.ref>ref </#if><#if parameter.out>out </#if>${parameter.type} ${parameter.name}</#list>)
 		{

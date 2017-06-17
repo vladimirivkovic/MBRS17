@@ -62,7 +62,7 @@ namespace WebApplication1.Controllers
 		        	html+="<td>"+row.${property.name}+"</td>";
 		         <#else>
 		         	<#list property.FMClass.lookupProperties as lp>
-		            html+="<td>"+row.${property.name}.${lp.name}+"</td>";
+		            html+=row.${property.name}==null?"<td></td>":"<td>"+row.${property.name}.${lp.name}+"</td>";
 		           	</#list>
 		         </#if> 	
             </#if>
