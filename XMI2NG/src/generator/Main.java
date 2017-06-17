@@ -22,6 +22,8 @@ public class Main {
 		handler.parse(filePath);
 		
 		GeneratorEngine.generate(ParserEngine.getElementMap());
+		
+		System.out.println("\n\n*********************************** FILES GENERATED ***********************************");
 
 	}
 }

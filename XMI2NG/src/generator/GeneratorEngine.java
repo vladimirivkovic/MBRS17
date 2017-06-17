@@ -213,7 +213,10 @@ public class GeneratorEngine {
 					"generated/model/AppDBContext.cs", cfg, model2);
 		
 			GeneratorUtil.generateFile("webApiConfig.ftl", 
-					"generated/backendConfig/WebApiConfig.cs", cfg, model2);		
+					"generated/backendConfig/WebApiConfig.cs", cfg, model2);
+			
+			GeneratorUtil.generateFile("operations.ftl", 
+					"generated/controller/OperationController.cs", cfg, model2);	
 					
 			GeneratorUtil.generateFile("index.ftl", 
 					"generated/app/index.html", cfg, model2);
