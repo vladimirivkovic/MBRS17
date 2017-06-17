@@ -22,10 +22,11 @@ public class GeneratorEngine {
 
 	/**
 	 * Generate folder structure and apply freemarker templates
+	 * @param outputFolder 
 	 */
 
 	@SuppressWarnings("unchecked")
-	static void generate(Map<String, FMNamedElement> elementMap) {
+	static void generate(Map<String, FMNamedElement> elementMap, String outputFolder) {
 		Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
 
 		cfg.setTemplateLoader(new ClassTemplateLoader(GeneratorEngine.class, "template"));
@@ -45,15 +46,15 @@ public class GeneratorEngine {
 
 		ArrayList<FMEnumeration> enumerations = new ArrayList<FMEnumeration>();
 
-		GeneratorUtil.createDirectory("generated");
+		GeneratorUtil.createDirectory(outputFolder);
 
-		GeneratorUtil.createDirectory("generated/app");
+		GeneratorUtil.createDirectory(outputFolder + "/app");
 
-		GeneratorUtil.createDirectory("generated/backendConfig");
+		GeneratorUtil.createDirectory(outputFolder + "/backendConfig");
 		
-		GeneratorUtil.createDirectory("generated/model");
+		GeneratorUtil.createDirectory(outputFolder + "/model");
 
-		GeneratorUtil.createDirectory("generated/controller");
+		GeneratorUtil.createDirectory(outputFolder + "/controller");
 
 		// name, package, visibility - dummy values
 		FMClass cl = new FMClass("City", "ordering", "public");
@@ -77,23 +78,23 @@ public class GeneratorEngine {
 				model.put("fieldGroups", GeneratorUtil.getFieldGroupsMap(cl));
 
 				try {
-					GeneratorUtil.generateFile("model.ftl", "generated/model/" + cl.getName() + ".cs", cfg, model);
+					GeneratorUtil.generateFile("model.ftl", outputFolder + "/model/" + cl.getName() + ".cs", cfg, model);
 
 					GeneratorUtil.generateFile("controller.ftl",
-							"generated/controller/" + cl.getName() + "Controller.cs", cfg, model);
+							outputFolder + "/controller/" + cl.getName() + "Controller.cs", cfg, model);
 					if (cl.getName().equals("Roba"))
-						GeneratorUtil.generateFile("pdf.ftl","generated/"+cl.getName()
+						GeneratorUtil.generateFile("pdf.ftl",outputFolder + "/"+cl.getName()
 								+"pdf.cs",cfg,model);
 					/**
 					 * New folder for each class in AngularJS app structure
 					 */
 					
-					GeneratorUtil.createDirectory("generated/app/" + cl.getLowerName());
-					GeneratorUtil.createDirectory("generated/app/" + cl.getLowerName() + "/modal");
+					GeneratorUtil.createDirectory(outputFolder + "/app/" + cl.getLowerName());
+					GeneratorUtil.createDirectory(outputFolder + "/app/" + cl.getLowerName() + "/modal");
 
 					for (int i = 0; i < templates.length; i++) {
 						GeneratorUtil.generateFile(templates[i], 
-								"generated/app/" + cl.getLowerName() + "/" + cl.getLowerName() + tplnames[i], cfg, model);
+								outputFolder + "/app/" + cl.getLowerName() + "/" + cl.getLowerName() + tplnames[i], cfg, model);
 					}
 					
 					for (FMProperty p : cl.getProperties()) {
@@ -104,10 +105,10 @@ public class GeneratorEngine {
 							model.put("propClass", (FMClass) elementMap.get(p.getTypeId()));
 
 							GeneratorUtil.generateFile("frontend/modal/chooseModalView.ftl", 
-									"generated/app/" + cl.getLowerName() + "/modal/" + p.getName() + "ModalView.html", cfg, model);
+									outputFolder + "/app/" + cl.getLowerName() + "/modal/" + p.getName() + "ModalView.html", cfg, model);
 	
 							GeneratorUtil.generateFile("frontend/modal/chooseModalCtrl.ftl", 
-									"generated/app/" + cl.getLowerName() + "/modal/" + p.getName() + "ModalCtrl.js", cfg, model);
+									outputFolder + "/app/" + cl.getLowerName() + "/modal/" + p.getName() + "ModalCtrl.js", cfg, model);
 						}
 					}
 
@@ -128,7 +129,7 @@ public class GeneratorEngine {
 
 				try {
 					GeneratorUtil.generateFile("enumeration.ftl", 
-							"generated/model/" + en.getName() + ".cs", cfg, model);
+							outputFolder + "/model/" + en.getName() + ".cs", cfg, model);
 
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -147,7 +148,7 @@ public class GeneratorEngine {
 
 				try {
 					GeneratorUtil.generateFile("interface.ftl", 
-							"generated/model/" + in.getName() + ".cs", cfg, model);
+							outputFolder + "/model/" + in.getName() + ".cs", cfg, model);
 
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -163,10 +164,10 @@ public class GeneratorEngine {
 		 */
 		try {
 			GeneratorUtil.generateFile("loginController.ftl", 
-					"generated/controller/" + "LoginController.cs", cfg, model);
+					outputFolder + "/controller/" + "LoginController.cs", cfg, model);
 			System.out.println("GENERATING LOGIN CONTROLLER BACKEND");
 			GeneratorUtil.generateFile("korisnik.ftl", 
-					"generated/model/" + "Korisnik.cs", cfg, model);
+					outputFolder + "/model/" + "Korisnik.cs", cfg, model);
 			System.out.println("GENERATING KORISNIK BACKEND");
 		} catch (IOException ioExc) {
 			ioExc.printStackTrace();
@@ -181,15 +182,15 @@ public class GeneratorEngine {
 		 */
 		System.out.println("GENERATING login stuff on frontend");
 		try{
-			GeneratorUtil.createDirectory("generated/app/login/");
+			GeneratorUtil.createDirectory(outputFolder + "/app/login/");
 			
-			GeneratorUtil.generateFile("frontend/login/loginViewFront.ftl","generated/app/login/"
+			GeneratorUtil.generateFile("frontend/login/loginViewFront.ftl",outputFolder + "/app/login/"
 					+"loginView.html",cfg,model2);
 	 
-			GeneratorUtil.generateFile("frontend/login//loginCtrlFront.ftl","generated/app/login/"
+			GeneratorUtil.generateFile("frontend/login/loginCtrlFront.ftl",outputFolder + "/app/login/"
 					+"loginCtrl.js",cfg,model2);
 			
-			GeneratorUtil.generateFile("frontend/login/authenticationServiceFront.ftl","generated/app/login/"
+			GeneratorUtil.generateFile("frontend/login/authenticationServiceFront.ftl",outputFolder + "/app/login/"
 					+"AuthenticationService.js",cfg,model2);
 		}
 		catch(IOException ioExc)
@@ -207,22 +208,22 @@ public class GeneratorEngine {
 			model2.put("groups", ParserEngine.groups);
 			
 			GeneratorUtil.generateFile("frontend/ng-app.ftl", 
-					"generated/app/app.js", cfg, model2);
+					outputFolder + "/app/app.js", cfg, model2);
 			
 			GeneratorUtil.generateFile("appDBContext.ftl", 
-					"generated/model/AppDBContext.cs", cfg, model2);
+					outputFolder + "/model/AppDBContext.cs", cfg, model2);
 		
 			GeneratorUtil.generateFile("webApiConfig.ftl", 
-					"generated/backendConfig/WebApiConfig.cs", cfg, model2);
+					outputFolder + "/backendConfig/WebApiConfig.cs", cfg, model2);
 			
 			GeneratorUtil.generateFile("operations.ftl", 
-					"generated/controller/OperationController.cs", cfg, model2);	
+					outputFolder + "/controller/OperationController.cs", cfg, model2);	
 					
 			GeneratorUtil.generateFile("frontend/index.ftl", 
-					"generated/app/index.html", cfg, model2);
+					outputFolder + "/app/index.html", cfg, model2);
 			
 			GeneratorUtil.generateFile("frontend/main.ftl", 
-					"generated/app/main.html", cfg, model2);
+					outputFolder + "/app/main.html", cfg, model2);
 
 		} catch (IOException e) {
 			e.printStackTrace();
