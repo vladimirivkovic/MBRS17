@@ -43,6 +43,8 @@ public class FMProperty extends FMNamedElement  {
 
 	private FMProperty inverseProperty = null;
 	
+	private Boolean jsonIgnore = false;
+	
 	public FMProperty(String name, String type, 
 			String visibility, int lower, int upper) {
 		super(name);
@@ -173,6 +175,16 @@ public class FMProperty extends FMNamedElement  {
 		return ParserEngine.getElementMap().get(type) instanceof FMClass;
 		
 	}
+	
+	
+
+	public Boolean getJsonIgnore() {
+		return jsonIgnore;
+	}
+
+	public void setJsonIgnore(Boolean jsonIgnore) {
+		this.jsonIgnore = jsonIgnore;
+	}
 
 	@Override
 	public void addStereotype(Stereotype st) {
@@ -204,10 +216,22 @@ public class FMProperty extends FMNamedElement  {
 			
 		} else if(st instanceof Next) {
 			next = (Next) st;
+			
+			if(next.getJsonIgnore()){
+				setJsonIgnore(true);
+				
+			}
+			
 			setUIElementAttributes((UIElement) next);
 			
 		} else if(st instanceof Zoom) {
 			zoom = (Zoom) st;
+			
+			if(zoom.getJsonIgnore()){
+				setJsonIgnore(true);
+				
+			}
+			
 			setUIElementAttributes((UIElement) zoom);
 			
 		} else if(st instanceof Calculated) {
@@ -217,6 +241,12 @@ public class FMProperty extends FMNamedElement  {
 			
 		} else if(st instanceof Tab) {
 			tab = (Tab) st;
+			
+			if(tab.getJsonIgnore()){
+				setJsonIgnore(true);
+				
+			}
+			
 			setUIElementAttributes((UIElement) tab);
 			
 		} else if(st instanceof UIProperty) {

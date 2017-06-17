@@ -610,9 +610,11 @@ public class ParserEngine {
 			} else if (attributes.getQName(i).equals("component")) {
 				uIElementType = UIElementType.valueOf(attributes.getValue(i));
 
-			}
-
+			} 
+			
 		}
+		
+		
 
 		// System.out.println(qName);
 
@@ -713,14 +715,28 @@ public class ParserEngine {
 			break;
 
 		case "_:Zoom":
-			elementMap.get(baseProperty).addStereotype(
-					new Zoom(label, visible, uIElementType));
+			Zoom zoom = new Zoom(label, visible, uIElementType);
+			
+			for (int i = 0; i < attributes.getLength(); i++) {
+				if(attributes.getQName(i).equals("jsonIgnore")) {
+					zoom.setJsonIgnore("true".equals(attributes.getValue(i)));
+				}
+			}
+			
+			elementMap.get(baseProperty).addStereotype(zoom);
 
 			break;
 
 		case "_:Next":
-			elementMap.get(baseProperty).addStereotype(
-					new Next(label, visible, uIElementType));
+			Next next = new Next(label, visible, uIElementType);
+			
+			for (int i = 0; i < attributes.getLength(); i++) {
+				if(attributes.getQName(i).equals("jsonIgnore")) {
+					next.setJsonIgnore("true".equals(attributes.getValue(i)));
+				}
+			}
+			
+			elementMap.get(baseProperty).addStereotype(next);
 
 			break;
 
@@ -730,6 +746,11 @@ public class ParserEngine {
 			for (int i = 0; i < attributes.getLength(); i++) {
 				if (attributes.getQName(i).equals("dependant")) {
 					t.setDependant("true".equals(attributes.getValue(i)));
+				}
+				else if(attributes.getQName(i).equals("jsonIgnore")) {
+					t.setJsonIgnore("true".equals(attributes.getValue(i)));
+					
+					System.out.println("JSON IGNORE = " + t.getJsonIgnore().toString());
 				}
 			}
 			// System.out.println("tab na " +
