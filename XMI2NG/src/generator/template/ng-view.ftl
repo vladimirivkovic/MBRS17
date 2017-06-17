@@ -81,6 +81,51 @@
 			<#if property.upper == 1> 
 			<#if property.primitive>
 				<#if property.uIProperty.searchable>
+	            <th>
+	            	<#if property.type == "int" || property.type == "double">
+	            	<label>
+					<input type="radio" ng-model="__search.${property.name}_mode" ng-value="lt" name="${property.name}_mode">
+					    <
+					  </label>
+					  <label>
+					<input type="radio" ng-model="__search.${property.name}_mode" ng-value="eq" name="${property.name}_mode">
+					    =
+					  </label>
+					  <label>
+					<input type="radio" ng-model="__search.${property.name}_mode" ng-value="gt" name="${property.name}_mode">
+					    >
+					  </label>
+	            	<#elseif property.type == "Date">
+	            	dat
+	            	<#elseif property.type == "Boolean">
+	            	&nbsp;
+	            	<#else>
+	            	<label>
+					<input type="radio" ng-model="__search.${property.name}_mode" ng-value="li" name="${property.name}_mode">
+					    like
+					  </label>
+					  <label>
+					<input type="radio" ng-model="__search.${property.name}_mode" ng-value="eq" name="${property.name}_mode">
+					    =
+					  </label>
+	            	</#if>
+	            </th>
+	            <#else>
+	            <th>&nbsp;</th>
+	            </#if>
+	        <#else>
+	            <#list property.FMClass.lookupProperties as lp>
+	            <th>&nbsp;</th>
+	            </#list>
+	        </#if>
+            </#if>
+            </#list>
+            </tr>
+            <tr>
+            <#list properties as property>
+			<#if property.upper == 1> 
+			<#if property.primitive>
+				<#if property.uIProperty.searchable>
 	            <th><input style="max-width: 200px" type="text" class="form-control"
 					ng-model="__search.${property.name}"></th>
 	            <#else>

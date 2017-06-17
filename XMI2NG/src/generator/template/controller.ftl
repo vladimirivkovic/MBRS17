@@ -12,6 +12,7 @@ using System.Web.Http.ModelBinding;
 using System.Web.Http.OData;
 using System.Web.Http.OData.Routing;
 using WebApplication1.Models;
+using System.Web.Http.Description;
 
 namespace WebApplication1.Controllers
 {
@@ -20,22 +21,32 @@ namespace WebApplication1.Controllers
         private AppDBContext db = new AppDBContext();
 
         // GET: odata/${class.name}
+        
         [EnableQuery]
-        public IQueryable<${class.name}> Get${class.name}()
+        [ResponseType(typeof(IQueryable<${class.name}>))]
+        public async Task<IHttpActionResult> Get${class.name}()
         {
-            return db.${class.name};
+            if (!LoginController.CheckAuthorizationForRequest(Request))
+            {
+                return Unauthorized();
+            }
+            return Ok(db.${class.name});
         }
 
-        // GET: odata/${class.name}(5)
+		// GET: odata/${class.name}(5)
         [EnableQuery]
-        public SingleResult<${class.name}> Get${class.name}([FromODataUri] int key)
+        [ResponseType(typeof(${class.name}))]
+        public async Task<IHttpActionResult> Get${class.name}([FromODataUri] int key)
         {
-        	if (!LoginController.CheckAuthorizationForRequest(Request))
+            if (!LoginController.CheckAuthorizationForRequest(Request))
             {
-                //return Unauthorized();
+                return Unauthorized();
             }
-            return SingleResult.Create(db.${class.name}.Where(${class.name?lower_case} => ${class.name?lower_case}.Id == key));
+            return Ok(db.${class.name}.Where(${class.name?lower_case} => ${class.name?lower_case}.Id == key));
+            //return SingleResult.Create(db.Mesto.Where(mesto => mesto.Id == key));
         }
+
+      
 
         // PUT: odata/${class.name}(5)
         public async Task<IHttpActionResult> Put([FromODataUri] int key, Delta<${class.name}> patch)

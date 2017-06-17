@@ -4,10 +4,10 @@
 
 	app.config(function ($routeProvider, $locationProvider, $httpProvider) {
         $routeProvider
-        <#list classes as class>
         .when("/", {
         	templateUrl : "main.html"
     	})
+        <#list classes as class>
         .when('/${class.lowerName}', {
 	        templateUrl: '${root}${class.lowerName}/${class.lowerName}View.html',
 	        controller: '${class.name}sCtrl'
