@@ -5,7 +5,7 @@
     var ${class.lowerName}sModalController = ['$scope', '$uibModalInstance', '_rec', 'copy', 'parent', 'parentType', '$uibModal', '${class.name}', //,'$stateParams'  
     	function ($scope, $uibModalInstance, _rec, copy, parent, parentType, $uibModal, ${class.name}) { //, $stateParams
         		<#list properties as property>
-    			<#if (property.type == "date")> 
+    			<#if (property.type == "DateTime")> 
     				$scope.${property.name}Popup = { opened : false };
     			</#if>
     			</#list>
@@ -34,6 +34,7 @@
 	        			<#if property.upper == 1>	
 	        				<#if !property.primitive>
 	        				newRecord.${property.name}_ID = $scope.${property.name}.Id;
+	        				if(!newRecord.${property.name}_ID)  newRecord.${property.name} = null;
 	        				<#else>
 	        				newRecord.${property.name} = $scope.${property.name};
 	        				</#if>
