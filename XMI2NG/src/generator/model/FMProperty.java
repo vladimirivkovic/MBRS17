@@ -178,6 +178,7 @@ public class FMProperty extends FMNamedElement  {
 	public void addStereotype(Stereotype st) {
 		super.addStereotype(st);
 		
+		//if (uIProperty == null) uIProperty = (UIProperty) st;
 		
 		if (st instanceof Id) {
 			id = (Id) st;
@@ -268,6 +269,11 @@ public class FMProperty extends FMNamedElement  {
 		
 		if(!this.uIProperty.getUnique() && uip.getUnique()){ //menja u slucaju da ga niko nije postavio na true...
 			this.uIProperty.setUnique(true);
+			
+		}
+		
+		if(this.uIProperty.getFieldGroup().equals("Other") && !uip.getFieldGroup().equals("")){ //menja u slucaju da ga niko nije postavio na true...
+			this.uIProperty.setFieldGroup(uip.getFieldGroup());
 			
 		}
 	}
