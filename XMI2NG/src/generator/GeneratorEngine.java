@@ -74,6 +74,7 @@ public class GeneratorEngine {
 				model.put("properties", cl.getProperties());
 				model.put("methods", cl.getMethods());
 				model.put("constraints", cl.getConstraints());
+				model.put("fieldGroups", GeneratorUtil.getFieldGroupsMap(cl));
 
 				try {
 					GeneratorUtil.generateFile("model.ftl", "generated/model/" + cl.getName() + ".cs", cfg, model);

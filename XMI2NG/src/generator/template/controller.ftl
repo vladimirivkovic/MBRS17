@@ -44,7 +44,7 @@ namespace WebApplication1.Controllers
             }
 
             ${class.name} ${class.name?lower_case} = await db.${class.name}.FindAsync(key);
-            if (roba == null)
+            if (${class.name?lower_case} == null)
             {
                 return NotFound();
             }
