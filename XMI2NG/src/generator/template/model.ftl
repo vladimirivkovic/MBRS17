@@ -39,9 +39,7 @@ namespace WebApplication1.Models
 		[Index]	 	
 			</#if>
 			<#if !property.isClass >
-				<#if property.type == "date" >
-		public DateTime ${property.name} { get; set; }
-				<#elseif property.type == "boolean">
+				<#if property.type ==  "boolean">
 		public Boolean ${property.name} { get; set; }		
 				<#else>
 		public ${property.type} ${property.name} { get; set; }

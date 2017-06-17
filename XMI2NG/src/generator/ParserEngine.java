@@ -564,7 +564,7 @@ public class ParserEngine {
 		if (types.containsKey(typeId))
 			return types.get(typeId).getName();
 		else
-			return "date".equals(typeId) ? "Date" : typeId;
+			return "date".equals(typeId) ? "DateTime" : typeId;
 	}
 
 	public static boolean isPrimitive(String typeId) {
