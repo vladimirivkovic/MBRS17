@@ -194,18 +194,12 @@
         	$scope.__rpp = ${class.UIClass.rowsPerPage};
     		$scope.__total_items = 0;
     		if (reset) $scope.__cp = 1;
-        
-   <#--         var ${class.lowerName}s = ${class.name}.query(function () {
-                $scope.${class.lowerName}s = ${class.lowerName}s.value;
-                $scope.page_${class.lowerName}s = $scope.${class.lowerName}s;
-                $scope.__total_items = ${class.lowerName}s.odata.count;
-            }); -->
             
-            var ${class.lowerName}s = ${class.name}.query(function () {
+            var ${class.lowerName}s = ${class.name}.query({'$top': $scope.__rpp, '$inlinecount': 'allpages'}, function () {
             	console.log(${class.lowerName}s);
 	            $scope.${class.lowerName}s = ${class.lowerName}s.value;
-	            $scope.page_${class.lowerName}s = $scope.${class.lowerName}s.slice(0, $scope.__rpp);
-	            $scope.__total_items = $scope.${class.lowerName}s.length;
+	            $scope.page_${class.lowerName}s = $scope.${class.lowerName}s;
+	            $scope.__total_items = ${class.lowerName}s['odata.count'];
             }, function(response) {
             	if (response.status === 401)
             		$location.path("login");
@@ -241,8 +235,16 @@
         }
         
         $scope.pageChanged = function() {
-        	//$scope.page_${class.lowerName}s = 
-        	//$scope.${class.lowerName}s.slice(($scope.__cp-1)*$scope.__rpp,  $scope.__cp*$scope.__rpp);
+        	var ${class.lowerName}s = ${class.name}.query({'$skip': ($scope.__cp-1)*$scope.__rpp ,'$top': $scope.__rpp, '$inlinecount': 'allpages'}, function () {
+           
+	            $scope.${class.lowerName}s = ${class.lowerName}s.value;
+	            $scope.page_${class.lowerName}s = $scope.${class.lowerName}s;
+            }, function(response) {
+            	if (response.status === 401)
+            		$location.path("login");
+            	else 
+            		alert("Error " + response.status);
+            });
         }
 
         $scope.status = {

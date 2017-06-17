@@ -140,8 +140,7 @@
             </#list>
             </tr>
             <p ng-show="false">
-            {{ page_${class.lowerName}s = (${class.lowerName}s | filter:__search:strict).slice((__cp-1)*__rpp,  __cp*__rpp)}}
-            {{ __total_items = (${class.lowerName}s | filter:__search:strict).length }}
+            
             </p>
             <tr ng-click="select${class.name}($index)" 
             	ng-class="{active: $index === selectedIndex}"
