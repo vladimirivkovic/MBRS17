@@ -35,7 +35,7 @@
 						</td>
 					</tr>
 					</#if>
-					<#elseif (property.type == "date")>
+					<#elseif (property.type == "DateTime")>
 					<tr>
 						<td>${property.originName} <#if property.uIProperty.required == true> <span style="color: red">*</span> </#if></td>
 						<td>
