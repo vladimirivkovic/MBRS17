@@ -2,7 +2,7 @@
 Methodologies for Rapid Software Development Course Project
 
 Custom code for report
-
+```
 $scope.Generisi_izvestajClick = function() {
   // USER CODE STARTS HERE
   var initInjector = angular.injector(['ng']);
@@ -17,3 +17,4 @@ $scope.Generisi_izvestajClick = function() {
 
   // USER CODE ENDS HERE
 }
+```
