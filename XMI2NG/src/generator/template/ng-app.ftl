@@ -1,5 +1,5 @@
 (function (angular) {
-    var app = angular.module('app', ['ui.bootstrap', 'ngRoute', 'app.LoginModule','ngStorage','app.MainModule',// 'ui.router',//'login', 
+    var app = angular.module('app', ['ui.bootstrap', 'ngRoute', 'app.LoginModule','ngStorage',// 'ui.router',//'login', 
     	<#list classes as class>'app.${class.name}', </#list>]);
 
 	app.config(function ($routeProvider, $locationProvider, $httpProvider) {
@@ -52,12 +52,23 @@
     })*/
     .run(run);
 
-    function run($rootScope, $http, $location,$localStorage) { //, $state) {
+    function run($rootScope, $http, $location,$localStorage,AuthenticationService) { //, $state) {
     	$rootScope.host = 'http://mbrs17app.azurewebsites.net/';
     	if ($localStorage.currentUser) {
         	$http.defaults.headers.common.Authorization = $localStorage.currentUser.token;
       	}
     
+    	$rootScope.isLoggedIn = function () {
+            if (AuthenticationService.getCurrentUser()) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        $rootScope.logout = function () {
+            AuthenticationService.logout();
+        }
         //postavljanje tokena nakon refresh
         /*if ($localStorage.currentUser) {
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;

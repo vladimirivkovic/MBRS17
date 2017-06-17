@@ -49,13 +49,13 @@
     </#list>
     <script type="application/javascript" src="login/loginCtrl.js"></script>
     <script type="application/javascript" src="login/AuthenticationService.js"></script>
-    <script type="application/javascript" src="mainCtrl.js"></script>
+
 
 </head>
 <body>
 <!--<ng-include src="'partials/header.html'"></ng-include>-->
 <nav class="navbar navbar-inverse">
-	<div class="container" ng-controller="MainCtrl">
+	<div class="container">
 		<div class="navbar-subject"><a class="navbar-brand" href="#/">Generated AngularJS App</a>
 		</div>
 
@@ -79,13 +79,12 @@
 				
 			</li>
 			</#list>
-			 <ul class="nav navbar-nav navbar-right">
-    			<li ng-show="!getCurrentUser()"><a href="#/login">Log in</a></li>
-    		 </ul>
-    		 <ul class="nav navbar-nav navbar-right">
-    			<li ng-show="getCurrentUser()"><a href ng-click="logout()">Log out</a></li>
-    		</ul>
+			
 		</ul>
+		<ul class="nav navbar-nav navbar-right">
+       		<li ng-show="!isLoggedIn()"><a href="#/login">Log in</a></li>
+       		<li ng-show="isLoggedIn()"><a href ng-click="logout()">Log out</a></li>
+     	</ul>
 	</div>
 </nav>
 
