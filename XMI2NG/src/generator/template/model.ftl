@@ -72,6 +72,14 @@ namespace WebApplication1.Models
 	         
 	</#list>
 	<#list methods as method>
+		<#if method.transaction??>
+		[Timestamp]
+    	public byte[] RowVersion { get; set; }
+    	<#break>
+		</#if>
+	</#list>
+	
+	<#list methods as method>
 		${method.visibility} <#if method.static>static </#if>${method.returnType} ${method.name}(<#list method.parameters as parameter><#if parameter_index != 0>, </#if><#if parameter.ref>ref </#if><#if parameter.out>out </#if>${parameter.type} ${parameter.name}</#list>)
 		{
 			// USER CODE STARTS HERE
