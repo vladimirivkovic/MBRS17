@@ -14,11 +14,12 @@
     	<#list properties as property>
 		<#if property.tab??>${property.FMClass.name},</#if>
     	</#list>
-    	AuthenticationService,$window,
+    	AuthenticationService,$window
     	
     	) { //, $stateParams
     	if (AuthenticationService.getCurrentUser()==null)
         {
+          console.log("Not logged in!");
           $window.location.href="#/login"
           return;
         }
