@@ -53,18 +53,12 @@
 
 </head>
 <body>
-<!--<ng-include src="'partials/header.html'"></ng-include>-->
 <nav class="navbar navbar-inverse">
 	<div class="container">
 		<div class="navbar-subject"><a class="navbar-brand" href="#/">Generated AngularJS App</a>
 		</div>
 
 		<ul class="nav navbar-nav navbar-left">
-
-			<!--         	<li ng-if="display == 'RUK_KVALITET' || display == 'RUK_OJ' || display == 'RUK_TIMA'"> -->
-			<!--                 <a href="#/registarMera">Registar Mera</a> -->
-			<!--             </li> -->
-
 			<#list groups as group>
 			<li uib-dropdown on-toggle="toggled(open)">
 				<a href id="simple-dropdown" uib-dropdown-toggle>${group} <span class="caret"></span></a>

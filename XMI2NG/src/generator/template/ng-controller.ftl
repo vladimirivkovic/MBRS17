@@ -10,9 +10,8 @@
     	'AuthenticationService','$window',
     	function ($scope, ${class.name}, $uibModal, $filter, $location,
     	<#list properties as property><#if property.tab??>${property.FMClass.name},</#if></#list>
-    	AuthenticationService,$window
+    	AuthenticationService,$window) { //, $stateParams
     	
-    	) { //, $stateParams
     	if (AuthenticationService.getCurrentUser()==null)
         {
           console.log("Not logged in!");
@@ -284,7 +283,6 @@
 	            });
         	
         	}
-        
         	
         }
 

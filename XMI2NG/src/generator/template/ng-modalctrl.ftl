@@ -74,7 +74,6 @@
 		                );
 		             }
         			
-        			
         		}
         		
         		$scope.cancel = function() {

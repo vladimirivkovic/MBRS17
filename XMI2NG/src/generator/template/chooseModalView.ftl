@@ -3,11 +3,6 @@
 		<h3 class="modal-title" id="modal-title">Choose ${prop.name}</h3>
 	</div>
 	<div class="modal-body" id="modal-body">
-	
-		<div >
-			
-		</div>
-		
 		<table class="table">
 			<tr><th>&nbsp</th>
 			<#list propClass.properties as property>

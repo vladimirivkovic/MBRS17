@@ -37,19 +37,7 @@
 	
 	})
 	</#list>
-
-    /*app.config(function ($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise('/faktura');
-        $stateProvider
-        <#list classes as class>
-        .state('${class.lowerName}', {
-	        url: '/${class.lowerName}',
-	        templateUrl: '${root}${class.lowerName}/${class.lowerName}View.html',
-	        controller: '${class.name}sCtrl'
-	    })
-        </#list>
-        ;
-    })*/
+	
     .run(run);
 
     function run($rootScope, $http, $location,$localStorage,AuthenticationService) { //, $state) {

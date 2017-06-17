@@ -1,5 +1,3 @@
-
-
 <div>
 	<div class="modal-header">
 		<h3 class="modal-title" id="modal-title">New/Edit ${class.originName}</h3>
