@@ -3,11 +3,10 @@
 	.factory('${class.name}', function ($resource, $rootScope) {
 	    var ${class.name} = $resource($rootScope.host + 'odata/${class.name}/:Id',
 			{
-			    Id : '@Id',
-			    '$expand' : '<#list properties as property><#if property.getFMClass()??>${property.name},</#if></#list>'
+			    Id : '@Id'
 			},
 			{
-				query: {method: 'GET', isArray: false },
+				query: {method: 'GET', isArray: false, params: {'$expand' : '<#list properties as property><#if property.getFMClass()??>${property.name},</#if></#list>'} },
 			    update: { method: 'PUT' }
 	    		<#list methods as method>
 				,${method.name} : {
