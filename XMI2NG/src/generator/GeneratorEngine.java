@@ -16,8 +16,8 @@ import generator.model.FMNamedElement;
 import generator.model.FMProperty;
 
 public class GeneratorEngine {
-	private static String[] templates = { "ng-controller.ftl", "ng-resource.ftl", "ng-view.ftl", "app.ftl",
-			"ng-modalctrl.ftl", "ng-modalview.ftl" };
+	private static String[] templates = { "frontend/ng-controller.ftl", "frontend/ng-resource.ftl", "frontend/ng-view.ftl", "frontend/app.ftl",
+			"frontend/modal/ng-modalctrl.ftl", "frontend/modal/ng-modalview.ftl" };
 	private static String[] tplnames = { "Ctrl.js", "Rsrc.js", "View.html", ".js", "ModalCtrl.js", "ModalView.html" };
 
 	/**
@@ -103,10 +103,10 @@ public class GeneratorEngine {
 							model.put("class", cl);
 							model.put("propClass", (FMClass) elementMap.get(p.getTypeId()));
 
-							GeneratorUtil.generateFile("chooseModalView.ftl", 
+							GeneratorUtil.generateFile("frontend/modal/chooseModalView.ftl", 
 									"generated/app/" + cl.getLowerName() + "/modal/" + p.getName() + "ModalView.html", cfg, model);
 	
-							GeneratorUtil.generateFile("chooseModalCtrl.ftl", 
+							GeneratorUtil.generateFile("frontend/modal/chooseModalCtrl.ftl", 
 									"generated/app/" + cl.getLowerName() + "/modal/" + p.getName() + "ModalCtrl.js", cfg, model);
 						}
 					}
@@ -183,13 +183,13 @@ public class GeneratorEngine {
 		try{
 			GeneratorUtil.createDirectory("generated/app/login/");
 			
-			GeneratorUtil.generateFile("loginViewFront.ftl","generated/app/login/"
+			GeneratorUtil.generateFile("frontend/login/loginViewFront.ftl","generated/app/login/"
 					+"loginView.html",cfg,model2);
 	 
-			GeneratorUtil.generateFile("loginCtrlFront.ftl","generated/app/login/"
+			GeneratorUtil.generateFile("frontend/login//loginCtrlFront.ftl","generated/app/login/"
 					+"loginCtrl.js",cfg,model2);
 			
-			GeneratorUtil.generateFile("authenticationServiceFront.ftl","generated/app/login/"
+			GeneratorUtil.generateFile("frontend/login/authenticationServiceFront.ftl","generated/app/login/"
 					+"AuthenticationService.js",cfg,model2);
 		}
 		catch(IOException ioExc)
@@ -206,7 +206,7 @@ public class GeneratorEngine {
 			model2.put("enumerations", enumerations);
 			model2.put("groups", ParserEngine.groups);
 			
-			GeneratorUtil.generateFile("ng-app.ftl", 
+			GeneratorUtil.generateFile("frontend/ng-app.ftl", 
 					"generated/app/app.js", cfg, model2);
 			
 			GeneratorUtil.generateFile("appDBContext.ftl", 
@@ -218,10 +218,10 @@ public class GeneratorEngine {
 			GeneratorUtil.generateFile("operations.ftl", 
 					"generated/controller/OperationController.cs", cfg, model2);	
 					
-			GeneratorUtil.generateFile("index.ftl", 
+			GeneratorUtil.generateFile("frontend/index.ftl", 
 					"generated/app/index.html", cfg, model2);
 			
-			GeneratorUtil.generateFile("main.ftl", 
+			GeneratorUtil.generateFile("frontend/main.ftl", 
 					"generated/app/main.html", cfg, model2);
 
 		} catch (IOException e) {
