@@ -84,15 +84,15 @@
 	            <th>
 	            	<#if property.type == "int" || property.type == "double">
 	            	<label>
-					<input type="radio" ng-model="__search.${property.name}_mode" ng-value="lt" name="${property.name}_mode">
+					<input type="radio" ng-change="onChangeSearchBy${property.name}()" ng-model="${property.name}_mode" value="lt" name="${property.name}_mode">
 					    <
 					  </label>
 					  <label>
-					<input type="radio" ng-model="__search.${property.name}_mode" ng-value="eq" name="${property.name}_mode">
+					<input type="radio" ng-change="onChangeSearchBy${property.name}()" ng-model="${property.name}_mode" value="eq" name="${property.name}_mode">
 					    =
 					  </label>
 					  <label>
-					<input type="radio" ng-model="__search.${property.name}_mode" ng-value="gt" name="${property.name}_mode">
+					<input type="radio" ng-change="onChangeSearchBy${property.name}()" ng-model="${property.name}_mode" value="gt" name="${property.name}_mode">
 					    >
 					  </label>
 	            	<#elseif property.type == "Date">
@@ -101,11 +101,11 @@
 	            	&nbsp;
 	            	<#else>
 	            	<label>
-					<input type="radio" ng-model="__search.${property.name}_mode" ng-value="li" name="${property.name}_mode">
+					<input type="radio" ng-change="onChangeSearchBy${property.name}()" ng-model="${property.name}_mode" value="li" name="${property.name}_mode">
 					    like
 					  </label>
 					  <label>
-					<input type="radio" ng-model="__search.${property.name}_mode" ng-value="eq" name="${property.name}_mode">
+					<input type="radio" ng-change="onChangeSearchBy${property.name}()" ng-model="${property.name}_mode" value="eq" name="${property.name}_mode">
 					    =
 					  </label>
 	            	</#if>
@@ -127,7 +127,7 @@
 			<#if property.primitive>
 				<#if property.uIProperty.searchable>
 	            <th><input style="max-width: 200px" type="text" class="form-control"
-					ng-model="__search.${property.name}"></th>
+					ng-model="__search.${property.name}" ng-change="onChangeSearchBy${property.name}()"></th>
 	            <#else>
 	            <th>&nbsp;</th>
 	            </#if>
@@ -144,7 +144,7 @@
             </p>
             <tr ng-click="select${class.name}($index)" 
             	ng-class="{active: $index === selectedIndex}"
-            	ng-repeat="i in page_${class.lowerName}s | filter:__search:strict">
+            	ng-repeat="i in page_${class.lowerName}s">
                 <#list properties as property>
 				<#if property.upper == 1> 
 				<#if property.FMEnumeration??>
