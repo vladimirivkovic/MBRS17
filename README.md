@@ -2,7 +2,18 @@
 Methodologies for Rapid Software Development Course Project
 
 ## Meta-model used for modeling
-![Meta-model](https://github.com/vladimirivkovic/MBRS17/blob/master/Meta-model.svg "Meta-model")
+![Meta-model](https://github.com/vladimirivkovic/MBRS17/blob/master/Meta-model.png "Meta-model")
+
+## Model used for code generation
+![Model](https://github.com/vladimirivkovic/MBRS17/blob/master/Model.png "Model")
+
+## Generated app example
+### Back-end
+* The exmaple of a generated back-end layer of an application can be seen [here](https://github.com/TodorovicNikola/MBRS17APP).
+* The running example (on Azure) can be accessed at [this](http://mbrs17app.azurewebsites.net) address.
+  
+### Front-end
+  //TODO
 
 
 Custom code for report
