@@ -12,8 +12,8 @@ Methodologies for Rapid Software Development Course Project
 
 ## Generated app example
 ### Back-end
-* The exmaple of a generated back-end layer of an application can be seen [here](https://github.com/TodorovicNikola/MBRS17APP).
-* The running example (on Azure) can be accessed at [this](http://mbrs17app.azurewebsites.net) address.
+The example of a generated back-end layer of an application can be seen on the following [git repository](https://github.com/TodorovicNikola/MBRS17APP).
+The running example of the back-end app is running on an Azure cloud server an is linked directly to the aforementioned git repository.
   
 ### Front-end
   //TODO
