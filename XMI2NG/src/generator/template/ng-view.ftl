@@ -49,7 +49,7 @@
     </#if>
     <#if method.report??>
     <div class="btn-group clearfix">
-        <button type="button" ng-click="" class="btn btn-default">
+        <button type="button" ng-click="${method.name}Click()" class="btn btn-default">
             <i class="glyphicon glyphicon-note"></i>&nbsp;${method.originName}
         </button>
     </div>
