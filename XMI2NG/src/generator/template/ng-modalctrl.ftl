@@ -33,8 +33,10 @@
 	        			<#list properties as property>
 	        			<#if property.upper == 1>	
 	        				<#if !property.primitive>
-	        				newRecord.${property.name}_ID = $scope.${property.name}.Id;
-	        				if(!newRecord.${property.name}_ID)  newRecord.${property.name} = null;
+	        				if($scope.${property.name})
+	        					newRecord.${property.name}_ID = $scope.${property.name}.Id;
+	        				else
+	        					newRecord.${property.name}_ID = null;
 	        				<#else>
 	        				newRecord.${property.name} = $scope.${property.name};
 	        				</#if>

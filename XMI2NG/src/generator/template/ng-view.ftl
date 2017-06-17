@@ -151,7 +151,7 @@
 				<td>{{i.${property.originName} | ${property.FMEnumeration.name}}}</td>
 				<#elseif property.type == 'boolean'>
 				<td>{{i.${property.name} | yesOrNo}}</td>
-				<#elseif property.type == 'date'>
+				<#elseif property.type == 'DateTime'>
 				<td>{{i.${property.name} | date :  "d.M.y"}}</td>
 				<#elseif property.primitive>
 	            <td>{{i.${property.name}}}</td>
