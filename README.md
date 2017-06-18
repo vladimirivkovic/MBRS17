@@ -2,7 +2,7 @@
 Methodologies for Rapid Software Development Course Project
 
 ## Example application
-An example of a generated application can be found on http://mbrs17.surge.sh </br>
+An example of a generated application can be found [here](http://mbrs17.surge.sh). </br>
 </br>
 #### Login credentials: 
 * username: admin 
@@ -33,7 +33,7 @@ An instance of the back-end app is running on an Azure cloud server and is linke
   
 ### Front-end
 Front-end layer is implemented by using [AngularJS 1.5](https://angularjs.org/) and [Bootstrap](http://getbootstrap.com/) frameworks.
-An example of a generated front-end layer of an application can be seen [here](http://mbrs17.surge.sh).
+An example of a generated front-end layer of an application can be seen [here](https://github.com/vuletic/MBRS17-frontend).
 
 
 ## Techniques used for preserving manually added code
