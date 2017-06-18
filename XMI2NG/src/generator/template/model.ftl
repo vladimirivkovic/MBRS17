@@ -88,17 +88,5 @@ namespace WebApplication1.Models
 			// USER CODE ENDS HERE
 		}
 	</#list>
-	
-		public bool ValidateOcl()
-	{	
-	<#list constraints as constraint>
-		//Constraint :${constraint.name} -> ${constraint.constraintExp}	
-		if (!(${constraint.constraintExp?replace("self", "this")?replace(" ="," ==")?replace("at","ElementAt")?replace("toUpper","ToUpper")?replace("size()","Length")}))
-		{
-			return false;
-		}	
-	</#list>
-		return true;
-	}
 	}
 }

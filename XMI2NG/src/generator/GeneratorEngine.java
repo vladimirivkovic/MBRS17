@@ -79,12 +79,10 @@ public class GeneratorEngine {
 
 				try {
 					GeneratorUtil.generateFile("model.ftl", outputFolder + "/model/" + cl.getName() + ".cs", cfg, model);
-
+					GeneratorUtil.generateFile("modelConstraints.ftl", outputFolder + "/model/" + cl.getName() + "_constraints.cs", cfg, model);
 					GeneratorUtil.generateFile("controller.ftl",
 							outputFolder + "/controller/" + cl.getName() + "Controller.cs", cfg, model);
-					if (cl.getName().equals("Roba"))
-						GeneratorUtil.generateFile("pdf.ftl",outputFolder + "/"+cl.getName()
-								+"pdf.cs",cfg,model);
+					
 					/**
 					 * New folder for each class in AngularJS app structure
 					 */
