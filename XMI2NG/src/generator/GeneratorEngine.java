@@ -80,7 +80,7 @@ public class GeneratorEngine {
 				try {
 					GeneratorUtil.generateFile("backend/model/model.ftl", outputFolder + "/model/" + cl.getName() + ".cs", cfg, model);
 					GeneratorUtil.generateFile("backend/model/modelConstraints.ftl", outputFolder + "/model/" + cl.getName() + "_constraints.cs", cfg, model);
-					GeneratorUtil.generateFile("controller.ftl",
+					GeneratorUtil.generateFile("backend/controllers/controller.ftl",
 							outputFolder + "/controller/" + cl.getName() + "Controller.cs", cfg, model);
 					
 					/**
@@ -126,7 +126,7 @@ public class GeneratorEngine {
 				model.put("enumeration", en);
 
 				try {
-					GeneratorUtil.generateFile("enumeration.ftl", 
+					GeneratorUtil.generateFile("backend/model/enumeration.ftl", 
 							outputFolder + "/model/" + en.getName() + ".cs", cfg, model);
 
 				} catch (IOException e) {
@@ -145,7 +145,7 @@ public class GeneratorEngine {
 				model.put("methods", in.getMethods());
 
 				try {
-					GeneratorUtil.generateFile("interface.ftl", 
+					GeneratorUtil.generateFile("backend/model/interface.ftl", 
 							outputFolder + "/model/" + in.getName() + ".cs", cfg, model);
 
 				} catch (IOException e) {
@@ -161,10 +161,10 @@ public class GeneratorEngine {
 		 * generate login controller
 		 */
 		try {
-			GeneratorUtil.generateFile("loginController.ftl", 
+			GeneratorUtil.generateFile("backend/controllers/loginController.ftl", 
 					outputFolder + "/controller/" + "LoginController.cs", cfg, model);
 			System.out.println("GENERATING LOGIN CONTROLLER BACKEND");
-			GeneratorUtil.generateFile("korisnik.ftl", 
+			GeneratorUtil.generateFile("backend/model/korisnik.ftl", 
 					outputFolder + "/model/" + "Korisnik.cs", cfg, model);
 			System.out.println("GENERATING KORISNIK BACKEND");
 		} catch (IOException ioExc) {
@@ -208,13 +208,13 @@ public class GeneratorEngine {
 			GeneratorUtil.generateFile("frontend/ng-app.ftl", 
 					outputFolder + "/app/app.js", cfg, model2);
 			
-			GeneratorUtil.generateFile("appDBContext.ftl", 
+			GeneratorUtil.generateFile("backend/model/appDBContext.ftl", 
 					outputFolder + "/model/AppDBContext.cs", cfg, model2);
 		
-			GeneratorUtil.generateFile("webApiConfig.ftl", 
+			GeneratorUtil.generateFile("backend/webApiConfig.ftl", 
 					outputFolder + "/backendConfig/WebApiConfig.cs", cfg, model2);
 			
-			GeneratorUtil.generateFile("operations.ftl", 
+			GeneratorUtil.generateFile("backend/controllers/operations.ftl", 
 					outputFolder + "/controller/OperationController.cs", cfg, model2);	
 					
 			GeneratorUtil.generateFile("frontend/index.ftl", 
