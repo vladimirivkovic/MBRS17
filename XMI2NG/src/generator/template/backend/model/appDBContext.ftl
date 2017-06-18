@@ -1,3 +1,13 @@
+/*
+
+######## DO NOT CHANGE THIS CODE! ########
+AUTOMATICALLY GENERATED -- AppDBContext -- 
+
+BASED ON TEMPLATE -- AppDBContext.ftl --
+
+GENERATED ON -- ${.now} --
+
+*/
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

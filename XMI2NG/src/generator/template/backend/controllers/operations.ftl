@@ -1,5 +1,15 @@
-// DO NOT CHANGE THIS CODE
-// TEMPLATE operations.ftl
+/*
+
+######## DO NOT CHANGE THIS CODE! ########
+AUTOMATICALLY GENERATED -- OperationController -- AS A PARTIAL CLASS
+
+TO ADD ADDITIONAL METHODS OR PROPERTIES TO THIS CLASS, CREATE ANOTHER PARTIAL CLASS OF THE SAME NAME!
+
+BASED ON TEMPLATE -- operations.ftl --
+
+GENERATED ON -- ${.now} --
+
+*/
 using System;
 using System.Collections.Generic;
 using System.Data;

@@ -1,3 +1,15 @@
+/*
+
+######## DO NOT CHANGE THIS CODE! ########
+AUTOMATICALLY GENERATED MODEL FOR -- Korisnik -- AS A PARTIAL CLASS
+
+TO ADD ADDITIONAL METHODS OR PROPERTIES TO THIS CLASS, CREATE ANOTHER PARTIAL CLASS OF THE SAME NAME!
+
+BASED ON TEMPLATE -- korisnik.ftl --
+
+GENERATED ON -- ${.now} --
+
+*/
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +20,7 @@ using System.Threading.Tasks;
 
 namespace WebApplication1.Models
 {
-	public class Korisnik
+	public partial class Korisnik
 	{  
 	
 		public String Password { get; set; }

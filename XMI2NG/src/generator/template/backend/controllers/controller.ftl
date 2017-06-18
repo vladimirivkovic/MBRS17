@@ -1,3 +1,13 @@
+/*
+
+######## DO NOT CHANGE THIS CODE! ########
+AUTOMATICALLY GENERATED -- ${class.name}Controller --
+
+BASED ON TEMPLATE -- controller.ftl --
+
+GENERATED ON -- ${.now} --
+
+*/
 using System;
 using System.Collections.Generic;
 using System.Data;

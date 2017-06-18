@@ -1,3 +1,15 @@
+/*
+
+######## DO NOT CHANGE THIS CODE! ########
+AUTOMATICALLY GENERATED -- LoginController -- 
+
+
+BASED ON TEMPLATE -- loginController.ftl --
+
+GENERATED ON -- ${.now} --
+
+*/
+
 using System;
 using System.Collections.Generic;
 using System.Data;

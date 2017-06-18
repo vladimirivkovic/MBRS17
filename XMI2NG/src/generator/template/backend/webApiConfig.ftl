@@ -1,3 +1,13 @@
+/*
+
+######## DO NOT CHANGE THIS CODE! ########
+AUTOMATICALLY GENERATED MODEL FOR -- WebApiConfig -- 
+
+BASED ON TEMPLATE -- webApiConfig.ftl --
+
+GENERATED ON -- ${.now} --
+
+*/
 using System;
 using System.Collections.Generic;
 using System.Linq;

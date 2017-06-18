@@ -1,6 +1,13 @@
-// DO NOT CHANGE THIS CODE
-// TEMPLATE interface.ftl
-// AUTOMATICALLY GENERATED MODEL FOR ${interface.name}
+/*
+
+######## DO NOT CHANGE THIS CODE! ########
+AUTOMATICALLY GENERATED MODEL FOR -- ${interface.name} -- 
+
+BASED ON TEMPLATE -- interface.ftl --
+
+GENERATED ON -- ${.now} --
+
+*/
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
