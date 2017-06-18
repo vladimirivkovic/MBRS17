@@ -59,6 +59,9 @@ $scope.Generisi_izvestajClick = function() {
   // USER CODE ENDS HERE
 }
 ```
+#### Partial classes example
+An example of the usage of partial classes can be seen [here](https://github.com/TodorovicNikola/MBRS17APP/blob/master/WebApplication1/WebApplication1/Models/Faktura_manual.cs) for model classes and [here](https://github.com/TodorovicNikola/MBRS17APP/blob/master/WebApplication1/WebApplication1/Controllers/Operation_Manual_Controller.cs) for controller classes.
+
 
 License
 ----
