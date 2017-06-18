@@ -35,7 +35,7 @@ Several techniques are used to provide preserving manually writted code:
 * [Partial classes](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods)    
 ### Example of usage
 
-Custom code for report
+#### Custom code for report
 ```
 $scope.Generisi_izvestajClick = function() {
   // USER CODE STARTS HERE
