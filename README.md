@@ -1,5 +1,6 @@
 # MBRS17
 Methodologies for Rapid Software Development Course Project
+![Meta-model](https://github.com/vladimirivkovic/MBRS17/blob/master/images/image.png "logo")
 
 ## Example application
 An example of a generated application can be found [here](http://mbrs17.surge.sh). </br>
@@ -21,10 +22,10 @@ This project uses the following technologies and tools:
     * path to directory where the code generated from given model will be saved
 
 ## Meta-model used for modeling
-![Meta-model](https://github.com/vladimirivkovic/MBRS17/blob/master/Meta-model.png "Meta-model")
+![Meta-model](https://github.com/vladimirivkovic/MBRS17/blob/master/images/Meta-model.png "Meta-model")
 
 ## Model used for code generation
-![Model](https://github.com/vladimirivkovic/MBRS17/blob/master/Model.png "Model")
+![Model](https://github.com/vladimirivkovic/MBRS17/blob/master/images/Model.png "Model")
 
 ## Generated app example
 ### Back-end
