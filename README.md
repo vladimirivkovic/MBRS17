@@ -7,7 +7,7 @@ This project uses the following technologies and tools:
 * [FreeMarker](http://freemarker.org)
 * [MagicDraw](https://www.nomagic.com/products/magicdraw)
 
-## Runnin the app
+## Running the app
 * Import **XMI2NG** project into your Eclipse workspace
 * Run the **src/generator/Main.java** class with the following command line arguments:
     * path to model file in *XMI* format exported from *MagicDraw*
@@ -21,8 +21,8 @@ This project uses the following technologies and tools:
 
 ## Generated app example
 ### Back-end
-An example of a generated back-end layer of an application can be seen on the following [git repository](https://github.com/TodorovicNikola/MBRS17APP).
-The running instance of the back-end app is running on an Azure cloud server an is linked directly to the aforementioned git repository.
+Back-end layer is implemented by using [Microsoft ASP .NET WEB API](https://www.asp.net/web-api) with the use of additional Microsoft's technologies such as [Entity Framework Code First](https://msdn.microsoft.com/en-us/library/jj193542(v=vs.113).aspx) and [OData .NET](https://www.asp.net/web-api/overview/odata-support-in-aspnet-web-api).  An example of a generated back-end layer of an application can be seen on the following [git repository](https://github.com/TodorovicNikola/MBRS17APP).
+The running instance of the back-end app is running on an Azure cloud server and is linked directly to the aforementioned git repository.
   
 ### Front-end
 Front-end layer is implemented by using [AngularJS 1.5](https://angularjs.org/) and [Bootstrap](http://getbootstrap.com/) frameworks.
