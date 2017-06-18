@@ -57,7 +57,7 @@ namespace WebApplication1.Controllers
             }
             Validate(patch.GetEntity());
 
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || !patch.GetEntity().ValidateOcl())
             {
                 return BadRequest(ModelState);
             }
@@ -96,7 +96,7 @@ namespace WebApplication1.Controllers
             {
                 return Unauthorized();
             }
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || !${class.name?lower_case}.ValidateOcl())
             {
                 return BadRequest(ModelState);
             }
@@ -117,7 +117,7 @@ namespace WebApplication1.Controllers
             }
             Validate(patch.GetEntity());
 
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || !patch.GetEntity().ValidateOcl())
             {
                 return BadRequest(ModelState);
             }

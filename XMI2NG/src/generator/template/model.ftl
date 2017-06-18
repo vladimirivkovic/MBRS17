@@ -19,12 +19,7 @@ using System.Threading.Tasks;
 namespace WebApplication1.Models
 {
 	${class.visibility} partial class ${class.name}<#if class.parent??>: ${class.parent}<#list class.interfaces as i>,${i}</#list><#else><#list class.interfaces as i>${i}<#sep>,</#list></#if>
-	{  
-	<#list constraints as constraint>
-		//Constraint :${constraint.name} -> ${constraint.constraintExp}
-		
-	</#list>
-	
+	{
 	<#list properties as property>
 		<#list property.annotations as annotation>
 		[${annotation.name}<#if (annotation.size > 0)>(<#list annotation.parameters as parameter>${parameter.type} = ${parameter.name}</#list>)</#if>]
@@ -93,5 +88,17 @@ namespace WebApplication1.Models
 			// USER CODE ENDS HERE
 		}
 	</#list>
+	
+		public bool ValidateOcl()
+	{	
+	<#list constraints as constraint>
+		//Constraint :${constraint.name} -> ${constraint.constraintExp}	
+		if (!(${constraint.constraintExp?replace("self", "this")?replace(" ="," ==")?replace("at","ElementAt")?replace("toUpper","ToUpper")}))
+		{
+			return false;
+		}	
+	</#list>
+		return true;
+	}
 	}
 }
