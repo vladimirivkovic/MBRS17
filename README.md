@@ -1,8 +1,17 @@
 # MBRS17
 Methodologies for Rapid Software Development Course Project
 
-## Running the app
-//TODO
+## Prerequisites
+This project uses the following technologies and tools:
+* [Eclipse IDE](http://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/marsr)
+* [FreeMarker](http://freemarker.org)
+* [MagicDraw](https://www.nomagic.com/products/magicdraw)
+
+## Runnin the app
+* Import **XMI2NG** project into your Eclipse workspace
+* Run the **src/generator/Main.java** class with the following command line arguments:
+    * path to model file in *XMI* format exported from *MagicDraw*
+    * path to directory where the code generated from given model will be saved
 
 ## Meta-model used for modeling
 ![Meta-model](https://github.com/vladimirivkovic/MBRS17/blob/master/Meta-model.png "Meta-model")
@@ -16,11 +25,14 @@ An example of a generated back-end layer of an application can be seen on the fo
 The running instance of the back-end app is running on an Azure cloud server an is linked directly to the aforementioned git repository.
   
 ### Front-end
-  //TODO
+Front-end layer is implemented by using [AngularJS 1.5](https://angularjs.org/) and [Bootstrap](http://getbootstrap.com/) frameworks.
+An example of a generated front-end layer of an application can be seen [here](http://mbrs17.surge.sh).
 
 
 ## Techniques used for preserving manually added code
-//TODO
+Several techniques are used to provide preserving manually writted code:
+* *Protected areas* (code blocks between predefined comments)
+* [Partial classes](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/partial-classes-and-methods)    
 ### Example of usage
 //TODO
 
@@ -42,3 +54,8 @@ $scope.Generisi_izvestajClick = function() {
   // USER CODE ENDS HERE
 }
 ```
+
+License
+----
+
+MIT
