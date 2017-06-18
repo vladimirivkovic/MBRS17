@@ -3,7 +3,7 @@ Methodologies for Rapid Software Development Course Project
 
 ## Example application
 An example of a generated application can be found on http://mbrs17.surge.sh </br>
-The example application is 100% generated. </br>
+The example application is 100% generated. </br> </br>
 Login credentials: 
 * username: admin 
 * password: admin 
