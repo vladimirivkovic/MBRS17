@@ -1,6 +1,13 @@
 # MBRS17
 Methodologies for Rapid Software Development Course Project
 
+## Example application
+An example of a generated application can be found on http://mbrs17.surge.sh
+The example application is 100% generated.
+Login credentials:
+username: admin
+password: admin
+
 ## Prerequisites
 This project uses the following technologies and tools:
 * [Eclipse IDE](http://www.eclipse.org/downloads/packages/eclipse-ide-java-developers/marsr)
