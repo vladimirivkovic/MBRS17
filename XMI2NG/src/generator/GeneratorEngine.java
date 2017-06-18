@@ -3,7 +3,7 @@ package generator;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Map; 
 
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
@@ -78,8 +78,8 @@ public class GeneratorEngine {
 				model.put("fieldGroups", GeneratorUtil.getFieldGroupsMap(cl));
 
 				try {
-					GeneratorUtil.generateFile("model.ftl", outputFolder + "/model/" + cl.getName() + ".cs", cfg, model);
-					GeneratorUtil.generateFile("modelConstraints.ftl", outputFolder + "/model/" + cl.getName() + "_constraints.cs", cfg, model);
+					GeneratorUtil.generateFile("backend/model/model.ftl", outputFolder + "/model/" + cl.getName() + ".cs", cfg, model);
+					GeneratorUtil.generateFile("backend/model/modelConstraints.ftl", outputFolder + "/model/" + cl.getName() + "_constraints.cs", cfg, model);
 					GeneratorUtil.generateFile("controller.ftl",
 							outputFolder + "/controller/" + cl.getName() + "Controller.cs", cfg, model);
 					
