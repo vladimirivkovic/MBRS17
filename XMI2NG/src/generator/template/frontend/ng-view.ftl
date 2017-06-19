@@ -84,15 +84,15 @@
 	            <th>
 	            	<#if property.type == "int" || property.type == "double">
 	            	<label>
-					<input type="radio" ng-change="onChangeSearchBy${property.name}()" ng-model="${property.name}_mode" value="lt" name="${property.name}_mode">
+					<input type="radio" ng-change="onChangeSearchBy${property.name}('${property.type}')" ng-model="${property.name}_mode" value="lt" name="${property.name}_mode">
 					    <
 					  </label>
 					  <label>
-					<input type="radio" ng-change="onChangeSearchBy${property.name}()" ng-model="${property.name}_mode" value="eq" name="${property.name}_mode">
+					<input type="radio" ng-change="onChangeSearchBy${property.name}('${property.type}')" ng-model="${property.name}_mode" value="eq" name="${property.name}_mode">
 					    =
 					  </label>
 					  <label>
-					<input type="radio" ng-change="onChangeSearchBy${property.name}()" ng-model="${property.name}_mode" value="gt" name="${property.name}_mode">
+					<input type="radio" ng-change="onChangeSearchBy${property.name}('${property.type}')" ng-model="${property.name}_mode" value="gt" name="${property.name}_mode">
 					    >
 					  </label>
 	            	<#elseif property.type == "Date">
@@ -101,11 +101,11 @@
 	            	&nbsp;
 	            	<#else>
 	            	<label>
-					<input type="radio" ng-change="onChangeSearchBy${property.name}()" ng-model="${property.name}_mode" value="li" name="${property.name}_mode">
+					<input type="radio" ng-change="onChangeSearchBy${property.name}('${property.type}')" ng-model="${property.name}_mode" value="li" name="${property.name}_mode">
 					    like
 					  </label>
 					  <label>
-					<input type="radio" ng-change="onChangeSearchBy${property.name}()" ng-model="${property.name}_mode" value="eq" name="${property.name}_mode">
+					<input type="radio" ng-change="onChangeSearchBy${property.name}('${property.type}')" ng-model="${property.name}_mode" value="eq" name="${property.name}_mode">
 					    =
 					  </label>
 	            	</#if>
@@ -126,8 +126,8 @@
 			<#if property.upper == 1> 
 			<#if property.primitive>
 				<#if property.uIProperty.searchable>
-	            <th><input style="max-width: 200px" type="text" class="form-control"
-					ng-model="__search.${property.name}" ng-change="onChangeSearchBy${property.name}()"></th>
+	            <th><input style="max-width: 200px" type=<#if property.type == "int">"number"<#else>"text"</#if> class="form-control"
+					ng-model="__search.${property.name}" ng-change="onChangeSearchBy${property.name}('${property.type}')"></th>
 	            <#else>
 	            <th>&nbsp;</th>
 	            </#if>

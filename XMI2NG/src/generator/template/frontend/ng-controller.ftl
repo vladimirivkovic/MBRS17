@@ -62,28 +62,41 @@
         	$scope.selectedIndex = null;
 		}
 		
+		$scope.updateFilter = function () {
+			$scope.filter = "";
+			<#list properties as property>
+			<#if property.upper == 1> 
+			<#if property.primitive>
+			<#if property.uIProperty.searchable>
+			if ($scope.filter_${property.name}) $scope.filter += ($scope.filter ? " and " : "" ) + $scope.filter_${property.name};
+			</#if>
+			</#if>
+			</#if>
+			</#list>
+		}
+		
+		$scope.__search = {};
 		<#list properties as property>
 		<#if property.uIProperty.searchable>
-		$scope.__search = {};
+
 		$scope.__search.${property.name} = "";
-		$scope.${property.name}_mode = "li";
-		$scope.onChangeSearchBy${property.name} = function(){
+		if ("${property.type}" == "String") {$scope.${property.name}_mode = "li";} else {$scope.${property.name}_mode = "lt";}
+		$scope.onChangeSearchBy${property.name} = function(fieldType){
 			$scope.__cp = 1;
-			if ($scope.${property.name}_mode == "li"){
-				$scope.filter = "substringof('" + $scope.__search.${property.name} + "', ${property.name} )";
-            } else{
-            	$scope.filter = "'" + $scope.__search.${property.name} + "' eq ${property.name}";
-            }
-            var ${class.lowerName}s = ${class.name}.query({'$filter': $scope.filter, '$top': $scope.__rpp, '$inlinecount': 'allpages'}, function () {
-	            $scope.${class.lowerName}s = ${class.lowerName}s.value;
-	            $scope.page_${class.lowerName}s = $scope.${class.lowerName}s;
-	            $scope.__total_items = ${class.lowerName}s['odata.count'];
-            }, function(response) {
-            	if (response.status === 401)
-            		$location.path("login");
-            	else 
-            		alert("Error " + response.status);
-            });
+			if (fieldType == "String") {
+				if ($scope.${property.name}_mode == "li"){
+					$scope.filter_${property.name} = "substringof('" + $scope.__search.${property.name} + "', ${property.name} )";
+	            } else{
+	            	$scope.filter_${property.name} = "'" + $scope.__search.${property.name} + "' eq ${property.name}";
+	            }
+	        } else if (fieldType == "int" || fieldType == "double") {
+	        	$scope.filter_${property.name} = "${property.name} " + $scope.${property.name}_mode + " " + Number($scope.__search.${property.name});
+	        }
+	        
+	        if (!$scope.__search.${property.name}) $scope.filter_${property.name} = "";
+            
+            $scope.updateFilter();
+            $scope.pageChanged();
 		}
 		</#if>
 		</#list>
@@ -214,6 +227,15 @@
           
         $scope.init = function (reset) {
         	$scope.filter = "";
+        	<#list properties as property>
+			<#if property.upper == 1> 
+			<#if property.primitive>
+			<#if property.uIProperty.searchable>
+			$scope.filter_${property.name} = "";
+			</#if>
+			</#if>
+			</#if>
+			</#list>
         	$scope.__rpp = ${class.UIClass.rowsPerPage};
     		$scope.__total_items = 0;
     		if (reset) $scope.__cp = 1;
@@ -264,6 +286,7 @@
 	           
 		            $scope.${class.lowerName}s = ${class.lowerName}s.value;
 		            $scope.page_${class.lowerName}s = $scope.${class.lowerName}s;
+		            $scope.__total_items = ${class.lowerName}s['odata.count'];
 	            }, function(response) {
 	            	if (response.status === 401)
 	            		$location.path("login");
@@ -275,6 +298,7 @@
            
 		            $scope.${class.lowerName}s = ${class.lowerName}s.value;
 		            $scope.page_${class.lowerName}s = $scope.${class.lowerName}s;
+		            $scope.__total_items = ${class.lowerName}s['odata.count'];
 	            }, function(response) {
 	            	if (response.status === 401)
 	            		$location.path("login");
@@ -296,17 +320,31 @@
 		    $scope.propertyName = propertyName;
 		    var sortType = $scope.reverse ? " desc" : " asc"; 
 		    
-		    var ${class.lowerName}s = ${class.name}.query({'$skip': ($scope.__cp-1)*$scope.__rpp ,'$top': $scope.__rpp, '$inlinecount': 'allpages', '$orderby': $scope.propertyName + sortType}, function () {
-            	console.log(${class.lowerName}s);
-	            $scope.${class.lowerName}s = ${class.lowerName}s.value;
-	            $scope.page_${class.lowerName}s = $scope.${class.lowerName}s;
-	            $scope.__total_items = ${class.lowerName}s['odata.count'];
-            }, function(response) {
-            	if (response.status === 401)
-            		$location.path("login");
-            	else 
-            		alert("Error " + response.status);
-            });
+		    if ($scope.filter != ""){
+		    	var ${class.lowerName}s = ${class.name}.query({'$filter': $scope.filter, '$skip': ($scope.__cp-1)*$scope.__rpp ,'$top': $scope.__rpp, '$inlinecount': 'allpages', '$orderby': $scope.propertyName + sortType}, function () {
+	            	console.log(${class.lowerName}s);
+		            $scope.${class.lowerName}s = ${class.lowerName}s.value;
+		            $scope.page_${class.lowerName}s = $scope.${class.lowerName}s;
+		            $scope.__total_items = ${class.lowerName}s['odata.count'];
+	            }, function(response) {
+	            	if (response.status === 401)
+	            		$location.path("login");
+	            	else 
+	            		alert("Error " + response.status);
+	            });
+		    } else {
+			    var ${class.lowerName}s = ${class.name}.query({'$skip': ($scope.__cp-1)*$scope.__rpp ,'$top': $scope.__rpp, '$inlinecount': 'allpages', '$orderby': $scope.propertyName + sortType}, function () {
+	            	console.log(${class.lowerName}s);
+		            $scope.${class.lowerName}s = ${class.lowerName}s.value;
+		            $scope.page_${class.lowerName}s = $scope.${class.lowerName}s;
+		            $scope.__total_items = ${class.lowerName}s['odata.count'];
+	            }, function(response) {
+	            	if (response.status === 401)
+	            		$location.path("login");
+	            	else 
+	            		alert("Error " + response.status);
+	            });
+	        }
 		  };
         
 		$scope.init(true);
