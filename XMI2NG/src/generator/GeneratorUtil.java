@@ -83,6 +83,8 @@ public class GeneratorUtil {
 		} else {
 			return retVal;
 		}
+		
+		templateName = templateName.split("/")[templateName.split("/").length-1];
 
 		if (!templateName.equals(template)) {
 			return retVal;
@@ -116,7 +118,8 @@ public class GeneratorUtil {
 			}
 
 			return methodCodeMap;
-		} else if("ng-controller.ftl".equals(templateName)) {
+		} else if("ng-controller.ftl".equals(template)) {
+			//System.out.println(templateName);
 			Map<String, String> buttonCodeMap = new HashMap<String, String>();
 			Boolean isUserCode = false;
 			String userCode = "";
