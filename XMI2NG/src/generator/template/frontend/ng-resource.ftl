@@ -7,7 +7,7 @@
 			},
 			{
 				query: {method: 'GET', isArray: false, params: {'$expand' : '<#list properties as property><#if property.getFMClass()??>${property.name},</#if></#list>'} },
-			    update: { method: 'PUT' }
+			    update: { method: 'PUT', url : $rootScope.host + 'odata/${class.name}(:Id)' }
 	    		<#list methods as method>
 				,${method.name} : {
 					url : $rootScope.host + 'api/${class.name}/:Id/${method.name}',
