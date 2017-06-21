@@ -82,32 +82,25 @@
 			<#if property.primitive>
 				<#if property.uIProperty.searchable>
 	            <th>
-	            	<#if property.type == "int" || property.type == "double">
-	            	<label>
-					<input type="radio" ng-change="onChangeSearchBy${property.name}('${property.type}')" ng-model="${property.name}_mode" value="lt" name="${property.name}_mode">
-					    <
-					  </label>
-					  <label>
-					<input type="radio" ng-change="onChangeSearchBy${property.name}('${property.type}')" ng-model="${property.name}_mode" value="eq" name="${property.name}_mode">
-					    =
-					  </label>
-					  <label>
-					<input type="radio" ng-change="onChangeSearchBy${property.name}('${property.type}')" ng-model="${property.name}_mode" value="gt" name="${property.name}_mode">
-					    >
-					  </label>
-	            	<#elseif property.type == "Date">
-	            	dat
+	            	<#if property.type == "int" || property.type == "double" || property.type == "DateTime">
+	            	<select class="form-control" style="max-width: 200px" name="${property.name}_select" ng-model="${property.name}_mode" ng-change="onChangeSearchBy${property.name}('${property.type}')" ng-model="${property.name}_mode">
+				    	<option value="lt"><</option>
+						<option value="le"><=</option>
+						<option value="eq">==</option>
+						<option value="ne">!=</option>
+						<option value="ge">>=</option>
+						<option value="gt">></option>
+						<option value="between">between</option>
+				    </select>
 	            	<#elseif property.type == "Boolean">
 	            	&nbsp;
 	            	<#else>
-	            	<label>
-					<input type="radio" ng-change="onChangeSearchBy${property.name}('${property.type}')" ng-model="${property.name}_mode" value="li" name="${property.name}_mode">
-					    like
-					  </label>
-					  <label>
-					<input type="radio" ng-change="onChangeSearchBy${property.name}('${property.type}')" ng-model="${property.name}_mode" value="eq" name="${property.name}_mode">
-					    =
-					  </label>
+	                <select class="form-control" style="max-width: 200px" name="${property.name}_select" ng-model="${property.name}_mode" ng-change="onChangeSearchBy${property.name}('${property.type}')" ng-model="${property.name}_mode">
+				    	<option value="li">like</option>
+						<option value="eq">equals</option>
+						<option value="starts">starts</option>
+						<option value="ends">ends</option>
+				    </select>
 	            	</#if>
 	            </th>
 	            <#else>
@@ -126,8 +119,49 @@
 			<#if property.upper == 1> 
 			<#if property.primitive>
 				<#if property.uIProperty.searchable>
-	            <th><input style="max-width: 200px" type=<#if property.type == "int">"number"<#else>"text"</#if> class="form-control"
-					ng-model="__search.${property.name}" ng-change="onChangeSearchBy${property.name}('${property.type}')"></th>
+	            <th>
+	            	<#if property.type == "DateTime">
+	            	<p class="input-group">
+				          <input type="text" class="form-control" 
+				          			uib-datepicker-popup="{{'dd-MMMM-yyyy'}}" 
+				          			ng-model="__search.${property.name}" 
+				          			ng-change="onChangeSearchBy${property.name}('${property.type}')"
+				          			is-open="${property.name}Popup.opened"  
+				          			close-text="Close"/>
+				          <span class="input-group-btn">
+				            <button type="button" class="btn btn-default" 
+				            	ng-click="open('${property.name}Popup')">
+				            	<i class="glyphicon glyphicon-calendar"></i>
+			            	</button>
+				          </span>
+			        </p>
+			        <p class="input-group" ng-show = "${property.name}_mode == 'between'">
+				          <input type="text" class="form-control" 
+				          			uib-datepicker-popup="{{'dd-MMMM-yyyy'}}" 
+				          			ng-model="__search.${property.name}" 
+				          			ng-change="onChangeSearchBy${property.name}('${property.type}')"
+				          			is-open="${property.name}Popup2.opened"  
+				          			close-text="Close"/>
+				          <span class="input-group-btn">
+				            <button type="button" class="btn btn-default" 
+				            	ng-click="open('${property.name}Popup2')">
+				            	<i class="glyphicon glyphicon-calendar"></i>
+			            	</button>
+				          </span>
+			        </p>
+			        <#else>
+	            	<input style="max-width: 200px" 
+	            			type=<#if property.type == "int">"number"<#else>"text"</#if> 
+	            			class="form-control"
+							ng-model="__search.${property.name}" 
+							ng-change="onChangeSearchBy${property.name}('${property.type}')">
+				    <input style="max-width: 200px" ng-show = "${property.name}_mode == 'between'"
+	            			type=<#if property.type == "int">"number"<#else>"text"</#if> 
+	            			class="form-control"
+							ng-model="__search.${property.name}_2" 
+							ng-change="onChangeSearchBy${property.name}('${property.type}')">
+				    </#if>
+				</th>
 	            <#else>
 	            <th>&nbsp;</th>
 	            </#if>

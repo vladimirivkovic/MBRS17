@@ -45,6 +45,11 @@
     	if ($localStorage.currentUser) {
         	$http.defaults.headers.common.Authorization = $localStorage.currentUser.token;
       	}
+      	
+      	Date.prototype.addHours = function(h) {    
+		   this.setTime(this.getTime() + (h*60*60*1000)); 
+		   return this;   
+		}
     
     	$rootScope.isLoggedIn = function () {
             if (AuthenticationService.getCurrentUser()) {

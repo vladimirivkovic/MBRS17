@@ -27,6 +27,13 @@
         
         $scope.selectedChildIndex = null;
         
+        <#list properties as property>
+		<#if (property.type == "DateTime" && property.uIProperty.searchable)> 
+			$scope.${property.name}Popup = { opened : false };
+			$scope.${property.name}Popup2 = { opened : false };
+		</#if>
+		</#list>
+        
         $scope.tabSelection = function(lowerName, name, originName) {
    			$scope.selectedTabLower = lowerName;
    			$scope.selectedTab = name;
@@ -62,6 +69,10 @@
         	$scope.selectedIndex = null;
 		}
 		
+		$scope.open = function(p) {
+	    	$scope[p].opened = true;
+	  	};
+		
 		$scope.updateFilter = function () {
 			$scope.filter = "";
 			<#list properties as property>
@@ -84,13 +95,38 @@
 		$scope.onChangeSearchBy${property.name} = function(fieldType){
 			$scope.__cp = 1;
 			if (fieldType == "String") {
-				if ($scope.${property.name}_mode == "li"){
+				switch ($scope.${property.name}_mode) {
+				case "li":
 					$scope.filter_${property.name} = "substringof('" + $scope.__search.${property.name} + "', ${property.name} )";
-	            } else{
+	           		break;
+	            case "starts":
+	            	$scope.filter_${property.name} = "startswith(${property.name}, '" + $scope.__search.${property.name} + "')";
+	            	break;
+	            case "ends":
+	            	$scope.filter_${property.name} = "endswith(${property.name}, '" + $scope.__search.${property.name} + "')";
+	            	break;
+	            default:
 	            	$scope.filter_${property.name} = "'" + $scope.__search.${property.name} + "' eq ${property.name}";
 	            }
 	        } else if (fieldType == "int" || fieldType == "double") {
-	        	$scope.filter_${property.name} = "${property.name} " + $scope.${property.name}_mode + " " + Number($scope.__search.${property.name});
+	        	if ($scope.${property.name}_mode == "between") {
+	        		$scope.filter_${property.name} = "${property.name} gt " + Number($scope.__search.${property.name});
+	        		if ($scope.__search.${property.name}_2) 
+	        			$scope.filter_${property.name} += " and ${property.name} lt " + Number($scope.__search.${property.name}_2);
+	        	} else {
+	        		$scope.filter_${property.name} = "${property.name} " + $scope.${property.name}_mode + " " + Number($scope.__search.${property.name});
+	        	}
+	        } else if (fieldType == "DateTime") {
+	        	if ($scope.${property.name}_mode == "between") {
+	        		$scope.filter_${property.name} = "${property.name} gt datetime'" + 
+	        			$scope.__search.${property.name}.addHours(2).toISOString().substring(0,10) + "'";
+	        		if ($scope.__search.${property.name}_2) 
+	        			$scope.filter_${property.name} += " and ${property.name} lt datetime'" + 
+	        				$scope.__search.${property.name}_2.addHours(2).toISOString().substring(0,10) + "'";
+	        	} else {
+	        		$scope.filter_${property.name} = "${property.name} " + $scope.${property.name}_mode + " datetime'" + 
+	        			$scope.__search.${property.name}.addHours(2).toISOString().substring(0,10) + "'";
+	        	}
 	        }
 	        
 	        if (!$scope.__search.${property.name}) $scope.filter_${property.name} = "";
