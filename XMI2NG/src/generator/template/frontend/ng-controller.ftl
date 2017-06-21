@@ -154,8 +154,6 @@
 	            });
 				</#if>
 		    	</#list>
-                
-                // retrieve data for tabs
             } else {
                 $scope.unselect();
             }
@@ -235,7 +233,7 @@
 	                	$scope.${class.lowerName}s[$scope.selectedIndex] = result;
 	                }
 */
-					$scope.init(false);
+					$scope.pageChanged();
 					$scope.openModal();
 	            }
 	        }); 
@@ -247,7 +245,7 @@
 	        	function() { 
 		        	$scope.selected = null;
 		        	$scope.selectedIndex = null;
-		        	$scope.init(false);
+		        	$scope.pageChanged();
         	})
         }
         
