@@ -56,6 +56,12 @@
     </#if>
     </#list>
     
+    <div class="btn-group clearfix">
+        <button type="button" ng-click="isCollapsed = !isCollapsed" class="btn btn-default">
+            <i class="glyphicon glyphicon-search"></i>&nbsp;Toggle search
+        </button>
+    </div>
+    
     <div>
         <table class="table table-hover">
             <tr>
@@ -76,7 +82,7 @@
             </#if>
             </#list>
             </tr>
-            <tr>
+            <tr uib-collapse="isCollapsed" class="well well-lg">
             <#list properties as property>
 			<#if property.upper == 1> 
 			<#if property.primitive>
@@ -114,7 +120,7 @@
             </#if>
             </#list>
             </tr>
-            <tr>
+            <tr uib-collapse="isCollapsed" class="well well-lg">
             <#list properties as property>
 			<#if property.upper == 1> 
 			<#if property.primitive>

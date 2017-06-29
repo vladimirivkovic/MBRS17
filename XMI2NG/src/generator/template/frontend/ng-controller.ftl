@@ -24,6 +24,7 @@
         $scope.selectedIndex = null;
         $scope.selectedTabLower = null;
         $scope.selectedTab = null;
+        $scope.isCollapsed = false;
         
         $scope.selectedChildIndex = null;
         
